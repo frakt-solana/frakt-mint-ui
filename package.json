@@ -1,0 +1,108 @@
+{
+  "name": "frakt-mint-ui",
+  "version": "2.0.0",
+  "private": true,
+  "dependencies": {
+    "@ant-design/icons": "^4.7.0",
+    "@bonfida/spl-name-service": "0.1.24",
+    "@solana/wallet-adapter-base": "^0.9.9",
+    "@solana/wallet-adapter-react": "^0.15.32",
+    "@solana/wallet-adapter-wallets": "^0.19.16",
+    "@tanstack/react-query": "^4.7.2",
+    "antd": "^5.4.4",
+    "axios": "^1.1.3",
+    "classnames": "^2.3.1",
+    "crypto-browserify": "^3.12.0",
+    "immer": "^9.0.18",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "os-browserify": "^0.3.0",
+    "rc-tooltip": "^5.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.0.2",
+    "react-hook-form": "^7.19.5",
+    "react-router-dom": "^6.10.0",
+    "react-switch": "^7.0.0",
+    "sass": "^1.43.4",
+    "stream-browserify": "^3.0.0",
+    "typed-scss-modules": "^6.5.0",
+    "typesafe-actions": "^5.1.0",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0",
+    "zustand": "^4.1.4"
+  },
+  "scripts": {
+    "start": "cross-env webpack serve --config webpack.dev.js",
+    "bundle": "cross-env webpack build --config webpack.prod.js",
+    "type-scss": "cross-env typed-scss-modules src --exportType default --nameFormat none",
+    "build": "npm run type-scss && npm run bundle",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier-eslint --write $PWD/'**/*.{ts,tsx}'",
+    "lint-staged": "lint-staged",
+    "prepare": "husky install",
+    "analyze": "cross-env ANALYZE=1 GENERATE_SOURCEMAP=false npm run build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "npm run format",
+      "npm run lint"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/frakt-solana/frakt-ui"
+  },
+  "devDependencies": {
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
+    "@types/bn.js": "^4.11.6",
+    "@types/lodash": "^4.14.194",
+    "@types/react": "^18.0.38 ",
+    "@types/react-dom": "^18.0.11",
+    "@types/react-router-dom": "^5.3.3",
+    "buffer": "^6.0.3",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.7.1",
+    "css-modules-typescript-loader": "^4.0.1",
+    "dotenv": "^16.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-react": "^7.26.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "husky": "^7.0.2",
+    "less-loader": "^11.1.0",
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.4.1",
+    "prettier-eslint": "^13.0.0",
+    "prettier-eslint-cli": "^5.0.1",
+    "react-refresh-typescript": "^2.0.7",
+    "sass-loader": "^13.0.2",
+    "style-loader": "^3.3.1",
+    "svg-url-loader": "^7.1.1",
+    "ts-loader": "^9.3.1",
+    "typescript": "^4.4.3",
+    "url-loader": "^4.1.1",
+    "webpack-bundle-analyzer": "^4.5.0",
+    "webpack-dev-server": "^4.9.3"
+  },
+  "resolutions": {
+    "**/@typescript-eslint/eslint-plugin": "^4.1.1",
+    "**/@typescript-eslint/parser": "^4.1.1",
+    "@solana/wallet-standard-wallet-adapter-base": "1.0.1"
+  }
+}
