@@ -1,0 +1,43 @@
+@import '../../scss/abstracts/mixins';
+@import '../../scss/abstracts/typography';
+
+.container {
+  padding: 12px;
+  height: 100%;
+
+  border: 1px solid var(--light-green-color);
+  background-color: var(--light-green-color-2);
+  @include flex;
+  transition: background-color var(--transition-1), color var(--transition-1);
+  color: var(--connect-btn-text);
+  @include text-header-button;
+  cursor: pointer;
+  user-select: none;
+  gap: 8px;
+
+  &:hover {
+    background-color: var(--light-green-color-1);
+  }
+
+  @media (max-width: 960px) {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
+
+.avatar {
+  width: 24px;
+
+  @media (max-width: 960px) {
+    width: 18px;
+  }
+}
+
+.arrowDownIcon {
+  width: 10px;
+  height: 10px;
+
+  path {
+    fill: var(--connect-btn-text);
+  }
+}

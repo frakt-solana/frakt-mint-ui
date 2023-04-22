@@ -1,0 +1,66 @@
+.container {
+  background-color: var(--primary-background);
+  border-bottom: 1px solid var(--primary-border);
+  backdrop-filter: blur(12px);
+
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+
+  position: fixed;
+  height: var(--header-height);
+  width: 100%;
+  z-index: 4;
+}
+
+.widgetContainer {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  height: 100%;
+
+  @media (max-width: 960px) {
+    gap: 8px;
+  }
+}
+
+.walletBtn {
+  background: var(--light-green-color-1);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font: var(--font-body-small);
+
+  transition: color 0.2s ease-in, background-color 0.2s ease-in;
+  height: 48px;
+}
+.walletBtn svg path {
+  fill: var(--black-color);
+}
+
+.switcherContainer {
+  margin: 8px 16px 0 0;
+}
+
+.logo {
+  @include flex(row, nowrap, flex-start, center);
+}
+
+.logo svg {
+  path {
+    fill: var(--primary-icon);
+  }
+
+  @media (max-width: 960px) {
+    width: 107px;
+    height: 32px;
+  }
+
+  @media screen and (max-width: 575px) {
+    width: 80px;
+    height: 24px;
+  }
+}

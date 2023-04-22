@@ -1,0 +1,52 @@
+.switch {
+  :global {
+    .react-switch-bg {
+      background: var(--secondary-background) !important;
+      border: 1px solid var(--primary-border) !important;
+    }
+    .react-switch-handle {
+      box-shadow: none !important;
+      background: var(--primary-background) !important;
+      border: 1px solid var(--primary-border) !important;
+      height: 40px !important;
+      width: 40px !important;
+      top: -7px !important;
+      transform: translateX(0) !important;
+
+      div {
+        position: absolute !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+      }
+    }
+    .react-switch-bg {
+      border: 1px solid var(--primary-border) !important;
+
+      div {
+        display: none;
+      }
+    }
+  }
+}
+
+.checkedValue {
+  :global {
+    .react-switch-handle {
+      box-shadow: none !important;
+      background: var(--primary-background) !important;
+      border: 1px solid var(--primary-border) !important;
+      height: 40px !important;
+      width: 40px !important;
+      top: -7px !important;
+      transform: translateX(24px) !important;
+
+      div {
+        position: absolute !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+  transition: top 0.2s ease-out;
+}
+
+.headerHide {
+  top: -50px;
+  transition: top 0.2s ease-in;
+}
+
+.content {
+  position: relative;
+  max-width: 1430px;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  height: 100vh;
+  padding: 32px;
+  padding-top: 96px;
+
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+
+  @media screen and (max-width: 1024px) {
+    padding: 24px;
+    padding-top: 84px;
+  }
+
+  @media screen and (max-width: 960px) {
+    padding: 0;
+    padding-top: 84px;
+    left: 0;
+    width: 100vw;
+  }
+}
