@@ -46,7 +46,8 @@
 }
 
 .logo {
-  @include flex(row, nowrap, flex-start, center);
+  display: flex;
+  justify-content: center;
 }
 
 .logo svg {

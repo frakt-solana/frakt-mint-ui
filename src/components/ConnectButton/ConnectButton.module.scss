@@ -1,4 +1,3 @@
-@import '../../scss/abstracts/mixins';
 @import '../../scss/abstracts/typography';
 
 .container {
@@ -7,10 +6,8 @@
 
   border: 1px solid var(--light-green-color);
   background-color: var(--light-green-color-2);
-  @include flex;
   transition: background-color var(--transition-1), color var(--transition-1);
   color: var(--connect-btn-text);
-  @include text-header-button;
   cursor: pointer;
   user-select: none;
   gap: 8px;

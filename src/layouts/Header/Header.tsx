@@ -5,7 +5,7 @@ import ThemeSwitcher from '@frakt/components/ThemeSwitcher'
 import { FraktLogo } from '@frakt/icons'
 import styles from './Header.module.scss'
 
-export const Header: FC = () => {
+const Header: FC = () => {
   return (
     <div className={styles.container}>
       {/* {visible && <WalletContent />} */}
@@ -21,3 +21,5 @@ export const Header: FC = () => {
     </div>
   )
 }
+
+export default Header

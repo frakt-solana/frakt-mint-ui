@@ -2,6 +2,7 @@ import { FC } from 'react'
 import classNames from 'classnames'
 
 import { HeaderStateProvider, useHeaderState } from './headerState'
+import Header from '../Header'
 
 import styles from './AppLayout.module.scss'
 
@@ -15,6 +16,7 @@ const AppLayout: FC<LayoutProps> = ({ children, className }) => {
 
   return (
     <HeaderStateProvider>
+      <Header />
       <div
         id="app-content"
         onScroll={onContentScroll}
