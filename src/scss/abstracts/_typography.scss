@@ -34,6 +34,13 @@
   line-height: 23px;
 }
 
+@mixin text-main-1 {
+  font-family: 'Syne';
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
 @mixin text-small {
   font-family: 'Syne';
   font-size: 12px;

@@ -17,6 +17,8 @@ const AppLayout: FC<LayoutProps> = ({ children, className }) => {
       <div id="app-content" className={classNames(styles.content, className)}>
         <div className={styles.contentInner}>{children}</div>
       </div>
+      {/* <img src={SliderPoint} className={styles.leftImage} /> */}
+      {/* <img src={LeftLayoutImage} className={styles.rightImage} /> */}
     </>
   )
 }

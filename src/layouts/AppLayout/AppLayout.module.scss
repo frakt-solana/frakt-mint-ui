@@ -42,3 +42,17 @@
   height: 100%;
   position: relative;
 }
+
+.leftImage,
+.rightImage {
+  position: absolute;
+  bottom: 0;
+  height: 407px;
+  width: 407px;
+}
+.leftImage {
+  left: -80px;
+}
+.rightImage {
+  right: -30px;
+}

@@ -20,7 +20,7 @@ const LiveMintView: FC = () => {
   return (
     <div className={styles.container}>
       <h4 className={styles.totalMinted}>5,000/20,000</h4>
-      <ProgressBar value={3000} />
+      <ProgressBar value={5000} />
       {mintType === null && (
         <div className={styles.buttonWrapper}>
           <Button

@@ -7,3 +7,4 @@ export * from './Sun'
 
 //? Raster icons
 export { default as SliderPoint } from './SliderPoint.png'
+export { default as LeftLayoutImage } from './LeftLayoutImage.png'

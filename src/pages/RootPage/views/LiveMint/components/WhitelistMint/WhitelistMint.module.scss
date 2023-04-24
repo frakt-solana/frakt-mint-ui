@@ -35,3 +35,7 @@
   width: 138px;
   margin-bottom: 16px;
 }
+
+.subtitle {
+  @include text-main-1;
+}

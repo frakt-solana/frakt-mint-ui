@@ -22,7 +22,7 @@ const WhitelistMint: FC<{ onBack: () => void }> = ({ onBack }) => {
       <h4 className={styles.title}>Mint with WL</h4>
       <div className={styles.content}>
         <img className={styles.tokenImage} src={wlTokenImage} />
-        <p>You have 5 WL tokens</p>
+        <p className={styles.subtitle}>You have 5 WL tokens</p>
       </div>
       <Field
         className={styles.field}
@@ -32,7 +32,11 @@ const WhitelistMint: FC<{ onBack: () => void }> = ({ onBack }) => {
       />
       <StatsValues label="Mint price" value={MINT_PRICE} />
       <StatsValues label="Will be received">0 BANX</StatsValues>
-      <Button className={styles.button} type="secondary">
+      <Button
+        disabled={!parseFloat(inputValue)}
+        className={styles.button}
+        type="secondary"
+      >
         Mint
       </Button>
     </div>

@@ -8,8 +8,9 @@
 }
 
 .progress {
+  border: 1px solid var(--button-text);
   background-color: var(--light-green-color);
-  border-radius: 2px;
+  border-radius: 3px;
   transition: width 0.5s ease-in-out;
   position: relative;
   height: 100%;
@@ -20,6 +21,6 @@
   width: 44px;
   height: 38px;
   position: absolute;
-  right: -9px;
+  right: -35px;
   top: -20px;
 }
