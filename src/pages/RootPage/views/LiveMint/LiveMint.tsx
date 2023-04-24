@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { Button } from '@frakt/components/Button'
 
-import styles from './LiveMintView.module.scss'
+import styles from './LiveMint.module.scss'
 
 const LiveMintView: FC = () => {
   return (

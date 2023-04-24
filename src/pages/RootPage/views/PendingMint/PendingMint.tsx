@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import styles from './PendingMintView.module.scss'
+import styles from './PendingMint.module.scss'
 
 const PendingMintView: FC = () => {
   return (

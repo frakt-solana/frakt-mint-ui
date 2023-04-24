@@ -1,0 +1,32 @@
+@import '@frakt/scss/abstracts/typography';
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  @extend .column;
+  gap: 16px;
+  max-width: 446px;
+  width: 100%;
+}
+
+.totalMinted {
+  @include text-number;
+}
+
+.button {
+  height: 48px;
+  width: 210px;
+}
+
+.mintInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mintPrice {
+}

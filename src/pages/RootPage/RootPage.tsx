@@ -2,9 +2,9 @@ import { FC } from 'react'
 import AppLayout from '@frakt/layouts/AppLayout/AppLayout'
 
 import styles from './RootPage.module.scss'
-import PendingMintView from './components/PendingMintView'
-import LiveMintView from './components/LiveMintView'
+import PendingMintView from './views/PendingMint'
 import Heading from './components/Heading'
+import LiveMint from './views/LiveMint'
 
 const RootPage: FC = () => {
   return (
@@ -12,7 +12,7 @@ const RootPage: FC = () => {
       <div className={styles.content}>
         <Heading />
         {/* <PendingMintView /> */}
-        <LiveMintView />
+        <LiveMint />
       </div>
     </AppLayout>
   )
