@@ -1,32 +1,30 @@
-@import '../../scss/abstracts/typography';
+@import '@frakt/scss/abstracts/typography';
 
-.container {
-  padding: 12px;
-  height: 100%;
-
+.connectButton {
   border: 1px solid var(--light-green-color);
   background-color: var(--light-green-color-2);
-  transition: background-color var(--transition-1), color var(--transition-1);
-  color: var(--connect-btn-text);
   cursor: pointer;
-  user-select: none;
+  color: var(--connect-btn-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 8px;
+
+  @include text-button;
+
+  user-select: none;
+  transition: background-color var(--transition-1), color var(--transition-1);
+
+  height: 48px;
+  width: 176px;
 
   &:hover {
     background-color: var(--light-green-color-1);
   }
 
   @media (max-width: 960px) {
+    height: 40px;
     font-size: 14px;
-    padding: 8px;
-  }
-}
-
-.avatar {
-  width: 24px;
-
-  @media (max-width: 960px) {
-    width: 18px;
   }
 }
 
