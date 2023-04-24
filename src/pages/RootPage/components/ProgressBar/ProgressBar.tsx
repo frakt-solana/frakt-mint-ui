@@ -1,14 +1,19 @@
 import { FC } from 'react'
+
 import { SliderPoint as sliderPoint } from '@frakt/icons'
+import { TOTAL_NFTS_MINT } from '@frakt/constants'
 
 import styles from './ProgressBar.module.scss'
 
 interface ProgressBarProps {
   value: number
-  maxValue: number
+  maxValue?: number
 }
 
-const ProgressBar: FC<ProgressBarProps> = ({ value, maxValue }) => {
+const ProgressBar: FC<ProgressBarProps> = ({
+  value,
+  maxValue = TOTAL_NFTS_MINT,
+}) => {
   const percentage = (value / maxValue) * 100
 
   const getProgressBarStyle = () => {

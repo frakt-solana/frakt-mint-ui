@@ -8,10 +8,10 @@
 
 .container {
   @extend .column;
-  gap: 16px;
 }
 
 .totalMinted {
+  margin-top: 8px;
   @include text-number;
 }
 

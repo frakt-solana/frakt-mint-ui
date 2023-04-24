@@ -1,0 +1,25 @@
+.info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.label {
+  color: var(--secondary-text);
+  font: var(--font-text-6);
+  text-transform: uppercase;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.value {
+  font: var(--font-text-8);
+  margin-top: 4px;
+  font-size: 14px;
+  text-align: right;
+}

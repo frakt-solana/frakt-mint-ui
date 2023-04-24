@@ -12,7 +12,6 @@ const RootPage: FC = () => {
     <AppLayout>
       <div className={styles.content}>
         <Heading />
-        <ProgressBar value={3000} maxValue={20000} />
         {/* <PendingMintView /> */}
         <LiveMint />
       </div>

@@ -3,7 +3,13 @@
   font-size: 72px;
   font-weight: 800;
   line-height: 86px;
-  letter-spacing: 0em;
+}
+
+@mixin text-title-1 {
+  font-family: 'Syne';
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 34px;
 }
 
 @mixin text-subtitle {
@@ -11,7 +17,6 @@
   font-size: 40px;
   font-weight: 400;
   line-height: 52px;
-  letter-spacing: 0em;
 }
 
 @mixin text-number {
@@ -20,7 +25,6 @@
   font-size: 32px;
   font-weight: 700;
   line-height: 42px;
-  letter-spacing: 0em;
 }
 
 @mixin text-main {
@@ -28,7 +32,6 @@
   font-size: 18px;
   font-weight: 400;
   line-height: 23px;
-  letter-spacing: 0em;
 }
 
 @mixin text-small {
@@ -36,7 +39,6 @@
   font-size: 12px;
   font-weight: 700;
   line-height: 14px;
-  letter-spacing: 0em;
   text-transform: uppercase;
 }
 
@@ -45,5 +47,4 @@
   font-size: 16px;
   font-weight: 500;
   line-height: 19px;
-  letter-spacing: 0em;
 }
