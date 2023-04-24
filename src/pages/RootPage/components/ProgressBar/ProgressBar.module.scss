@@ -1,0 +1,24 @@
+.container {
+  height: 4px;
+  border-radius: 2px;
+  background-color: var(--secondary-background);
+  max-width: 446px;
+  width: 100%;
+}
+
+.progress {
+  background-color: var(--light-green-color);
+  border-radius: 2px;
+  transition: width 0.5s ease-in-out;
+  position: relative;
+  height: 100%;
+}
+
+.sliderPoint {
+  display: flex;
+  width: 44px;
+  height: 38px;
+  position: absolute;
+  right: -9px;
+  top: -20px;
+}
