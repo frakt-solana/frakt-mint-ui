@@ -1,0 +1,30 @@
+@import '@frakt/scss/abstracts/typography';
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.title {
+  @include text-title;
+}
+
+.subtitle {
+  @include text-subtitle;
+}
+
+.timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.numberText {
+  @include text-number;
+}
+
+.smallText {
+  @include text-small;
+}

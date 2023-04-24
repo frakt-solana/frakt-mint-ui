@@ -18,7 +18,7 @@
   margin-left: auto;
   margin-right: auto;
 
-  height: 100vh;
+  height: 100%;
   padding: 32px;
   padding-top: 96px;
 
@@ -29,4 +29,16 @@
     padding: 24px;
     padding-top: 84px;
   }
+}
+
+.contentInner {
+  background-color: var(--primary-background);
+  border: 1px solid var(--primary-border);
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 770px;
+  max-height: 780px;
+  height: 100%;
 }

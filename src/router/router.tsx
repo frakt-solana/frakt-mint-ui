@@ -1,7 +1,7 @@
-import { FC } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { FC } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import { routes } from './routes';
+import { routes } from './routes'
 
 export const Router: FC = () => {
   return (
@@ -12,5 +12,5 @@ export const Router: FC = () => {
         ))}
       </Routes>
     </BrowserRouter>
-  );
-};
+  )
+}
