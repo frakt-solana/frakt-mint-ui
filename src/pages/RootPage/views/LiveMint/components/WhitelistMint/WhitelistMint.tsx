@@ -4,6 +4,7 @@ import styles from './WhitelistMint.module.scss'
 import Button from '@frakt/components/Button'
 import { StatsValues } from '@frakt/components/StatsValues'
 import { MINT_PRICE } from '@frakt/constants'
+import Field from '@frakt/components/Field'
 
 const WhitelistMint: FC = () => {
   return (
@@ -12,6 +13,7 @@ const WhitelistMint: FC = () => {
       <div className={styles.content}>
         <p>You have 5 WL tokens</p>
       </div>
+      <Field value={'10'} onValueChange={null} />
       <StatsValues label="Mint price" value={MINT_PRICE} />
       <StatsValues label="Will be received">0 BANX</StatsValues>
       <Button className={styles.button} type="secondary">

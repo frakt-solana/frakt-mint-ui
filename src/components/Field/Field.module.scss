@@ -1,0 +1,207 @@
+
+.root {
+  background: var(--secondary-background);
+  display: flex;
+  justify-content: flex-end;
+
+  border-bottom: 1px solid var(--primary-border);
+
+  //? Remove arrows from number input
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  transition: border-color var(--transition-1);
+}
+
+.focused {
+  .root {
+    border-bottom: 1px solid var(--secondary-border);
+
+    .useMaxBtn {
+      border: 1px solid var(--light-green-color);
+    }
+  }
+}
+
+.error {
+  .root {
+    border-color: var(--red-color);
+  }
+}
+
+.valueInput {
+  flex-grow: 1;
+  padding-left: 24px;
+  font: var(--font-btn-mid);
+  min-width: 48px;
+
+  &_disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+}
+
+.disabled {
+  pointer-events: none;
+  flex-grow: 2;
+  flex-shrink: 1;
+  max-width: 60%;
+
+  @media screen and (max-width: 380px) {
+    max-width: 55%;
+  }
+}
+
+body input.valueInput {
+  &,
+  &:hover,
+  &:active,
+  &:focus,
+  &:not(.styles_ant-input):hover {
+    background: none;
+    border: none;
+    outline: none;
+  }
+}
+
+.useMaxBtnContainer {
+  display: flex;
+  align-items: center;
+
+  @media screen and (max-width: 440px) {
+    padding-left: 0;
+    padding-right: 5px;
+  }
+}
+
+.useMaxBtn {
+  & {
+    border: 1px solid var(--light-green-color);
+  }
+
+  cursor: pointer;
+  color: var(--connect-btn-text);
+  background-color: var(--light-green-color-2);
+  transition: background-color var(--transition-1);
+  font: var(--font-btn-middle);
+  min-width: 116px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+
+  &:hover {
+    background: var(--light-green-color-1);
+  }
+
+  @media screen and (max-width: 440px) {
+    min-width: 90px;
+  }
+}
+
+.tokenLogo {
+  width: 14px;
+  height: 24px;
+  display: block;
+  border-radius: 50%;
+}
+
+.noTokenImg {
+  width: 24px;
+  height: 24px;
+  display: block;
+  border-radius: 50%;
+  background: var(--gray-color-3);
+}
+
+.tokenName {
+  color: var(--black-color);
+  font: var(--font-text-4);
+  white-space: nowrap;
+
+  &_empty {
+    color: var(--gray-color-3);
+  }
+}
+
+.selectTokenBtn {
+  height: 100%;
+  padding: 0 12px 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+
+  @media screen and (max-width: 440px) {
+    padding-left: 2px;
+    padding-right: 10px;
+  }
+}
+
+.arrowDownIcon {
+  width: 16px;
+  height: 16px;
+  fill: var(--white-color);
+}
+
+.labelWrapper {
+  margin-bottom: 8px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.label {
+  font: var(--font-text-8);
+  color: var(--secondary-border);
+
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.labelName {
+  font: var(--font-text-6);
+  text-transform: uppercase;
+  color: var(--gray-color-2);
+}
+
+.disabledTokens {
+  &,
+  &:focus {
+    cursor: unset;
+  }
+}
+
+.disabledTokens .arrowDownIcon {
+  display: none;
+}
+
+:global .ant-form-item-has-error {
+  :local {
+    .root {
+      border-color: var(--red-color);
+    }
+  }
+}
+
+.questionIcon {
+  svg {
+    fill: var(--blue-color);
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.fndSMB {
+  font: var(--font-btn-middle);
+  letter-spacing: 0.02em;
+  color: var(--gray-color-2);
+}
