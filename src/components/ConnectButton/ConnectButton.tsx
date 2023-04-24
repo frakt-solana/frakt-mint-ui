@@ -5,6 +5,7 @@ import { shortenAddress } from '@frakt/utils/solanaUtils'
 import { ArrowDownBtn } from '@frakt/icons'
 
 import styles from './ConnectButton.module.scss'
+import { useWalletModal } from '../WalletContent/hooks'
 
 export interface ConnectButtonProps {
   className?: string
@@ -12,14 +13,10 @@ export interface ConnectButtonProps {
 
 const ConnectButton: FC<ConnectButtonProps> = () => {
   const { publicKey: walletPubKey, connected } = useWallet()
+  const { toggleVisible } = useWalletModal()
 
   return (
-    <button
-      className={styles.connectButton}
-      // onClick={() => {
-      //   dispatch(commonActions.toggleWalletModal())
-      // }}
-    >
+    <button className={styles.connectButton} onClick={() => toggleVisible()}>
       {connected && (
         <>
           {shortenAddress(walletPubKey?.toString())}
