@@ -33,12 +33,12 @@
 .contentInner {
   background-color: var(--primary-background);
   border: 1px solid var(--primary-border);
+  box-sizing: border-box;
   padding: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 770px;
-  max-height: 780px;
   height: 100%;
   position: relative;
 }

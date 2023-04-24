@@ -6,6 +6,7 @@ import PendingMintView from './views/PendingMint'
 import Heading from './components/Heading'
 import LiveMint from './views/LiveMint'
 import ProgressBar from './components/ProgressBar'
+import PublicMint from './views/PublicMint'
 
 const RootPage: FC = () => {
   return (
@@ -14,6 +15,7 @@ const RootPage: FC = () => {
         <Heading />
         {/* <PendingMintView /> */}
         <LiveMint />
+        {/* <PublicMint /> */}
       </div>
     </AppLayout>
   )

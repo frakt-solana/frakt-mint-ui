@@ -5,6 +5,7 @@ import WhitelistMint from './components/WhitelistMint/WhitelistMint'
 import ProgressBar from '../../components/ProgressBar'
 
 import styles from './LiveMint.module.scss'
+import MintForNFTs from './components/MintForNFTs'
 
 enum MintTypes {
   WHITELIST = 'whitelist',
@@ -39,7 +40,7 @@ const LiveMintView: FC = () => {
         </div>
       )}
       {mintType === MintTypes.WHITELIST && <WhitelistMint onBack={onBack} />}
-      {mintType === MintTypes.FOR_NFTS && <WhitelistMint onBack={onBack} />}
+      {mintType === MintTypes.FOR_NFTS && <MintForNFTs onBack={onBack} />}
     </div>
   )
 }
