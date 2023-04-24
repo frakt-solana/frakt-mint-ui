@@ -1,4 +1,3 @@
-
 .root {
   background: var(--secondary-background);
   display: flex;
@@ -105,53 +104,7 @@ body input.valueInput {
   }
 }
 
-.tokenLogo {
-  width: 14px;
-  height: 24px;
-  display: block;
-  border-radius: 50%;
-}
-
-.noTokenImg {
-  width: 24px;
-  height: 24px;
-  display: block;
-  border-radius: 50%;
-  background: var(--gray-color-3);
-}
-
-.tokenName {
-  color: var(--black-color);
-  font: var(--font-text-4);
-  white-space: nowrap;
-
-  &_empty {
-    color: var(--gray-color-3);
-  }
-}
-
-.selectTokenBtn {
-  height: 100%;
-  padding: 0 12px 0 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  position: relative;
-
-  @media screen and (max-width: 440px) {
-    padding-left: 2px;
-    padding-right: 10px;
-  }
-}
-
-.arrowDownIcon {
-  width: 16px;
-  height: 16px;
-  fill: var(--white-color);
-}
-
 .labelWrapper {
-  margin-bottom: 8px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -173,35 +126,10 @@ body input.valueInput {
   color: var(--gray-color-2);
 }
 
-.disabledTokens {
-  &,
-  &:focus {
-    cursor: unset;
-  }
-}
-
-.disabledTokens .arrowDownIcon {
-  display: none;
-}
-
 :global .ant-form-item-has-error {
   :local {
     .root {
       border-color: var(--red-color);
     }
   }
-}
-
-.questionIcon {
-  svg {
-    fill: var(--blue-color);
-    width: 18px;
-    height: 18px;
-  }
-}
-
-.fndSMB {
-  font: var(--font-btn-middle);
-  letter-spacing: 0.02em;
-  color: var(--gray-color-2);
 }

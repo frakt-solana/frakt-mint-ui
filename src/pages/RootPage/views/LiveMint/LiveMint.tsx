@@ -1,10 +1,10 @@
 import { FC, useState } from 'react'
 import { Button } from '@frakt/components/Button'
 
+import WhitelistMint from './components/WhitelistMint/WhitelistMint'
 import ProgressBar from '../../components/ProgressBar'
 
 import styles from './LiveMint.module.scss'
-import WhitelistMint from './components/WhitelistMint/WhitelistMint'
 
 enum MintTypes {
   WHITELIST = 'whitelist',
@@ -13,6 +13,8 @@ enum MintTypes {
 
 const LiveMintView: FC = () => {
   const [mintType, setMintType] = useState<MintTypes>(null)
+
+  const onBack = () => setMintType(null)
 
   return (
     <div className={styles.container}>
@@ -36,7 +38,8 @@ const LiveMintView: FC = () => {
           </Button>
         </div>
       )}
-      {mintType === MintTypes.WHITELIST && <WhitelistMint />}
+      {mintType === MintTypes.WHITELIST && <WhitelistMint onBack={onBack} />}
+      {mintType === MintTypes.FOR_NFTS && <WhitelistMint onBack={onBack} />}
     </div>
   )
 }

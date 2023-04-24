@@ -1,6 +1,7 @@
 @import '@frakt/scss/abstracts/typography';
 
 .container {
+  border: 1px solid var(--primary-border);
   display: flex;
   flex-direction: column;
   padding: 24px;

@@ -1,3 +1,4 @@
+export * from './Arrow'
 export * from './ArrowDownBtn'
 export * from './FraktLogo'
 export * from './Moon'

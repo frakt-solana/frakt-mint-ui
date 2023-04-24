@@ -1,8 +1,8 @@
 import { FC } from 'react'
 
+import { StatsValues } from '@frakt/components/StatsValues'
 import { Button } from '@frakt/components/Button'
 import { MINT_PRICE } from '@frakt/constants'
-import { Solana } from '@frakt/icons'
 
 import Heading from '../../components/Heading'
 
@@ -13,12 +13,7 @@ const PublicMint: FC = () => {
     <div className={styles.container}>
       <Heading />
       <h4 className={styles.totalMinted}>5,000/20,000</h4>
-      <div className={styles.mintInfo}>
-        <p>Mint price</p>
-        <p className={styles.mintPrice}>
-          {MINT_PRICE} <Solana />
-        </p>
-      </div>
+      <StatsValues label=">Mint price" value={MINT_PRICE}></StatsValues>
       <Button className={styles.button}>Mint</Button>
     </div>
   )
