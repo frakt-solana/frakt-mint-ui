@@ -8,6 +8,7 @@
 
 .container {
   @extend .column;
+  width: 100%;
 }
 
 .totalMinted {
@@ -19,9 +20,18 @@
   display: flex;
   align-items: center;
   gap: 24px;
+
+  @media (max-width: 768px) {
+    gap: 8px;
+  }
 }
 
 .button {
   height: 48px;
   width: 210px;
+
+  @media (max-width: 768px) {
+    height: 40px;
+    width: 167px;
+  }
 }

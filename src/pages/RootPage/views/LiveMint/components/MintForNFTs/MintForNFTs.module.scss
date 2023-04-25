@@ -5,8 +5,9 @@
   display: flex;
   flex-direction: column;
   padding: 24px;
-  min-width: 736px;
+  max-width: 736px;
   width: 100%;
+  margin-top: 16px;
 }
 
 .title {
@@ -16,7 +17,7 @@
 
 .nftList {
   overflow: auto;
-  height: 205px;
+  height: 262px;
 }
 
 .buttonWrapper {

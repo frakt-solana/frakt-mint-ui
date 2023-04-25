@@ -7,6 +7,7 @@ import { WalletItem } from './WalletItem'
 import { useWalletModal } from './hooks'
 
 import styles from './styles.module.scss'
+import { Button } from '../Button'
 
 interface WalletContentProps {
   className?: string
@@ -34,8 +35,25 @@ export const WalletsItems: FC = () => {
   )
 }
 
+const DisconnecWalletContent: FC = () => {
+  const { disconnect } = useWallet()
+
+  return (
+    <div className={styles.disconnectContainer}>
+      <Button
+        className={styles.disconnectButton}
+        type="secondary"
+        onClick={disconnect}
+      >
+        Disconnect
+      </Button>
+    </div>
+  )
+}
+
 const WalletContent: FC<WalletContentProps> = ({ className = '' }) => {
   const { setVisible } = useWalletModal()
+  const { connected } = useWallet()
 
   const ref = useRef()
   useOnClickOutside(ref, () => setVisible(false))
@@ -44,7 +62,7 @@ const WalletContent: FC<WalletContentProps> = ({ className = '' }) => {
     <div className={`${styles.wrapper} ${className}`}>
       <div className={styles.overlay} onClick={() => setVisible(false)} />
       <div ref={ref} className={`${styles.container} container`}>
-        <WalletsItems />
+        {connected ? <DisconnecWalletContent /> : <WalletsItems />}
       </div>
     </div>
   )

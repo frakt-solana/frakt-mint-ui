@@ -2,7 +2,6 @@ import { FC, useState } from 'react'
 
 import { GoBackButton } from '@frakt/components/GoBackButton'
 import { StatsValues } from '@frakt/components/StatsValues'
-import { SliderPoint as wlTokenImage } from '@frakt/icons'
 import { MINT_PRICE } from '@frakt/constants'
 import Button from '@frakt/components/Button'
 import Field from '@frakt/components/Field'
@@ -21,15 +20,15 @@ const WhitelistMint: FC<{ onBack: () => void }> = ({ onBack }) => {
       <GoBackButton onClick={onBack} />
       <h4 className={styles.title}>Mint with WL</h4>
       <div className={styles.content}>
-        <img className={styles.tokenImage} src={wlTokenImage} />
         <p className={styles.subtitle}>You have 5 WL tokens</p>
+        <Field
+          className={styles.field}
+          value={inputValue}
+          lpBalance={5}
+          onValueChange={onChangeInputValue}
+        />
       </div>
-      <Field
-        className={styles.field}
-        value={inputValue}
-        lpBalance={5}
-        onValueChange={onChangeInputValue}
-      />
+
       <StatsValues label="Mint price" value={MINT_PRICE} />
       <StatsValues label="Will be received">0 BANX</StatsValues>
       <Button

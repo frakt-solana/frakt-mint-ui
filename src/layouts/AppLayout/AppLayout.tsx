@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import Header from '../Header'
 
 import styles from './AppLayout.module.scss'
+// import { LeftLayoutImage, SliderPoint } from '@frakt/icons'
 
 interface LayoutProps {
   children: JSX.Element[] | JSX.Element

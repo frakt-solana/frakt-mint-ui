@@ -17,16 +17,17 @@
   position: relative;
 }
 
-.itemsContainer {
+.itemsContainer,
+.disconnectContainer {
   max-width: 371px;
   border: 1px solid var(--secondary-border);
   display: grid;
   grid-template-columns: repeat(3, 113px);
   position: absolute;
   top: 72px;
-  right: 15px;
+  right: 35px;
   background-color: var(--primary-background);
-  padding: 16px 16px 24px;
+  padding: 16px;
   box-shadow: rgb(0 0 0 / 1%) 0px 0px 0px,
     var(--secondary-border) 4px 4px 0px 0px;
 
@@ -46,6 +47,18 @@
   @media (max-width: 605px) {
     grid-template-columns: repeat(auto-fill, minmax(113px, 3fr));
   }
+}
+
+.disconnectContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 150px;
+  width: 100%;
+}
+.disconnectButton {
+  height: 40px;
+  width: 100%;
 }
 
 .walletItemContainer {

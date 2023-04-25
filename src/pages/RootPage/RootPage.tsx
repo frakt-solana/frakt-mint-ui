@@ -12,7 +12,6 @@ const RootPage: FC = () => {
   return (
     <AppLayout>
       <div className={styles.content}>
-        <Heading />
         {/* <PendingMintView /> */}
         <LiveMint />
         {/* <PublicMint /> */}
