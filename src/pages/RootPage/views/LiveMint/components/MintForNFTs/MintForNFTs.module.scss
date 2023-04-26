@@ -24,6 +24,11 @@
   align-items: stretch;
   overflow: auto;
   height: 255px;
+
+  @media (max-width: 768px) {
+    height: 220px;
+    grid-template-columns: repeat(auto-fill, minmax(32px, 1fr));
+  }
 }
 
 .emptyList {
@@ -35,6 +40,11 @@
 .selectedCollectionOverlay {
   height: 79px;
   width: 79px;
+
+  @media (max-width: 768px) {
+    height: 32px;
+    width: 32px;
+  }
 }
 
 .nftCard {
@@ -64,6 +74,13 @@
     height: 3.3px;
     width: 29px;
   }
+
+  @media screen and (max-width: 768px) {
+    &:after {
+      height: 1.3px;
+      width: 12px;
+    }
+  }
 }
 
 .buttonWrapper {
@@ -71,9 +88,17 @@
   align-items: center;
   margin-top: 12px;
   gap: 24px;
+
+  @media (max-width: 550px) {
+    gap: 16px;
+  }
 }
 
 .button {
   height: 48px;
   width: 100%;
+
+  @media (max-width: 768px) {
+    height: 40px;
+  }
 }

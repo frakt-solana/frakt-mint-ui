@@ -38,6 +38,10 @@
 
   transition: color 0.2s ease-in, background-color 0.2s ease-in;
   height: 48px;
+
+  @media (max-width: 768px) {
+    height: 40px;
+  }
 }
 .walletBtn svg path {
   fill: var(--black-color);

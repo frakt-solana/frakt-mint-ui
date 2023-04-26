@@ -18,6 +18,13 @@
   &:hover {
     border-color: var(--secondary-border);
   }
+
+  @media (max-width: 768px) {
+    top: 16px;
+    left: 16px;
+    height: 26px;
+    width: 26px;
+  }
 }
 
 .root svg {

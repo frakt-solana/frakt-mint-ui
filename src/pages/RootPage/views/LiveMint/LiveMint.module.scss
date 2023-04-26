@@ -28,8 +28,10 @@
 .buttonWrapper {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 24px;
   padding-top: 16px;
+  width: 100%;
 
   @media (max-width: 768px) {
     gap: 8px;
@@ -38,10 +40,11 @@
 
 .button {
   height: 48px;
-  width: 210px;
+  max-width: 210px;
+  width: 100%;
 
   @media (max-width: 768px) {
     height: 40px;
-    width: 167px;
+    padding: 0;
   }
 }

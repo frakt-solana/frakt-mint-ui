@@ -26,6 +26,15 @@
   padding: 32px;
   position: relative;
   height: 640px;
+
+  @media screen and (max-width: 768px) {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 24px;
+    height: calc(100% - 84px);
+  }
 }
 
 .leftImage,

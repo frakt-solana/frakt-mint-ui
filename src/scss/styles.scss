@@ -3,6 +3,10 @@
 @import './abstracts/fonts.scss';
 @import './abstracts/variables.scss';
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-color: var(--secondary-background);
   background-size: cover;
