@@ -16,8 +16,53 @@
 }
 
 .nftList {
+  margin: 24px 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(79px, 1fr));
+  gap: 8px;
+  align-items: stretch;
   overflow: auto;
-  height: 262px;
+  height: 260px;
+}
+
+.emptyList {
+  grid-template-columns: unset;
+}
+
+.nftCard,
+.collectionImage,
+.selectedCollectionOverlay {
+  height: 79px;
+  width: 79px;
+}
+
+.nftCard {
+  cursor: pointer;
+}
+
+.collectionImageWrapper {
+  position: relative;
+}
+
+.selectedCollectionOverlay {
+  background-color: var(--light-green-color);
+  border: 1px solid var(--button-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  &:after {
+    content: '';
+    display: block;
+    background: var(--button-text);
+    border-radius: 2px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 3.3px;
+    width: 29px;
+  }
 }
 
 .buttonWrapper {
