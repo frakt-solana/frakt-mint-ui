@@ -1,28 +1,15 @@
-.header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 2;
-  transition: top 0.2s ease-out;
-}
-
-.headerHide {
-  top: -50px;
-  transition: top 0.2s ease-in;
-}
-
 .content {
   max-width: 1430px;
 
   margin-left: auto;
   margin-right: auto;
 
-  height: 100%;
   padding: 32px;
   padding-top: 96px;
 
   overflow-y: auto;
   scrollbar-gutter: stable;
+  height: 100%;
 
   @media screen and (max-width: 768px) {
     padding: 0;
@@ -34,11 +21,11 @@
   background-color: var(--primary-background);
   border: 1px solid var(--primary-border);
   box-sizing: border-box;
-  padding: 32px;
   display: flex;
   justify-content: center;
-  height: 640px;
+  padding: 32px;
   position: relative;
+  height: 640px;
 }
 
 .leftImage,

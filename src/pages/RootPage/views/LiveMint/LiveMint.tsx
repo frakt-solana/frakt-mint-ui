@@ -3,10 +3,10 @@ import { Button } from '@frakt/components/Button'
 
 import WhitelistMint from './components/WhitelistMint/WhitelistMint'
 import ProgressBar from '../../components/ProgressBar'
-
-import styles from './LiveMint.module.scss'
 import MintForNFTs from './components/MintForNFTs'
 import Heading from '../../components/Heading'
+
+import styles from './LiveMint.module.scss'
 
 enum MintTypes {
   WHITELIST = 'whitelist',

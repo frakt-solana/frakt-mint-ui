@@ -1,27 +1,17 @@
 import { FC } from 'react'
 import classNames from 'classnames'
 
-import Header from '../Header'
-
 import styles from './AppLayout.module.scss'
-// import { LeftLayoutImage, SliderPoint } from '@frakt/icons'
 
 interface LayoutProps {
   children: JSX.Element[] | JSX.Element
   className?: string
 }
 
-const AppLayout: FC<LayoutProps> = ({ children, className }) => {
-  return (
-    <>
-      <Header />
-      <div id="app-content" className={classNames(styles.content, className)}>
-        <div className={styles.contentInner}>{children}</div>
-      </div>
-      {/* <img src={SliderPoint} className={styles.leftImage} /> */}
-      {/* <img src={LeftLayoutImage} className={styles.rightImage} /> */}
-    </>
-  )
-}
+const AppLayout: FC<LayoutProps> = ({ children, className }) => (
+  <div className={classNames(styles.content, className)}>
+    <div className={styles.contentInner}>{children}</div>
+  </div>
+)
 
 export default AppLayout

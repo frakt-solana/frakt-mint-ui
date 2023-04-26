@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { Outlet } from 'react-router-dom'
 
 import { useWalletModal } from '@frakt/components/WalletContent'
 import ConnectButton from '@frakt/components/ConnectButton'
@@ -12,18 +13,21 @@ const Header: FC = () => {
   const { visible } = useWalletModal()
 
   return (
-    <header className={styles.header}>
-      {visible && <WalletContent />}
-      <a href={process.env.FRAKT_LANDING_URL} className={styles.logo}>
-        <FraktLogo className={styles.logo} />
-      </a>
-      <div className={styles.widgetContainer}>
-        <div className={styles.switcherContainer}>
-          <ThemeSwitcher />
+    <>
+      <header className={styles.header}>
+        {visible && <WalletContent />}
+        <a href={process.env.FRAKT_LANDING_URL} className={styles.logo}>
+          <FraktLogo className={styles.logo} />
+        </a>
+        <div className={styles.widgetContainer}>
+          <div className={styles.switcherContainer}>
+            <ThemeSwitcher />
+          </div>
+          <ConnectButton className={styles.walletBtn} />
         </div>
-        <ConnectButton className={styles.walletBtn} />
-      </div>
-    </header>
+      </header>
+      <Outlet />
+    </>
   )
 }
 
