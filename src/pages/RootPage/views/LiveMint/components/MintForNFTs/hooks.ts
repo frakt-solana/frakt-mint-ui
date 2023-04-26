@@ -1,9 +1,11 @@
-import { NFT, mapNFTsAccounts } from './helpers'
+import { useEffect, useState } from 'react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { getNFTsByOwner } from '@frakt/utils/nfts'
-import { useEffect, useState } from 'react'
-import { useSelectedNFTs } from './nftsState'
+
 import { throwLogsError } from '@frakt/utils'
+
+import { NFT, mapNFTsAccounts } from './helpers'
+import { useSelectedNFTs } from './nftsState'
 
 export const useFetchAllUserNFTs = () => {
   const [nfts, setNfts] = useState<NFT[]>([])
