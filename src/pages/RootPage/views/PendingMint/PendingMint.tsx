@@ -1,12 +1,16 @@
 import { FC } from 'react'
 
+import { createTimerJSX } from '@frakt/components/Timer'
+import Heading from '../../components/Heading'
+
 import styles from './PendingMint.module.scss'
 
 const PendingMintView: FC = () => {
   return (
     <div className={styles.container}>
+      <Heading />
       <div className={styles.timerWrapper}>
-        <h4 className={styles.timer}>5d : 14h : 13m</h4>
+        {createTimerJSX(1683752399)}
         <p className={styles.timerText}>Until mint</p>
       </div>
       <div className={styles.content}>
