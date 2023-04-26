@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { SliderPoint as sliderPoint } from '@frakt/icons'
+import { BANX } from '@frakt/icons'
 import { TOTAL_NFTS_MINT } from '@frakt/constants'
 
 import styles from './ProgressBar.module.scss'
@@ -22,7 +22,7 @@ const ProgressBar: FC<ProgressBarProps> = ({
   return (
     <div className={styles.container}>
       <div className={styles.progress} style={getProgressBarStyle()}>
-        <img className={styles.sliderPoint} src={sliderPoint} />
+        <img className={styles.sliderPoint} src={BANX} />
       </div>
     </div>
   )

@@ -8,5 +8,5 @@ export * from './Solana'
 export * from './Sun'
 
 //? Raster icons
-export { default as SliderPoint } from './SliderPoint.png'
+export { default as BANX } from './BANX.png'
 export { default as LeftLayoutImage } from './LeftLayoutImage.png'

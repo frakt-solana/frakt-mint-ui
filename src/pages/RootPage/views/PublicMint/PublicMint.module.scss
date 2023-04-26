@@ -8,9 +8,16 @@
 
 .container {
   @extend .column;
-  gap: 16px;
+  justify-content: center;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   max-width: 446px;
   width: 100%;
+  gap: 16px;
 }
 
 .totalMinted {
