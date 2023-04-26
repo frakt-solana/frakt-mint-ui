@@ -7,6 +7,7 @@ import MintForNFTs from './components/MintForNFTs'
 import Heading from '../../components/Heading'
 
 import styles from './LiveMint.module.scss'
+import classNames from 'classnames'
 
 enum MintTypes {
   WHITELIST = 'whitelist',
@@ -19,7 +20,11 @@ const LiveMintView: FC = () => {
   const onBack = () => setMintType(null)
 
   return (
-    <>
+    <div
+      className={classNames(styles.wrapper, {
+        [styles.center]: mintType === null,
+      })}
+    >
       {mintType === null && <Heading />}
       <div className={styles.container}>
         <h4 className={styles.totalMinted}>5,000/20,000</h4>
@@ -45,7 +50,7 @@ const LiveMintView: FC = () => {
         {mintType === MintTypes.WHITELIST && <WhitelistMint onBack={onBack} />}
         {mintType === MintTypes.FOR_NFTS && <MintForNFTs onBack={onBack} />}
       </div>
-    </>
+    </div>
   )
 }
 
