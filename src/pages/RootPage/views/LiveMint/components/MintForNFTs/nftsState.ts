@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import produce from 'immer'
-import { NFT } from './helpers'
+
+import { NFT } from '@frakt/api/nft'
 
 interface SelectedNFTsState {
   selection: NFT[]
@@ -23,7 +24,7 @@ export const useSelectedNFTs = create<SelectedNFTsState>((set, get) => ({
   },
   findLoanInSelection: (nftPubkey) => {
     const { selection } = get()
-    return selection.find(({ nftMint }) => nftMint === nftPubkey) ?? null
+    return selection.find(({ mint }) => mint === nftPubkey) ?? null
   },
   addLoanToSelection: (nft) => {
     set(
@@ -36,7 +37,7 @@ export const useSelectedNFTs = create<SelectedNFTsState>((set, get) => ({
     set(
       produce((state: SelectedNFTsState) => {
         state.selection = state.selection.filter(
-          ({ nftMint }) => nftMint !== nftPubkey,
+          ({ mint }) => mint !== nftPubkey,
         )
       }),
     )
@@ -48,12 +49,12 @@ export const useSelectedNFTs = create<SelectedNFTsState>((set, get) => ({
       }),
     )
   },
-  toggleLoanInSelection: (loan: NFT) => {
+  toggleLoanInSelection: (nft: NFT) => {
     const { findLoanInSelection, addLoanToSelection, removeLoanFromSelection } =
       get()
-    const isLoanInSelection = !!findLoanInSelection(loan.nftMint)
+    const isLoanInSelection = !!findLoanInSelection(nft.mint)
     isLoanInSelection
-      ? removeLoanFromSelection(loan.nftMint)
-      : addLoanToSelection(loan)
+      ? removeLoanFromSelection(nft.mint)
+      : addLoanToSelection(nft)
   },
 }))

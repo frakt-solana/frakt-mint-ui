@@ -1,11 +1,12 @@
 .header {
+  box-sizing: border-box;
   background-color: var(--primary-background);
   border-bottom: 1px solid var(--primary-border);
   backdrop-filter: blur(12px);
 
   display: flex;
   align-items: center;
-  padding-left: 16px;
+  padding-left: 32px;
 
   position: fixed;
   height: var(--header-height);
@@ -18,9 +19,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 32px;
   height: 100%;
-  padding-right: 36px;
+  padding-right: 32px;
 
   @media (max-width: 960px) {
     gap: 8px;
@@ -43,7 +44,7 @@
 }
 
 .switcherContainer {
-  margin: 8px 32px 0 0;
+  margin-top: 8px;
 }
 
 .logo {

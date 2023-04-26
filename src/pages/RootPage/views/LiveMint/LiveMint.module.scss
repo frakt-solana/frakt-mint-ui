@@ -22,7 +22,6 @@
 }
 
 .totalMinted {
-  margin-top: 8px;
   @include text-number;
 }
 
@@ -30,6 +29,7 @@
   display: flex;
   align-items: center;
   gap: 24px;
+  padding-top: 16px;
 
   @media (max-width: 768px) {
     gap: 8px;

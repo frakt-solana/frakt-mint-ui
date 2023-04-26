@@ -9,9 +9,9 @@ import { Loader } from '@frakt/components/Loader'
 import { MINT_PRICE } from '@frakt/constants'
 
 import { useMintForNFTs } from './hooks'
-import { NFT } from './helpers'
 
 import styles from './MintForNFTs.module.scss'
+import { NFT } from '@frakt/api/nft'
 
 const MintForNFTs: FC<{ onBack: () => void }> = ({ onBack }) => {
   const { connected } = useWallet()
@@ -37,7 +37,7 @@ const MintForNFTs: FC<{ onBack: () => void }> = ({ onBack }) => {
         {nfts.map((nft) => (
           <NftCard
             nft={nft}
-            selected={!!findLoanInSelection(nft.nftMint)}
+            selected={!!findLoanInSelection(nft.mint)}
             onClick={() => toggleLoanInSelection(nft)}
           />
         ))}
@@ -45,7 +45,11 @@ const MintForNFTs: FC<{ onBack: () => void }> = ({ onBack }) => {
       <StatsValues label="Mint price" value={MINT_PRICE} />
       <StatsValues label="Will be received">0 BANX</StatsValues>
       <div className={styles.buttonWrapper}>
-        <Button onClick={onSelectNFTs} className={styles.button}>
+        <Button
+          onClick={onSelectNFTs}
+          disabled={!nfts.length}
+          className={styles.button}
+        >
           {selection.length ? 'Deselect all' : 'Select all'}
         </Button>
         <Button
@@ -73,9 +77,9 @@ const NftCard = ({
   onClick: () => void
 }) => {
   return (
-    <div onClick={onClick} className={styles.nftCard} key={nft?.nftMint}>
+    <div onClick={onClick} className={styles.nftCard} key={nft?.mint}>
       <div className={styles.collectionImageWrapper}>
-        <img src={nft?.collectionImage} className={styles.collectionImage} />
+        <img src={nft?.imageUrl} className={styles.collectionImage} />
         {selected && <div className={styles.selectedCollectionOverlay}></div>}
       </div>
     </div>
