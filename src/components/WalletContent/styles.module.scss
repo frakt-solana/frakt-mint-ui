@@ -55,6 +55,10 @@
   justify-content: center;
   max-width: 150px;
   width: 100%;
+
+  @media (max-width: 960px) {
+    max-width: unset;
+  }
 }
 .disconnectButton {
   height: 40px;
