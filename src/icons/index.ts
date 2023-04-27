@@ -10,3 +10,4 @@ export * from './Sun'
 //? Raster icons
 export { default as BANX } from './BANX.png'
 export { default as LeftLayoutImage } from './LeftLayoutImage.png'
+export { default as RightLayoutImage } from './RightLayoutImage.png'

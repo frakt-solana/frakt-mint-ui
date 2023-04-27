@@ -41,12 +41,17 @@
 .rightImage {
   position: absolute;
   bottom: 0;
-  height: 407px;
-  width: 407px;
+  max-height: 30vh;
+  max-width: 30vw;
+
+  @media screen and (max-width: 1080px) {
+    max-height: 22vh;
+    max-width: 22vh;
+  }
 }
 .leftImage {
-  left: -80px;
+  left: 0;
 }
 .rightImage {
-  right: -30px;
+  right: 0;
 }
