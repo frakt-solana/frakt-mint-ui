@@ -43,7 +43,9 @@ const MintForNFTs: FC<{ onBack: () => void }> = ({ onBack }) => {
         ))}
       </div>
       <StatsValues label="Mint price" value={MINT_PRICE} />
-      <StatsValues label="Will be received">0 BANX</StatsValues>
+      <StatsValues label="Will be received">
+        {selection.length || 0} BANX
+      </StatsValues>
       <div className={styles.buttonWrapper}>
         <Button
           onClick={onSelectNFTs}

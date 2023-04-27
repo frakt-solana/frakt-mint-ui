@@ -24,7 +24,7 @@
   height: 48px;
   width: 100%;
 
-  @media (max-width: 768px) {
+  @media (max-width: 960px) {
     height: 40px;
   }
 }
@@ -35,6 +35,10 @@
   justify-content: center;
   margin: 16px 0;
   height: 270px;
+
+  @media (max-width: 960px) {
+    height: 150px;
+  }
 }
 
 .subtitle {

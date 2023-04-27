@@ -13,7 +13,7 @@
   width: 100%;
   z-index: 4;
 
-  @media (max-width: 768px) {
+  @media (max-width: 960px) {
     padding-left: 16px;
   }
 }
@@ -27,7 +27,7 @@
   height: 100%;
   padding-right: 32px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 960px) {
     padding-right: 16px;
     gap: 16px;
   }
@@ -44,7 +44,7 @@
   transition: color 0.2s ease-in, background-color 0.2s ease-in;
   height: 48px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 960px) {
     height: 40px;
   }
 }

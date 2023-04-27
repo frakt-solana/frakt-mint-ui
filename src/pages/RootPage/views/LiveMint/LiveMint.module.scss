@@ -33,7 +33,7 @@
   padding-top: 16px;
   width: 100%;
 
-  @media (max-width: 768px) {
+  @media (max-width: 960px) {
     gap: 8px;
   }
 }
@@ -43,7 +43,7 @@
   max-width: 210px;
   width: 100%;
 
-  @media (max-width: 768px) {
+  @media (max-width: 960px) {
     height: 40px;
     padding: 0;
   }

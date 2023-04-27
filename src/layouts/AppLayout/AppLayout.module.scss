@@ -11,7 +11,7 @@
   scrollbar-gutter: stable;
   height: 100%;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 960px) {
     padding: 0;
     padding-top: 84px;
   }
@@ -27,7 +27,7 @@
   position: relative;
   height: 640px;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 960px) {
     position: fixed;
     left: 0;
     bottom: 0;
@@ -39,7 +39,7 @@
 
 .leftImage,
 .rightImage {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   max-height: 30vh;
   max-width: 30vw;

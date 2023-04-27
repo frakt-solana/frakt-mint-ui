@@ -30,7 +30,7 @@ const WhitelistMint: FC<{ onBack: () => void }> = ({ onBack }) => {
       </div>
 
       <StatsValues label="Mint price" value={MINT_PRICE} />
-      <StatsValues label="Will be received">0 BANX</StatsValues>
+      <StatsValues label="Will be received">{inputValue || 0} BANX</StatsValues>
       <Button
         disabled={!parseFloat(inputValue)}
         className={styles.button}
