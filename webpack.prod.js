@@ -111,6 +111,9 @@ module.exports = {
       crypto: require.resolve('crypto-browserify'),
       stream: require.resolve('stream-browserify'),
       process: false,
+      https: require.resolve('https-browserify'),
+      zlib: require.resolve('browserify-zlib'),
+      http: require.resolve('stream-http'),
     },
   },
   plugins: [

@@ -9,8 +9,8 @@ const RootPage: FC = () => {
   return (
     <AppLayout>
       {/* <PendingMint /> */}
-      <LiveMint />
-      {/* <PublicMint /> */}
+      {/* <LiveMint /> */}
+      <PublicMint />
     </AppLayout>
   )
 }

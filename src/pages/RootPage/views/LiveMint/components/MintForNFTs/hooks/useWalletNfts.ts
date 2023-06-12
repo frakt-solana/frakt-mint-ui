@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react'
+import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { useWallet } from '@solana/wallet-adapter-react'
 
 import { fetchWalletBorrowNfts } from '@frakt/api/nft'
+import { getNFTsByOwner } from '@frakt/utils/nfts'
 
 const FETCH_LIMIT = 15
 
@@ -39,5 +41,25 @@ export const useWalletNfts = () => {
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,
+  }
+}
+
+export const useDevnetWalletNfts = () => {
+  const { publicKey } = useWallet()
+  const { connection } = useConnection()
+
+  const [devnetNfts, setDevnetNfts] = useState<any[]>([])
+
+  useEffect(() => {
+    ;(async () => {
+      if (connection && publicKey) {
+        const data = await getNFTsByOwner(publicKey, connection)
+        setDevnetNfts(data)
+      }
+    })()
+  }, [connection, publicKey])
+
+  return {
+    devnetNfts: devnetNfts || [],
   }
 }

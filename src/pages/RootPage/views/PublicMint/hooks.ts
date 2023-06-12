@@ -1,3 +1,4 @@
+import { throwLogsError } from '@frakt/utils'
 import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata'
 import { setComputeUnitLimit } from '@metaplex-foundation/mpl-essentials'
 import {
@@ -13,38 +14,8 @@ import {
 } from '@metaplex-foundation/mpl-candy-machine'
 import { useUmi } from '@frakt/helpers/umi'
 
-import { throwLogsError } from '@frakt/utils'
-
-import { useDevnetWalletNfts } from './useWalletNfts'
-import { useSelectedNFTs } from './../nftsState'
-
-export const useMintForNFTs = () => {
-  // const { nfts } = useWalletNfts()
-  const { devnetNfts: nfts } = useDevnetWalletNfts()
+export const usePublicMint = () => {
   const umi = useUmi()
-
-  console.log(
-    nfts.filter(
-      ({ pubkey }) =>
-        pubkey?.toBase58() === 'Enz6YisCetoX6ybF4WQDWVBpyNMupHKnJxHYWPeF4kZz',
-    ),
-  )
-
-  const {
-    selection,
-    toggleLoanInSelection,
-    clearSelection,
-    findLoanInSelection,
-    setSelection,
-  } = useSelectedNFTs()
-
-  const onSelectNFTs = (): void => {
-    if (selection.length) {
-      clearSelection()
-    } else {
-      setSelection(nfts)
-    }
-  }
 
   const onSubmit = async () => {
     try {
@@ -55,7 +26,7 @@ export const useMintForNFTs = () => {
 
       const candyGuard = await fetchCandyGuard(umi, candyMachine.mintAuthority)
 
-      const nftMint = generateSigner(umi)
+      const nftSigner = generateSigner(umi)
 
       const tx = transactionBuilder()
         .add(setComputeUnitLimit(umi, { units: 600_000 }))
@@ -64,16 +35,12 @@ export const useMintForNFTs = () => {
             candyMachine: candyMachine.publicKey,
             collectionMint: candyMachine.collectionMint,
             collectionUpdateAuthority: candyMachine.authority,
-            nftMint: nftMint.publicKey,
+            nftMint: nftSigner,
             candyGuard: candyGuard?.publicKey,
-            group: some('OGs'),
+            group: some('Public'),
             mintArgs: {
-              tokenGate: some({
-                mint: publicKey('FPMRWy8QY4Qi6myiDwTpsEkU2AHQ8KUfiqKVsDHkQQ6N'),
-                amount: 1,
-              }),
               solPayment: some({
-                lamports: 0,
+                lamports: 10000000000,
                 destination: publicKey(
                   'DhbQatLWDf7TqYvmiwMPK4HKBasrjS2KkUtBUHyoDaQP',
                 ),
@@ -99,16 +66,10 @@ export const useMintForNFTs = () => {
 
       //? Transaction completed successfully
     } catch (error) {
+      console.log(error)
       throwLogsError(error)
     }
   }
 
-  return {
-    nfts,
-    onSelectNFTs,
-    toggleLoanInSelection,
-    findLoanInSelection,
-    selection,
-    onSubmit,
-  }
+  return { onSubmit }
 }

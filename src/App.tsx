@@ -1,6 +1,12 @@
+import { FC, ReactNode, useMemo } from 'react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { createUmi } from '@metaplex-foundation/umi-bundle-defaults'
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
+import { Router } from '@frakt/router/router'
 import {
   ConnectionProvider,
   WalletProvider,
+  useWallet,
 } from '@solana/wallet-adapter-react'
 import {
   LedgerWalletAdapter,
@@ -15,17 +21,33 @@ import {
   ExodusWalletAdapter,
   BackpackWalletAdapter,
 } from '@solana/wallet-adapter-wallets'
+import { mplCandyMachine } from '@metaplex-foundation/mpl-candy-machine'
+import { mplTokenMetadata } from '@metaplex-foundation/mpl-token-metadata'
+import { walletAdapterIdentity } from '@metaplex-foundation/umi-signer-wallet-adapters'
 
-import { FC, useMemo } from 'react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
-import { Router } from '@frakt/router/router'
 import { ENDPOINT } from './config'
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
-
+import { UmiContext } from './helpers/umi'
 const queryClient = new QueryClient()
 
+export const UmiProvider = ({
+  endpoint,
+  children,
+}: {
+  endpoint: string
+  children: ReactNode
+}) => {
+  const wallet = useWallet()
+  const umi = createUmi(endpoint)
+    .use(walletAdapterIdentity(wallet))
+    .use(mplTokenMetadata())
+    .use(mplCandyMachine())
+
+  return <UmiContext.Provider value={{ umi }}>{children}</UmiContext.Provider>
+}
+
 const App: FC = () => {
+  const endpoint = 'https://api.devnet.solana.com'
+
   const wallets = useMemo(
     () => [
       new PhantomWalletAdapter(),
@@ -44,11 +66,13 @@ const App: FC = () => {
   )
 
   return (
-    <ConnectionProvider endpoint={ENDPOINT}>
+    <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
-        <QueryClientProvider client={queryClient}>
-          <Router />
-        </QueryClientProvider>
+        <UmiProvider endpoint={endpoint}>
+          <QueryClientProvider client={queryClient}>
+            <Router />
+          </QueryClientProvider>
+        </UmiProvider>
       </WalletProvider>
     </ConnectionProvider>
   )
