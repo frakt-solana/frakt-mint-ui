@@ -7,6 +7,7 @@ import Button from '@frakt/components/Button'
 import Field from '@frakt/components/Field'
 
 import styles from './WhitelistMint.module.scss'
+import { useWhitelistMint } from './hooks'
 
 const WhitelistMint: FC<{ onBack: () => void }> = ({ onBack }) => {
   const [inputValue, setInputValue] = useState<string>('0')
@@ -14,6 +15,8 @@ const WhitelistMint: FC<{ onBack: () => void }> = ({ onBack }) => {
   const onChangeInputValue = (value: string) => {
     setInputValue(value)
   }
+
+  const { onSubmit } = useWhitelistMint()
 
   return (
     <div className={styles.container}>
@@ -31,6 +34,7 @@ const WhitelistMint: FC<{ onBack: () => void }> = ({ onBack }) => {
       <StatsValues label="Mint price" value={MINT_PRICE} />
       <StatsValues label="Will be received">{inputValue || 0} BANX</StatsValues>
       <Button
+        onClick={onSubmit}
         disabled={!parseFloat(inputValue)}
         className={styles.button}
         type="secondary"

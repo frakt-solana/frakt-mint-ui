@@ -9,6 +9,7 @@
 .container {
   @extend .column;
   justify-content: center;
+  position: relative;
 }
 
 .content {
@@ -32,3 +33,4 @@
     height: 40px;
   }
 }
+

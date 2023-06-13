@@ -1,0 +1,129 @@
+.svgContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.svgImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  filter: blur(9px);
+}
+
+.svgImage.active {
+  opacity: 1;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 970px;
+  position: relative;
+  gap: 32px;
+}
+
+.card {
+  width: 328px;
+  height: 328px;
+  transition: transform 0.5s;
+  border-radius: 24px;
+  background-size: cover;
+}
+
+.visible {
+  transform: translateX(-300px);
+}
+
+.name {
+  font: var(--font-title-2);
+  font-size: 40px;
+  position: absolute;
+  right: 0;
+  width: 600px;
+
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  text-transform: uppercase;
+
+  &.active {
+    opacity: 1;
+    transform: translateY(-115px);
+  }
+}
+
+.rarityButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #ffd700;
+  border: 2px solid #000000;
+  border-radius: 16px;
+
+  position: absolute;
+  transform: translate(-25px, -15px);
+
+  height: 45px;
+  width: 163px;
+
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.rarityButtonActive {
+  opacity: 1;
+}
+
+.rarity {
+  font: var(--font-subtitle-2);
+  font-weight: 600px;
+}
+
+.attriburesWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.attribures {
+  right: 0;
+  position: absolute;
+  width: 600px;
+  display: flex;
+  align-items: start;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transform: translateY(92px);
+}
+
+.attributesActive {
+  opacity: 1;
+}
+
+.label {
+  color: var(--secondary-text);
+  font: var(--font-text-5);
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.value {
+  font: var(--font-text-1);
+  font-size: 20px;
+}
+
+.values {
+  width: 300px;
+}
+
+.values:nth-child(1) {
+  border-bottom: 1px solid var(--primary-border);
+}

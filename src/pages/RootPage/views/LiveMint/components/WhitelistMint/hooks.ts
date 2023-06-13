@@ -20,7 +20,7 @@ import {
   WL_TOKEN_MINT,
 } from '@frakt/constants'
 
-export const useWhitelostMint = () => {
+export const useWhitelistMint = () => {
   const umi = useUmi()
 
   const onSubmit = async () => {
