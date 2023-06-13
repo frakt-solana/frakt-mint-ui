@@ -28,7 +28,6 @@ const WhitelistMint: FC<{ onBack: () => void }> = ({ onBack }) => {
           onValueChange={onChangeInputValue}
         />
       </div>
-
       <StatsValues label="Mint price" value={MINT_PRICE} />
       <StatsValues label="Will be received">{inputValue || 0} BANX</StatsValues>
       <Button

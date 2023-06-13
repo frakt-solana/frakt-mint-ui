@@ -1,3 +1,4 @@
+import { throwLogsError } from '@frakt/utils'
 import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata'
 import { setComputeUnitLimit } from '@metaplex-foundation/mpl-essentials'
 import {
@@ -11,34 +12,16 @@ import {
   fetchCandyMachine,
   mintV2,
 } from '@metaplex-foundation/mpl-candy-machine'
+
 import { useUmi } from '@frakt/helpers/umi'
+import {
+  CANDY_MACHINE_PUBKEY,
+  RECEIVER_PUBKEY,
+  WL_TOKEN_MINT,
+} from '@frakt/constants'
 
-import { throwLogsError } from '@frakt/utils'
-
-import { useDevnetWalletNfts } from './useWalletNfts'
-import { useSelectedNFTs } from './../nftsState'
-import { CANDY_MACHINE_PUBKEY, RECEIVER_PUBKEY } from '@frakt/constants'
-
-export const useMintForNFTs = () => {
-  // const { nfts } = useWalletNfts()
-  const { devnetNfts: nfts } = useDevnetWalletNfts()
+export const useWhitelostMint = () => {
   const umi = useUmi()
-
-  const {
-    selection,
-    toggleLoanInSelection,
-    clearSelection,
-    findLoanInSelection,
-    setSelection,
-  } = useSelectedNFTs()
-
-  const onSelectNFTs = (): void => {
-    if (selection.length) {
-      clearSelection()
-    } else {
-      setSelection(nfts)
-    }
-  }
 
   const onSubmit = async () => {
     try {
@@ -49,7 +32,7 @@ export const useMintForNFTs = () => {
 
       const candyGuard = await fetchCandyGuard(umi, candyMachine.mintAuthority)
 
-      const nftMint = generateSigner(umi)
+      const nftSigner = generateSigner(umi)
 
       const tx = transactionBuilder()
         .add(setComputeUnitLimit(umi, { units: 600_000 }))
@@ -58,16 +41,16 @@ export const useMintForNFTs = () => {
             candyMachine: candyMachine.publicKey,
             collectionMint: candyMachine.collectionMint,
             collectionUpdateAuthority: candyMachine.authority,
-            nftMint: nftMint.publicKey,
+            nftMint: nftSigner,
             candyGuard: candyGuard?.publicKey,
-            group: some('OGs'),
+            group: some('Wls'),
             mintArgs: {
-              tokenGate: some({
-                mint: publicKey('FPMRWy8QY4Qi6myiDwTpsEkU2AHQ8KUfiqKVsDHkQQ6N'),
+              tokenBurn: some({
+                mint: publicKey(WL_TOKEN_MINT),
                 amount: 1,
               }),
               solPayment: some({
-                lamports: 0,
+                lamports: 10000000000,
                 destination: publicKey(RECEIVER_PUBKEY),
               }),
             },
@@ -91,16 +74,10 @@ export const useMintForNFTs = () => {
 
       //? Transaction completed successfully
     } catch (error) {
+      console.log(error)
       throwLogsError(error)
     }
   }
 
-  return {
-    nfts,
-    onSelectNFTs,
-    toggleLoanInSelection,
-    findLoanInSelection,
-    selection,
-    onSubmit,
-  }
+  return { onSubmit }
 }

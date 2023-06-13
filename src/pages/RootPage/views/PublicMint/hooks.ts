@@ -12,6 +12,8 @@ import {
   fetchCandyMachine,
   mintV2,
 } from '@metaplex-foundation/mpl-candy-machine'
+
+import { CANDY_MACHINE_PUBKEY, RECEIVER_PUBKEY } from '@frakt/constants'
 import { useUmi } from '@frakt/helpers/umi'
 
 export const usePublicMint = () => {
@@ -21,7 +23,7 @@ export const usePublicMint = () => {
     try {
       const candyMachine = await fetchCandyMachine(
         umi,
-        publicKey('4JNrYHaw6nKno1iLjWYR1pDqZboLTRVBfCdd89VAJPre'),
+        publicKey(CANDY_MACHINE_PUBKEY),
       )
 
       const candyGuard = await fetchCandyGuard(umi, candyMachine.mintAuthority)
@@ -41,9 +43,7 @@ export const usePublicMint = () => {
             mintArgs: {
               solPayment: some({
                 lamports: 10000000000,
-                destination: publicKey(
-                  'DhbQatLWDf7TqYvmiwMPK4HKBasrjS2KkUtBUHyoDaQP',
-                ),
+                destination: publicKey(RECEIVER_PUBKEY),
               }),
             },
             tokenStandard: TokenStandard.ProgrammableNonFungible,
