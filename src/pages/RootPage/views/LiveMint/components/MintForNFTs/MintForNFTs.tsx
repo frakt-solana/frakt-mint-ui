@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { useWallet } from '@solana/wallet-adapter-react'
 import classNames from 'classnames'
 
@@ -9,18 +8,15 @@ import { Button } from '@frakt/components/Button'
 import { Loader } from '@frakt/components/Loader'
 import { NFT } from '@frakt/api/nft'
 
+import { BulkMintButtons, BulkMintStats, ColumnValue } from './BulkComponents'
 import { useMintForNFTs } from './hooks'
 
 import styles from './MintForNFTs.module.scss'
-import { BulkMintButtons, BulkMintStats, ColumnValue } from './BulkComponents'
 
 const RECEIVED_NFT_IMAGE = 'https://pbs.twimg.com/media/FuaAl7sXoAIm_jk.png'
 
 const MintForNFTs = () => {
   const { connected } = useWallet()
-
-  const [checked, setChecked] = useState<boolean>(false)
-  const isBulkMint = !!checked
 
   const {
     nfts,
@@ -30,6 +26,11 @@ const MintForNFTs = () => {
     selection,
     onSubmit,
     clearSelection,
+    isBulkMint,
+    setIsBulkMint,
+    isLoading,
+    isStartAnimation,
+    defaultImage,
   } = useMintForNFTs()
 
   const handeSelectNFt = (nft: NFT) => {
@@ -43,44 +44,25 @@ const MintForNFTs = () => {
 
   const handleChecked = () => {
     clearSelection()
-    setChecked(!checked)
+    setIsBulkMint(!isBulkMint)
   }
-
-  const defaultImage = selection?.length
-    ? selection[0]?.imageUrl
-    : nfts[0]?.imageUrl
-
-  const [showReveal, setShowReveal] = useState<boolean>(false)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-
-  useEffect(() => {
-    if (showReveal) {
-      const timer = setTimeout(() => {
-        setIsLoading(false)
-      }, 3000)
-
-      return () => {
-        clearTimeout(timer)
-      }
-    }
-  }, [showReveal])
 
   return (
     <>
-      {isLoading && showReveal && <LoaderAnimation />}
-      {showReveal && !isLoading && (
+      {isLoading && <LoaderAnimation />}
+      {!isLoading && isStartAnimation && (
         <OpenAnimaion
           selectedNftImage={selection[0]?.imageUrl}
-          isStartAnimation={showReveal}
+          isStartAnimation={isStartAnimation}
           receivedNftImage={RECEIVED_NFT_IMAGE}
         />
       )}
-      {!showReveal && (
+      {!isStartAnimation && !isLoading && (
         <>
           <h2 className={styles.heading}>Tap on selected NFT to reveal</h2>
           <Checkbox
             onChange={handleChecked}
-            checked={checked}
+            checked={isBulkMint}
             label="Disable animation to bulk mint"
           />
           <div className={styles.wrapper}>
@@ -90,7 +72,7 @@ const MintForNFTs = () => {
                   <img src={defaultImage} />
                 </div>
                 <Button
-                  onClick={() => setShowReveal(true)}
+                  onClick={onSubmit}
                   className={styles.revealButton}
                   type="secondary"
                 >

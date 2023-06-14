@@ -9,12 +9,16 @@ import Svg3 from './svg3.svg'
 import Svg4 from './svg4.svg'
 
 const LoaderAnimation = () => {
-  const [currentSVG, setCurrentSVG] = useState(0)
+  const [currentSVGIndex, setCurrentSVGIndex] = useState(0)
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSVG((prevSVG) => (prevSVG + 1) % 4)
-    }, 1000)
+    const startAnimation = () => {
+      setCurrentSVGIndex((prevIndex) => (prevIndex + 1) % 4)
+    }
+
+    startAnimation()
+
+    const interval = setInterval(startAnimation, 1000)
 
     return () => {
       clearInterval(interval)
@@ -29,7 +33,7 @@ const LoaderAnimation = () => {
         <img
           key={index}
           className={classNames(styles.svgImage, {
-            [styles.active]: currentSVG === index,
+            [styles.active]: currentSVGIndex === index,
           })}
           src={svg as any}
           alt={`SVG ${index + 1}`}

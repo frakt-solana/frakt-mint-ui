@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata'
 import { setComputeUnitLimit } from '@metaplex-foundation/mpl-essentials'
 import {
@@ -20,9 +21,13 @@ import { useSelectedNFTs } from './../nftsState'
 import { CANDY_MACHINE_PUBKEY, RECEIVER_PUBKEY } from '@frakt/constants'
 
 export const useMintForNFTs = () => {
-  const { nfts } = useWalletNfts()
-  // const { devnetNfts: nfts } = useDevnetWalletNfts()
+  // const { nfts } = useWalletNfts()
+  const { nfts } = useDevnetWalletNfts()
   const umi = useUmi()
+
+  const [isBulkMint, setIsBulkMint] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isStartAnimation, setIsStartAnimation] = useState<boolean>(false)
 
   const {
     selection,
@@ -31,6 +36,16 @@ export const useMintForNFTs = () => {
     findLoanInSelection,
     setSelection,
   } = useSelectedNFTs()
+
+  useEffect(() => {
+    if (!selection?.length && nfts?.length && !isBulkMint) {
+      toggleLoanInSelection(nfts[0])
+    }
+  }, [nfts, isBulkMint, selection])
+
+  const defaultImage = selection?.length
+    ? selection[0]?.imageUrl
+    : nfts[0]?.imageUrl
 
   const onSelectNFTs = (): void => {
     if (selection.length) {
@@ -42,6 +57,8 @@ export const useMintForNFTs = () => {
 
   const onSubmit = async () => {
     try {
+      setIsLoading(true)
+
       const candyMachine = await fetchCandyMachine(
         umi,
         publicKey(CANDY_MACHINE_PUBKEY),
@@ -75,23 +92,35 @@ export const useMintForNFTs = () => {
           }),
         )
 
-      const { signature, result } = await tx.sendAndConfirm(umi, {
+      const { result } = await tx.sendAndConfirm(umi, {
         confirm: { commitment: 'finalized' },
         send: {
           skipPreflight: true,
         },
       })
 
-      console.log(signature, 'signature')
       console.log(result, `TRANSACTION RESULT: ${result}`)
 
       if (result.value.err !== null) {
-        //? Transaction failed
+        return
       }
 
-      //? Transaction completed successfully
+      setIsStartAnimation(true)
     } catch (error) {
       throwLogsError(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const getMetadataByCertainNft = async () => {
+    // TODO: Make request to metadata
+    const result = await Promise.resolve(true)
+
+    // TODO: parse response to normal NFT interface
+
+    return {
+      result,
     }
   }
 
@@ -103,5 +132,10 @@ export const useMintForNFTs = () => {
     findLoanInSelection,
     selection,
     onSubmit,
+    isBulkMint,
+    setIsBulkMint,
+    isLoading,
+    isStartAnimation,
+    defaultImage,
   }
 }

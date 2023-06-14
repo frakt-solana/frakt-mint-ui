@@ -1,46 +1,32 @@
 import { useEffect, useState } from 'react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
 import { fetchWalletBorrowNfts } from '@frakt/api/nft'
 import { getNFTsByOwner } from '@frakt/utils/nfts'
 
-const FETCH_LIMIT = 15
+const FETCH_LIMIT = 1000
 
 export const useWalletNfts = () => {
   const wallet = useWallet()
 
-  const fetchData = async ({ pageParam }: { pageParam: number }) => {
-    const data = await fetchWalletBorrowNfts({
-      publicKey: wallet.publicKey,
-      limit: FETCH_LIMIT,
-      offset: pageParam * FETCH_LIMIT,
-    })
-
-    return { pageParam, data }
-  }
-
-  const { data, hasNextPage, fetchNextPage, isLoading, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ['walletNfts', wallet?.publicKey?.toBase58()],
-      queryFn: ({ pageParam = 0 }) => fetchData({ pageParam }),
-      getPreviousPageParam: (firstPage) => {
-        return firstPage.pageParam - 1 ?? undefined
-      },
-      getNextPageParam: (lastPage) => {
-        return lastPage.data?.length ? lastPage.pageParam + 1 : undefined
-      },
+  const { data, isLoading } = useQuery(
+    ['walletNfts', wallet?.publicKey?.toBase58()],
+    () =>
+      fetchWalletBorrowNfts({
+        publicKey: wallet.publicKey,
+        limit: FETCH_LIMIT,
+      }),
+    {
       staleTime: 5 * 60 * 1000,
       refetchOnWindowFocus: false,
       enabled: wallet.connected,
-    })
+    },
+  )
 
   return {
-    nfts: data?.pages?.map((page) => page.data).flat() || [],
-    initialLoading: isLoading,
-    fetchNextPage,
-    isFetchingNextPage,
-    hasNextPage,
+    nfts: data || [],
+    isLoading,
   }
 }
 
@@ -59,7 +45,19 @@ export const useDevnetWalletNfts = () => {
     })()
   }, [connection, publicKey])
 
+  const nfts = parseDevnetNfts(devnetNfts)
+
   return {
-    devnetNfts: devnetNfts || [],
+    nfts: nfts || [],
   }
+}
+
+const parseDevnetNfts = (devnetNfts) => {
+  return devnetNfts.map((nft) => {
+    return {
+      mint: nft?.mint,
+      name: nft?.externalMetadata?.name,
+      imageUrl: nft?.externalMetadata?.image,
+    }
+  })
 }

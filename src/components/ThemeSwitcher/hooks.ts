@@ -1,14 +1,20 @@
 import { create } from 'zustand'
 
-type ThemeType = 'light' | 'dark'
+export type ThemeType = 'light' | 'dark'
 
 interface ThemeState {
   themeType: ThemeType
   toggleThemeType: () => void
+  set: (theme: ThemeType) => void
 }
 
 export const useThemeType = create<ThemeState>((set) => ({
-  themeType: 'light',
+  themeType: 'dark',
+  set: (theme) =>
+    set((state) => ({
+      ...state,
+      themeType: theme,
+    })),
   toggleThemeType: () =>
     set((state) => ({
       ...state,
