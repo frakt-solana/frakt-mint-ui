@@ -15,13 +15,13 @@ import { useUmi } from '@frakt/helpers/umi'
 
 import { throwLogsError } from '@frakt/utils'
 
-import { useDevnetWalletNfts } from './useWalletNfts'
+import { useDevnetWalletNfts, useWalletNfts } from './useWalletNfts'
 import { useSelectedNFTs } from './../nftsState'
 import { CANDY_MACHINE_PUBKEY, RECEIVER_PUBKEY } from '@frakt/constants'
 
 export const useMintForNFTs = () => {
-  // const { nfts } = useWalletNfts()
-  const { devnetNfts: nfts } = useDevnetWalletNfts()
+  const { nfts } = useWalletNfts()
+  // const { devnetNfts: nfts } = useDevnetWalletNfts()
   const umi = useUmi()
 
   const {
@@ -99,6 +99,7 @@ export const useMintForNFTs = () => {
     nfts,
     onSelectNFTs,
     toggleLoanInSelection,
+    clearSelection,
     findLoanInSelection,
     selection,
     onSubmit,

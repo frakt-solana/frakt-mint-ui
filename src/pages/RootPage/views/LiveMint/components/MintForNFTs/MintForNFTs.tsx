@@ -1,19 +1,17 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useWallet } from '@solana/wallet-adapter-react'
 import classNames from 'classnames'
 
-import { GoBackButton } from '@frakt/components/GoBackButton'
-import { StatsValues } from '@frakt/components/StatsValues'
+import Checkbox from '@frakt/components/Checkbox/Checkbox'
 import { Button } from '@frakt/components/Button'
 import { Loader } from '@frakt/components/Loader'
-import { MINT_PRICE } from '@frakt/constants'
+import { NFT } from '@frakt/api/nft'
 
 import { useMintForNFTs } from './hooks'
 
 import styles from './MintForNFTs.module.scss'
-import { NFT } from '@frakt/api/nft'
 
-const MintForNFTs: FC<{ onBack: () => void }> = ({ onBack }) => {
+const MintForNFTs = () => {
   const { connected } = useWallet()
   const {
     nfts,
@@ -22,52 +20,114 @@ const MintForNFTs: FC<{ onBack: () => void }> = ({ onBack }) => {
     onSelectNFTs,
     selection,
     onSubmit,
+    clearSelection,
   } = useMintForNFTs()
 
+  const [checked, setChecked] = useState<boolean>(false)
+
+  const isBulkMint = !!checked
+
+  const handeSelectNFt = (nft: NFT) => {
+    if (!isBulkMint) {
+      clearSelection()
+      toggleLoanInSelection(nft)
+    } else {
+      toggleLoanInSelection(nft)
+    }
+  }
+
+  const handleChecked = () => {
+    clearSelection()
+    setChecked(!checked)
+  }
+
+  const defaultImage = selection?.length
+    ? selection[0]?.imageUrl
+    : nfts[0]?.imageUrl
+
   return (
-    <div className={styles.container}>
-      <GoBackButton onClick={onBack} />
-      <h4 className={styles.title}>Mint with frakts or gnomies</h4>
-      <div
-        className={classNames(styles.nftList, {
-          [styles.emptyList]: !nfts.length,
-        })}
-      >
-        {!nfts.length && connected && <Loader />}
-        {nfts.map((nft) => (
-          <NftCard
-            nft={nft}
-            selected={!!findLoanInSelection(nft.mint)}
-            onClick={() => toggleLoanInSelection(nft)}
+    <>
+      <h2 className={styles.heading}>Tap on selected NFT to reveal</h2>
+      <Checkbox
+        onChange={handleChecked}
+        checked={checked}
+        label="Disable animation to bulk mint"
+      />
+      <div className={styles.wrapper}>
+        {!isBulkMint && (
+          <div className={styles.cardWrapper}>
+            <div className={styles.card}>
+              <img src={defaultImage} />
+            </div>
+            <Button className={styles.revealButton} type="secondary">
+              Reveal
+            </Button>
+          </div>
+        )}
+
+        <div className={styles.container}>
+          <div
+            className={classNames(styles.nftList, {
+              [styles.emptyList]: !nfts.length,
+              [styles.isBulkMint]: isBulkMint,
+            })}
+          >
+            {!nfts.length && connected && <Loader />}
+            {nfts.map((nft) => (
+              <NftCard
+                nft={nft}
+                selected={!!findLoanInSelection(nft.mint)}
+                onClick={() => handeSelectNFt(nft)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {!isBulkMint && (
+        <ColumnValue label="Banx minted" value={`${0}/${nfts?.length}`} />
+      )}
+
+      {isBulkMint && (
+        <div className={styles.stats}>
+          <ColumnValue
+            label="Nfts selected"
+            value={`${selection?.length}/${nfts?.length}`}
           />
-        ))}
-      </div>
-      <StatsValues label="Mint price" value={MINT_PRICE} />
-      <StatsValues label="Will be received">
-        {selection.length || 0} BANX
-      </StatsValues>
-      <div className={styles.buttonWrapper}>
-        <Button
-          onClick={onSelectNFTs}
-          disabled={!nfts.length}
-          className={styles.button}
-        >
-          {selection.length ? 'Deselect all' : 'Select all'}
-        </Button>
-        <Button
-          onClick={onSubmit}
-          className={styles.button}
-          type="primary"
-          disabled={!selection.length}
-        >
-          Mint
-        </Button>
-      </div>
-    </div>
+          <ColumnValue label="Banx minted" value={`${0}/${nfts?.length}`} />
+        </div>
+      )}
+      {isBulkMint && (
+        <div className={styles.buttonWrapper}>
+          <Button
+            onClick={onSelectNFTs}
+            disabled={!nfts.length}
+            className={styles.button}
+          >
+            {selection.length ? 'Deselect all' : 'Select all'}
+          </Button>
+          <Button
+            onClick={onSubmit}
+            className={styles.button}
+            type="primary"
+            disabled={!selection.length}
+          >
+            Mint
+          </Button>
+        </div>
+      )}
+    </>
   )
 }
 
 export default MintForNFTs
+
+const ColumnValue = ({ label, value }) => (
+  <div className={styles.columnValue}>
+    <span className={styles.value}>{value}</span>
+    <span className={styles.label}>{label}</span>
+  </div>
+)
 
 const NftCard = ({
   nft,
