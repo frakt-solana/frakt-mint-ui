@@ -1,0 +1,11 @@
+.card {
+  width: 328px;
+  height: 328px;
+  transition: transform 0.5s;
+  border-radius: 24px;
+  background-size: cover;
+}
+
+.card.animate {
+  transform: translateX(-300px);
+}

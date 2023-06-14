@@ -12,23 +12,25 @@ import LoaderAnimation from '../../components/LoaderAnimation'
 import OpenAnimaion, {
   CardAnimation,
 } from '../../components/OpenAnimaion/OpenAnimaion'
+import Card from '../../components/Card/Card'
 
 const PublicMint: FC = () => {
   const { onSubmit } = usePublicMint()
 
   return (
     <div className={styles.container}>
-      <Heading />
+      {/* <Heading />
       <div className={styles.content}>
         <h4 className={styles.totalMinted}>5,000/20,000</h4>
         <StatsValues label="Mint price" value={MINT_PRICE} />
         <Button onClick={onSubmit} type="secondary" className={styles.button}>
           Mint
         </Button>
-      </div>
-      {/* <OpenAnimaion />
-      <CardAnimation />
-      <LoaderAnimation /> */}
+      </div> */}
+
+      {/* <OpenAnimaion /> */}
+      {/* <LoaderAnimation /> */}
+      {/* <CardAnimation /> */}
     </div>
   )
 }

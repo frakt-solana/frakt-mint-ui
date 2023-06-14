@@ -2,67 +2,88 @@ import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
 import Svg1 from './svg1.svg'
-import Svg2 from './svg2.svg'
-import Svg3 from './svg3.svg'
 
 import styles from './OpenAnimaion.module.scss'
+import Card from '../Card/Card'
 
 const OpenAnimaion = () => {
-  const [scale, setScale] = useState(1)
-  const [svgIndex, setSvgIndex] = useState(0)
-
-  useEffect(() => {
-    const svgInterval = setInterval(() => {
-      setSvgIndex((prevIndex) => (prevIndex + 1) % 3)
-    }, 3000)
-
-    return () => clearInterval(svgInterval)
-  }, [])
+  const [scale, setScale] = useState(1.2)
+  const [isAnimationEnd, setIsAnimationEnd] = useState(false)
 
   useEffect(() => {
     const animationTimeout1 = setTimeout(() => {
-      setScale(1.6)
-    }, 2000)
+      setScale(1.8)
+    }, 1000)
 
     const animationTimeout2 = setTimeout(() => {
       setScale(1)
-    }, 4000)
+    }, 3000)
+
+    const animationTimeout3 = setTimeout(() => {
+      setIsAnimationEnd(true)
+    }, 5000)
 
     return () => {
       clearTimeout(animationTimeout1)
       clearTimeout(animationTimeout2)
+      clearTimeout(animationTimeout3)
     }
   }, [])
 
-  const svgFiles = [Svg1, Svg2, Svg3]
-  const currentSvg = svgFiles[svgIndex]
-
   return (
-    <>
-      <div className={styles.svgContainer}>
-        <img
-          style={{
-            transform: `scale(${scale})`,
-            transition: 'transform 2s ease-in-out, opacity 2s ease-in-out',
-          }}
-          className={classNames(styles.svgImage, {
-            [styles.active]: scale,
-          })}
-          src={currentSvg as any}
-          alt={`SVG ${svgIndex + 1}`}
-        />
-      </div>
-    </>
+    <div className={styles.container}>
+      <img
+        style={{
+          opacity: isAnimationEnd ? '0' : '1',
+          transform: `scale(${scale})`,
+          transition: 'transform 2s ease-in-out, opacity 2s ease-in-out',
+        }}
+        className={classNames(styles.svgImage, {
+          [styles.active]: scale,
+        })}
+        src={Svg1 as any}
+      />
+
+      <Card image={'https://pbs.twimg.com/media/FuaAl7sXoAIm_jk.png'} />
+
+      {isAnimationEnd && <CardAnimation />}
+    </div>
   )
 }
 
 export default OpenAnimaion
 
 export const CardAnimation: React.FC = () => {
+  const { isVisible, animationCompleted, showName, handleAnimationEnd } =
+    useCardAnimation()
+
+  return (
+    <div className={styles.container}>
+      <Card
+        image={'https://pbs.twimg.com/media/FuaAl7sXoAIm_jk.png'}
+        onAnimationEnd={handleAnimationEnd}
+        isAnimationStarted={isVisible}
+      />
+
+      {animationCompleted && (
+        <div className={classNames(styles.name, { [styles.active]: showName })}>
+          You minted Banx #2345!
+        </div>
+      )}
+      {animationCompleted && (
+        <RaritiButton className={showName && styles.rarityButtonActive} />
+      )}
+      {animationCompleted && (
+        <Attributes className={showName && styles.attributesActive} />
+      )}
+    </div>
+  )
+}
+
+export const useCardAnimation = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const [animationCompleted, setAnimationCompleted] = useState<boolean>(false)
-
-  const [showName, setShowName] = useState(false)
+  const [showName, setShowName] = useState<boolean>(false)
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -93,28 +114,12 @@ export const CardAnimation: React.FC = () => {
     }
   }, [isVisible])
 
-  return (
-    <div className={styles.container}>
-      <div
-        style={{
-          backgroundImage: `url('https://pbs.twimg.com/media/FuaAl7sXoAIm_jk.png')`,
-        }}
-        className={classNames(styles.card, { [styles.visible]: isVisible })}
-        onAnimationEnd={handleAnimationEnd}
-      />
-      {animationCompleted && (
-        <div className={classNames(styles.name, { [styles.active]: showName })}>
-          You minted Banx #2345!
-        </div>
-      )}
-      {animationCompleted && (
-        <RaritiButton className={showName && styles.rarityButtonActive} />
-      )}
-      {animationCompleted && (
-        <Attributes className={showName && styles.attributesActive} />
-      )}
-    </div>
-  )
+  return {
+    isVisible,
+    animationCompleted,
+    showName,
+    handleAnimationEnd,
+  }
 }
 
 const RaritiButton = ({ className }) => (
