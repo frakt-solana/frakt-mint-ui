@@ -5,7 +5,8 @@
   width: 100%;
   height: 100%;
   opacity: 0;
-  filter: blur(9px);
+  filter: blur(12px);
+  transition: transform 1s ease-in-out, opacity 1s ease-in-out;
 }
 
 .svgImage.active {
@@ -56,8 +57,7 @@
   opacity: 0;
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
-
-.rarityButtonActive {
+.rarityButton.active {
   opacity: 1;
 }
 
@@ -72,7 +72,7 @@
   gap: 16px;
 }
 
-.attribures {
+.attributes {
   right: 0;
   position: absolute;
   width: 600px;
@@ -81,9 +81,17 @@
   opacity: 0;
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
   transform: translateY(92px);
-}
 
-.attributesActive {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0;
+}
+.attributes > div {
+  padding: 8px 0;
+}
+.attributes.active {
   opacity: 1;
 }
 
@@ -99,10 +107,21 @@
   font-size: 20px;
 }
 
-.values {
-  width: 300px;
-}
-
-.values:nth-child(1) {
+.values1 {
+  grid-area: 1 / 1 / 2 / 2;
   border-bottom: 1px solid var(--primary-border);
+}
+.values2 {
+  grid-area: 2 / 1 / 3 / 2;
+}
+.values3 {
+  grid-area: 1 / 2 / 2 / 3;
+  border-bottom: 1px solid var(--primary-border);
+  border-left: 1px solid var(--primary-border);
+  padding-left: 24px !important;
+}
+.values4 {
+  grid-area: 2 / 2 / 3 / 3;
+  border-left: 1px solid var(--primary-border);
+  padding-left: 24px !important;
 }
