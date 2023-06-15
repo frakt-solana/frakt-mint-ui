@@ -74,6 +74,7 @@ const MintForNFTs = () => {
                 <Button
                   onClick={onSubmit}
                   className={styles.revealButton}
+                  disabled={!selection?.length}
                   type="secondary"
                 >
                   Reveal
