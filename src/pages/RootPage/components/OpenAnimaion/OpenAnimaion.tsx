@@ -1,8 +1,10 @@
+import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
 import { useCardAnimation, useOpenAnimation } from './hooks'
 import Card from '../Card/Card'
 import Svg1 from './svg1.svg'
+import starIcon from './star.svg'
 
 import styles from './OpenAnimaion.module.scss'
 
@@ -45,7 +47,9 @@ const OpenAnimaion = ({
             isVisible={isCardAnimationEnded}
             name="You minted Banx #2345!"
           />
-          <RaritiButton isVisible={isCardAnimationEnded} rarity="Legendary" />
+          <div className={styles.rarityButtonWrapper}>
+            <RaritiButton isVisible={isCardAnimationEnded} rarity="Legendary" />
+          </div>
           <Attributes isVisible={isCardAnimationEnded} />
         </>
       )}
@@ -72,13 +76,43 @@ const NftName = ({ isVisible, name }) => (
   </div>
 )
 
-const RaritiButton = ({ isVisible, rarity }) => (
-  <div
-    className={classNames(styles.rarityButton, { [styles.active]: isVisible })}
-  >
-    <p className={styles.rarity}>{rarity}</p>
-  </div>
-)
+const RaritiButton = ({ isVisible, rarity }) => {
+  const [animationStep, setAnimationStep] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setAnimationStep((prevStep) => (prevStep + 1) % 3)
+    }, 1000)
+
+    return () => {
+      clearInterval(timer)
+    }
+  }, [])
+
+  const starIcons = [1, 2, 3, 4]
+
+  return (
+    <div
+      className={classNames(styles.rarityButton, {
+        [styles.active]: isVisible,
+      })}
+    >
+      {starIcons.map((index) => (
+        <img
+          key={index}
+          src={starIcon as any}
+          className={classNames(styles[`starIcon${index}`], {
+            [styles.visible]: isVisible,
+            [styles.hidden1]: animationStep === 0,
+            [styles.hidden2]: animationStep === 1,
+            [styles.hidden3]: animationStep === 2,
+          })}
+        />
+      ))}
+      <p className={styles.rarity}>{rarity}</p>
+    </div>
+  )
+}
 
 const Attributes = ({ isVisible }) => {
   const attributes = [

@@ -39,6 +39,10 @@
   }
 }
 
+.rarityButtonWrapper {
+  position: absolute;
+  transform: translate(-25px, -15px);
+}
 .rarityButton {
   display: flex;
   align-items: center;
@@ -48,20 +52,20 @@
   border: 2px solid #000000;
   border-radius: 16px;
 
-  position: absolute;
-  transform: translate(-25px, -15px);
-
   height: 45px;
   width: 163px;
 
   opacity: 0;
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+
+  position: relative;
 }
 .rarityButton.active {
   opacity: 1;
 }
 
 .rarity {
+  color: #000000;
   font: var(--font-subtitle-2);
   font-weight: 600px;
 }
@@ -124,4 +128,60 @@
   grid-area: 2 / 2 / 3 / 3;
   border-left: 1px solid var(--primary-border);
   padding-left: 24px !important;
+}
+
+.starIcon1 {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  transition: opacity 0.5s ease-out;
+  opacity: 1;
+
+  &.hidden1 {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.starIcon2 {
+  position: absolute;
+  bottom: -12px;
+  left: 27px;
+  transition: opacity 0.5s ease-out;
+  opacity: 1;
+
+  &.hidden2 {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.starIcon3 {
+  position: absolute;
+  top: -12px;
+  right: 45px;
+  transition: opacity 0.5s ease-out;
+  opacity: 1;
+
+  &.hidden1 {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.starIcon4 {
+  position: absolute;
+  bottom: -8px;
+  right: -8px;
+  transition: opacity 0.5s ease-out;
+  opacity: 1;
+
+  &.hidden3 {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.visible {
+  opacity: 1;
 }
