@@ -17,6 +17,16 @@
   width: 100%;
   max-width: 690px;
   margin-top: 36px;
+
+  @media (max-width: 960px) {
+    margin-top: 24px;
+    flex-direction: column-reverse;
+  }
+
+  @media (max-width: 550px) {
+    margin-top: 16px;
+    gap: 16px;
+  }
 }
 
 .cardWrapper {
@@ -29,17 +39,31 @@
 .card img {
   height: 225px;
   width: 225px;
+
+  @media (max-width: 960px) {
+    height: 144px;
+    width: 144px;
+  }
 }
 
 .revealButton {
   height: 48px;
   width: 100%;
+
+  @media (max-width: 960px) {
+    height: 40px;
+  }
 }
 
 .card {
   display: flex;
   height: 225px;
   width: 225px;
+
+  @media (max-width: 960px) {
+    height: 144px;
+    width: 144px;
+  }
 }
 
 .heading {
@@ -49,6 +73,14 @@
   margin-bottom: 16px;
   text-align: center;
   text-transform: uppercase;
+
+  @media (max-width: 960px) {
+    font-size: 32px;
+  }
+
+  @media (max-width: 550px) {
+    font-size: 16px;
+  }
 }
 
 .title {
@@ -64,10 +96,34 @@
   align-items: stretch;
   overflow: auto;
   height: 259px;
+
+  @media (max-width: 960px) {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    height: 72px;
+
+    &::-webkit-scrollbar {
+      height: 0;
+    }
+  }
 }
 
 .isBulkMint {
   height: 212px;
+
+  @media (max-width: 960px) {
+    height: 160px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+    grid-template-rows: min-content;
+    align-items: stretch;
+    overflow: auto;
+  }
+
+  @media (max-width: 550px) {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  }
 }
 
 .emptyList {
@@ -79,6 +135,16 @@
 .selectedCollectionOverlay {
   height: 96px;
   width: 96px;
+
+  @media (max-width: 960px) {
+    height: 72px;
+    width: 72px;
+  }
+
+  @media (max-width: 960px) {
+    width: 60px;
+    height: 60px;
+  }
 }
 
 .nftCard {
@@ -106,6 +172,8 @@
   display: flex;
   align-items: center;
   gap: 24px;
+  max-width: 440px;
+  width: 100%;
 
   @media (max-width: 500px) {
     gap: 16px;
@@ -129,16 +197,24 @@
 .value {
   font: var(--font-subtitle);
   font-size: 48px;
+
+  @media (max-width: 960px) {
+    font-size: 32px;
+  }
 }
 
 .label {
   font: var(--font-text-5);
   text-transform: uppercase;
+
+  @media (max-width: 960px) {
+    font-size: 12px;
+  }
 }
 
 .button {
   height: 48px;
-  width: 208px;
+  width: 100%;
 
   @media (max-width: 960px) {
     height: 40px;

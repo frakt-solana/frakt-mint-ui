@@ -18,16 +18,5 @@ export const ThemeSwitcher: FC = () => {
 
   const checked = themeType === 'dark'
 
-  return (
-    <Switch
-      width={64}
-      className={classNames(styles.switch, checked && styles.checkedValue)}
-      onChange={toggleThemeType}
-      checked={checked}
-      offColor={'#fff'}
-      offHandleColor={'#fff'}
-      uncheckedHandleIcon={<Sun />}
-      checkedHandleIcon={<Moon />}
-    />
-  )
+  return <></>
 }

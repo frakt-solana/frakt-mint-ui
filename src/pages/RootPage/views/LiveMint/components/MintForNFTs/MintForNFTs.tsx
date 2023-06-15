@@ -49,12 +49,12 @@ const MintForNFTs = () => {
 
   return (
     <>
-      {isLoading && <LoaderAnimation />}
-      {!isLoading && isStartAnimation && (
+      {(isStartAnimation || isLoading) && (
         <OpenAnimaion
           selectedNftImage={selection[0]?.imageUrl}
           isStartAnimation={isStartAnimation}
           receivedNftImage={RECEIVED_NFT_IMAGE}
+          isLoading={isLoading}
         />
       )}
       {!isStartAnimation && !isLoading && (

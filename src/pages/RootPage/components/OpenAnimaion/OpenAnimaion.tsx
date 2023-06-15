@@ -7,20 +7,23 @@ import Svg1 from './svg1.svg'
 import starIcon from './star.svg'
 
 import styles from './OpenAnimaion.module.scss'
+import LoaderAnimation from '../LoaderAnimation'
 
 interface OpenAnimaionProps {
   isStartAnimation: boolean
   selectedNftImage: string
   receivedNftImage: string
+  isLoading: boolean
 }
 
 const OpenAnimaion = ({
   isStartAnimation,
   selectedNftImage,
   receivedNftImage,
+  isLoading,
 }: OpenAnimaionProps) => {
   const { scale, isAnimationEnd, nftImage } = useOpenAnimation({
-    isStartAnimation,
+    isStartAnimation: !isLoading && isStartAnimation,
     selectedNftImage,
     receivedNftImage,
   })
@@ -34,13 +37,19 @@ const OpenAnimaion = ({
 
   return (
     <div className={styles.container}>
-      <Card
-        image={nftImage}
-        onAnimationEnd={handleAnimationEnd}
-        isAnimationStarted={isStartCardAnimation}
-        isStartFlip={isStartAnimation}
-      />
-      <ExplosionSvg scale={scale} isAnimationEnd={isAnimationEnd} />
+      <div>
+        {isLoading && <LoaderAnimation />}
+        <Card
+          image={nftImage}
+          onAnimationEnd={handleAnimationEnd}
+          isAnimationStarted={isStartCardAnimation}
+          isStartFlip={!isLoading && isStartAnimation}
+        />
+      </div>
+
+      {!isLoading && (
+        <ExplosionSvg scale={scale} isAnimationEnd={isAnimationEnd} />
+      )}
       {animationCompleted && (
         <>
           <NftName
