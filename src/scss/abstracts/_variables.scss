@@ -1,0 +1,205 @@
+:root {
+  --header-height: 64px;
+
+  @media screen and (max-width: 1024px) {
+    --header-height: 56px;
+  }
+}
+
+:root[data-theme='light'] {
+  --black-color: #000000;
+  --blue-color: #007aff;
+  --red-color: #ff1f47;
+  --red-color-2: var(--black-color);
+  --red-error-color: #ff1f47;
+  --light-red-color: #ffdee433;
+  --light-red-color-hover: #ffdee4;
+  --orange-color: #ff701f;
+  --yellow-color: #ffe91f;
+  --light-green-hover: #8cea15;
+  --light-green-color: #9cff1f;
+  --light-green-color-1: #f5ffe9;
+  --light-green-color-2: rgba(245, 255, 233, 0.2);
+  --light-green-color-3: #fcfffb;
+
+  --gray-table-hover: #f4f4f4;
+
+  --white-color: #ffffff;
+
+  --gray-color-1: rgba(0, 0, 0, 0.64);
+  --gray-color-2: #aeaeb2;
+  --gray-color-3: rgba(174, 174, 178, 0.9);
+  --gray-color-4: #f2f2f7;
+
+  --primary-background: var(--white-color);
+  --primary-text: var(--black-color);
+  --primary-border: var(--gray-color-2);
+  --primary-border-2: var(--gray-color-2);
+  --primary-icon: var(--black-color);
+
+  --secondary-background: var(--gray-color-4);
+  --secondary-border: var(--black-color);
+  --secondary-text: var(--gray-color-2);
+
+  --connect-btn-text: var(--black-color);
+  --button-text: var(--black-color);
+
+  --blur-background: rgba(255, 255, 255, 0.64);
+
+  --border-white-1: 1px solid #ffffff;
+  --border-black-1: 1px solid #000000;
+  --border-light-green-1: 1px solid #9cff1f;
+  --border-slider-grey: 1px solid #aeaeb2;
+  --border-red: 1px solid var(--red-error-color);
+
+  --transition-1: 0.2s ease-in;
+
+  --font-family-syne: 'Syne', sans-serif;
+  --font-family-chakra: 'Chakra Petch', sans-serif;
+
+  --font-btn-middle: 500 14px var(--font-family-syne);
+
+  --font-subtitle: 700 32px var(--font-family-chakra);
+  --font-subtitle-2: 700 24px var(--font-family-syne);
+
+  --font-h3: 600 56px var(--font-family-oxanium);
+  --font-h4: 600 40px var(--font-family-oxanium);
+  --font-h6: 700 28px var(--font-family-syne);
+
+  --font-body-small: 500 16px var(--font-family-syne);
+  --font-body-large: 400 24px var(--font-family-syne);
+
+  --font-link: 700 18px var(--font-family-syne);
+
+  --font-title-2: 800 48px var(--font-family-syne);
+
+  --font-text-1: 400 32px var(--font-family-chakra);
+  --font-text-2: 700 24px var(--font-family-syne);
+  --font-text-3: 400 18px var(--font-family-syne);
+  --font-text-4: 400 18px var(--font-family-chakra);
+  --font-text-5: 700 14px var(--font-family-syne);
+  --font-text-6: 700 12px var(--font-family-syne);
+  --font-text-7: 700 10px var(--font-family-syne);
+  --font-text-8: 400 16px var(--font-family-chakra);
+  --font-text-9: 500 12px var(--font-family-chakra);
+
+  @media screen and (max-width: 1024px) {
+    --font-title-2: 800 32px var(--font-family-syne);
+    --font-text-1: 400 24px var(--font-family-chakra);
+    --font-text-2: 700 20px var(--font-family-syne);
+
+    --font-text-6: 700 10px var(--font-family-syne);
+
+    --font-text-8: 400 14px var(--font-family-chakra);
+
+    --font-h6: 700 22px var(--font-family-syne);
+  }
+
+  @media screen and (max-width: 960px) {
+    --font-title-2: 800 24px var(--font-family-syne);
+
+    --font-text-1: 400 16px var(--font-family-chakra);
+    --font-text-2: 700 16px var(--font-family-syne);
+
+    --font-h6: 700 18px var(--font-family-syne);
+  }
+}
+
+:root[data-theme='dark'] {
+  --black-color: #ffffff;
+
+  --primary-background: #19191c;
+  --primary-text: #ffffff;
+  --primary-border: #636366;
+  --primary-border-2: var(--black-color);
+  --primary-icon: #ffffff;
+
+  --secondary-background: #141415;
+  --secondary-border: #f3f3f3;
+  --secondary-text: #636366;
+
+  --connect-btn-text: #a4ff31;
+  --button-text: #000000;
+
+  --blue-color: #0a84ff;
+  --red-color: #ff1f47;
+  --red-color-2: #ff3257;
+  --red-error-color: #ff1f47;
+  --light-red-color: #4a1e2633;
+  --light-red-color-hover: #4a1e26;
+  --orange-color: #ff701f;
+  --yellow-color: #ffe91f;
+  --light-green-hover: #8cea15;
+  --light-green-color: #a4ff31;
+  --light-green-color-1: #48691e;
+  --light-green-color-2: rgba(72, 105, 30, 0.2);
+  --light-green-color-3: #23291d;
+  --white-color: #000000;
+
+  --gray-table-hover: #1f1f23;
+
+  --gray-color-1: rgba(0, 0, 0, 0.64);
+  --gray-color-2: #aeaeb2;
+  --gray-color-3: rgba(174, 174, 178, 0.9);
+  --gray-color-4: #f2f2f7;
+
+  --border-white-1: 1px solid #ffffff;
+  --border-black-1: 1px solid #000000;
+  --border-light-green-1: 1px solid #a4ff31;
+  --border-slider-grey: 1px solid #aeaeb2;
+  --border-red: 1px solid var(--red-color-2);
+
+  --blur-background: rgba(20, 20, 21, 0.64);
+
+  --transition-1: 0.2s ease-in;
+
+  --font-family-syne: 'Syne', sans-serif;
+  --font-family-chakra: 'Chakra Petch', sans-serif;
+
+  --font-btn-middle: 500 14px var(--font-family-syne);
+
+  --font-subtitle: 700 32px var(--font-family-chakra);
+  --font-subtitle-2: 700 24px var(--font-family-syne);
+
+  --font-h3: 600 56px var(--font-family-oxanium);
+  --font-h4: 600 40px var(--font-family-oxanium);
+  --font-h6: 700 28px var(--font-family-syne);
+
+  --font-body-small: 500 16px var(--font-family-syne);
+  --font-body-large: 400 24px var(--font-family-syne);
+
+  --font-link: 700 18px var(--font-family-syne);
+
+  --font-title-2: 800 48px var(--font-family-syne);
+
+  --font-text-1: 400 32px var(--font-family-chakra);
+  --font-text-2: 700 24px var(--font-family-syne);
+  --font-text-3: 400 18px var(--font-family-syne);
+  --font-text-4: 400 18px var(--font-family-chakra);
+  --font-text-5: 700 14px var(--font-family-syne);
+  --font-text-6: 700 12px var(--font-family-syne);
+  --font-text-7: 700 10px var(--font-family-syne);
+  --font-text-8: 400 16px var(--font-family-chakra);
+  --font-text-9: 500 12px var(--font-family-chakra);
+
+  @media screen and (max-width: 1024px) {
+    --font-title-2: 800 32px var(--font-family-syne);
+    --font-text-1: 400 24px var(--font-family-chakra);
+    --font-text-2: 700 20px var(--font-family-syne);
+
+    --font-text-6: 700 10px var(--font-family-syne);
+
+    --font-text-8: 400 14px var(--font-family-chakra);
+
+    --font-h6: 700 22px var(--font-family-syne);
+  }
+
+  @media screen and (max-width: 960px) {
+    --font-title-2: 800 24px var(--font-family-syne);
+
+    --font-text-1: 400 16px var(--font-family-chakra);
+    --font-text-2: 700 16px var(--font-family-syne);
+
+    --font-h6: 700 18px var(--font-family-syne);
+  }
+}

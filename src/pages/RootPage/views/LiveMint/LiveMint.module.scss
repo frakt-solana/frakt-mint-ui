@@ -1,0 +1,52 @@
+@import '@frakt/scss/abstracts/typography';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.wrapper.center {
+  justify-content: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.container {
+  @extend .column;
+  width: 100%;
+}
+
+.totalMinted {
+  @include text-number;
+}
+
+.buttonWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding-top: 16px;
+  width: 100%;
+
+  @media (max-width: 960px) {
+    gap: 8px;
+  }
+}
+
+.button {
+  height: 48px;
+  max-width: 210px;
+  width: 100%;
+
+  @media (max-width: 960px) {
+    height: 40px;
+    padding: 0;
+  }
+}

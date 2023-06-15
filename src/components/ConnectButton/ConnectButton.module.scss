@@ -1,0 +1,38 @@
+@import '@frakt/scss/abstracts/typography';
+
+.connectButton {
+  border: 1px solid var(--light-green-color);
+  background-color: var(--light-green-color-2);
+  cursor: pointer;
+  color: var(--connect-btn-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  @include text-button;
+
+  user-select: none;
+  transition: background-color var(--transition-1), color var(--transition-1);
+
+  height: 48px;
+  width: 150px;
+
+  &:hover {
+    background-color: var(--light-green-color-1);
+  }
+
+  @media (max-width: 960px) {
+    height: 40px;
+    font-size: 14px;
+  }
+}
+
+.arrowDownIcon {
+  width: 10px;
+  height: 10px;
+
+  path {
+    fill: var(--connect-btn-text);
+  }
+}

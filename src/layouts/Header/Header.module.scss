@@ -1,0 +1,78 @@
+.header {
+  box-sizing: border-box;
+  background-color: var(--primary-background);
+  border-bottom: 1px solid var(--primary-border);
+  backdrop-filter: blur(12px);
+
+  display: flex;
+  align-items: center;
+  padding-left: 32px;
+
+  position: fixed;
+  height: var(--header-height);
+  width: 100%;
+  z-index: 4;
+
+  @media (max-width: 960px) {
+    padding-left: 16px;
+  }
+}
+
+.widgetContainer {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  height: 100%;
+  padding-right: 32px;
+
+  @media (max-width: 960px) {
+    padding-right: 16px;
+    gap: 16px;
+  }
+}
+
+.walletBtn {
+  background: var(--light-green-color-1);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font: var(--font-body-small);
+
+  transition: color 0.2s ease-in, background-color 0.2s ease-in;
+  height: 48px;
+
+  @media (max-width: 960px) {
+    height: 40px;
+  }
+}
+.walletBtn svg path {
+  fill: var(--black-color);
+}
+
+.switcherContainer {
+  margin-top: 8px;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+}
+
+.logo svg {
+  path {
+    fill: var(--primary-icon);
+  }
+
+  @media (max-width: 960px) {
+    width: 107px;
+    height: 32px;
+  }
+
+  @media screen and (max-width: 575px) {
+    width: 80px;
+    height: 24px;
+  }
+}

@@ -1,0 +1,5 @@
+@import '@frakt/scss/abstracts/typography';
+
+.timer {
+  @include text-number;
+}

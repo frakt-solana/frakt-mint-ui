@@ -1,0 +1,17 @@
+@import '@frakt/scss/abstracts/typography';
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.title {
+  @include text-title;
+}
+
+.subtitle {
+  @include text-subtitle;
+}

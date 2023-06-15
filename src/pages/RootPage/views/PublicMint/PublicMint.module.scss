@@ -1,0 +1,44 @@
+@import '@frakt/scss/abstracts/typography';
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  @extend .column;
+  justify-content: center;
+  width: 100%;
+}
+
+.cardWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // width: 600px;
+  // height: 600px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  max-width: 446px;
+  width: 100%;
+  gap: 16px;
+}
+
+.totalMinted {
+  @include text-number;
+}
+
+.button {
+  height: 48px;
+  width: 100%;
+
+  @media (max-width: 960px) {
+    height: 40px;
+  }
+}

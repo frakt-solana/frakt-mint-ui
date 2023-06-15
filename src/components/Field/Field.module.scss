@@ -1,0 +1,131 @@
+.root {
+  background: var(--secondary-background);
+  display: flex;
+  justify-content: flex-end;
+
+  border-bottom: 1px solid var(--primary-border);
+
+  //? Remove arrows from number input
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  transition: border-color var(--transition-1);
+}
+
+.focused {
+  .root {
+    border-bottom: 1px solid var(--secondary-border);
+
+    .useMaxBtn {
+      border: 1px solid var(--light-green-color);
+    }
+  }
+}
+
+.error {
+  .root {
+    border-color: var(--red-color);
+  }
+}
+
+.valueInput {
+  flex-grow: 1;
+  padding-left: 24px;
+  font: var(--font-btn-mid);
+  min-width: 48px;
+
+  &_disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+}
+
+.disabled {
+  pointer-events: none;
+  flex-grow: 2;
+  flex-shrink: 1;
+  max-width: 60%;
+
+  @media screen and (max-width: 380px) {
+    max-width: 55%;
+  }
+}
+
+body input.valueInput {
+  &,
+  &:hover,
+  &:active,
+  &:focus,
+  &:not(.styles_ant-input):hover {
+    background: none;
+    border: none;
+    outline: none;
+  }
+}
+
+.useMaxBtnContainer {
+  display: flex;
+  align-items: center;
+  padding-right: 8px;
+}
+
+.useMaxBtn {
+  & {
+    border: 1px solid var(--light-green-color);
+  }
+
+  cursor: pointer;
+  color: var(--connect-btn-text);
+  background-color: var(--light-green-color-2);
+  transition: background-color var(--transition-1);
+  font: var(--font-btn-middle);
+  min-width: 116px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+
+  &:hover {
+    background: var(--light-green-color-1);
+  }
+
+  @media screen and (max-width: 440px) {
+    min-width: 90px;
+  }
+}
+
+.labelWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.label {
+  font: var(--font-text-8);
+  color: var(--secondary-border);
+
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.labelName {
+  font: var(--font-text-6);
+  text-transform: uppercase;
+  color: var(--gray-color-2);
+}
+
+:global .ant-form-item-has-error {
+  :local {
+    .root {
+      border-color: var(--red-color);
+    }
+  }
+}

@@ -1,0 +1,23 @@
+.svgContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.svgImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  transform: scale(1.3);
+  filter: blur(9px);
+}
+
+.svgImage.active {
+  opacity: 1;
+}

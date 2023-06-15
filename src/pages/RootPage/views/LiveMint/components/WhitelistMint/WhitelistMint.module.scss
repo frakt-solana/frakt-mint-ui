@@ -1,0 +1,46 @@
+@import '@frakt/scss/abstracts/typography';
+
+.container {
+  box-sizing: border-box;
+  border: 1px solid var(--primary-border);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  max-width: 736px;
+  width: 100%;
+}
+
+.field {
+  margin: 8px 0;
+}
+
+.title {
+  @include text-title-1;
+  text-align: left;
+}
+
+.button {
+  margin-top: 16px;
+  height: 48px;
+  width: 100%;
+
+  @media (max-width: 960px) {
+    height: 40px;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 16px 0;
+  height: 270px;
+
+  @media (max-width: 960px) {
+    height: 150px;
+  }
+}
+
+.subtitle {
+  @include text-main-1;
+}

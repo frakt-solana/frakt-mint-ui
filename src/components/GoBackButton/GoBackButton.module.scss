@@ -1,0 +1,37 @@
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  top: 32px;
+  left: 32px;
+
+  background-color: var(--primary-background);
+  border: 1px solid var(--primary-border);
+  border-radius: 50%;
+  cursor: pointer;
+  height: 32px;
+  width: 32px;
+  transition: border var(--transition-1);
+
+  &:hover {
+    border-color: var(--secondary-border);
+  }
+
+  @media (max-width: 960px) {
+    top: 16px;
+    left: 16px;
+    height: 26px;
+    width: 26px;
+  }
+}
+
+.root svg {
+  width: 32px;
+  height: 15px;
+}
+
+.root svg path {
+  fill: var(--secondary-border);
+}

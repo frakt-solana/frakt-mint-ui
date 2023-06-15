@@ -1,0 +1,57 @@
+@mixin text-title {
+  font-family: 'Syne';
+  font-size: 72px;
+  font-weight: 800;
+
+  @media (max-width: 960px) {
+    font-size: 32px;
+  }
+}
+
+@mixin text-title-1 {
+  font-family: 'Syne';
+  font-size: 22px;
+  font-weight: 700;
+}
+
+@mixin text-subtitle {
+  font-family: 'Chakra Petch';
+  font-size: 40px;
+  font-weight: 400;
+
+  @media (max-width: 960px) {
+    font-size: 24px;
+  }
+}
+
+@mixin text-number {
+  color: var(--secondary-text);
+  font-family: 'Chakra Petch';
+  font-size: 32px;
+  font-weight: 700;
+}
+
+@mixin text-main {
+  font-family: 'Chakra Petch';
+  font-size: 18px;
+  font-weight: 400;
+}
+
+@mixin text-main-1 {
+  font-family: 'Syne';
+  font-size: 18px;
+  font-weight: 700;
+}
+
+@mixin text-small {
+  font-family: 'Syne';
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+@mixin text-button {
+  font-family: 'Syne';
+  font-size: 16px;
+  font-weight: 500;
+}

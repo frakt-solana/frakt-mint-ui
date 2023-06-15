@@ -1,0 +1,47 @@
+.card {
+  width: 328px;
+  height: 328px;
+  transition: transform 0.5s;
+  background-size: cover;
+}
+
+.card.animate {
+  transform: translateX(-300px);
+}
+
+.flipCard {
+  perspective: 1000px;
+  width: 328px;
+  height: 328px;
+
+  .flipCardInner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.7s;
+    transform-style: preserve-3d;
+
+    &.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .flipCardFront,
+    .flipCardBack {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+    }
+
+    .flipCard-front {
+      z-index: 2;
+      transform: rotateY(0deg);
+    }
+
+    .flipCardBack {
+      transform: rotateY(180deg);
+      background-color: var(--secondary-background);
+      background-size: cover;
+    }
+  }
+}
