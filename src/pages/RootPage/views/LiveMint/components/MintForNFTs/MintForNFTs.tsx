@@ -52,8 +52,6 @@ const MintForNFTs = () => {
 
   const shouldShowAnimation = isStartAnimation || isLoading
   const hasNfts = !nftsLoading && !!nfts?.length
-  const shouldShowNotConnectedState =
-    !connected && !nftsLoading && !nfts?.length
   const shouldShowNoSuitableNftsState =
     connected &&
     !nfts?.length &&
@@ -76,7 +74,7 @@ const MintForNFTs = () => {
         />
       )}
 
-      {shouldShowNotConnectedState && <NotConnectedState />}
+      {!connected && <NotConnectedState />}
       {shouldShowNoSuitableNftsState && <NoSuitableNftsState />}
 
       {shouldShowContent && (
