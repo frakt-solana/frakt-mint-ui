@@ -8,21 +8,21 @@ import starIcon from './star.svg'
 import Card from '../Card/Card'
 import Svg1 from './svg1.svg'
 
-import styles from './OpenAnimaion.module.scss'
+import styles from './RevealAnimation.module.scss'
 
-interface OpenAnimaionProps {
+interface RevealAnimationProps {
   isStartAnimation: boolean
   selectedNftImage: string
   mintedNft: MintedNft
   isLoading: boolean
 }
 
-const OpenAnimaion = ({
+const RevealAnimation = ({
   isStartAnimation,
   selectedNftImage,
   mintedNft,
   isLoading,
-}: OpenAnimaionProps) => {
+}: RevealAnimationProps) => {
   const { scale, isAnimationEnd, nftImage } = useOpenAnimation({
     isStartAnimation: !isLoading && isStartAnimation,
     selectedNftImage,
@@ -67,7 +67,7 @@ const OpenAnimaion = ({
   )
 }
 
-export default OpenAnimaion
+export default RevealAnimation
 
 const ExplosionSvg = ({ scale, isAnimationEnd }) => (
   <img

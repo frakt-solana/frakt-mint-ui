@@ -4,13 +4,9 @@ import { useQuery } from '@tanstack/react-query'
 
 import { fetchWalletBorrowNfts } from '@frakt/api/nft'
 import { getNFTsByOwner } from '@frakt/utils/nfts'
+import { creators } from '@frakt/constants'
 
 const FETCH_LIMIT = 1000
-
-const creators = [
-  'EEgrfJLLdEo8GdP25BCLAaEAofcGq7Bq1Qpb9ZrXizGm',
-  '6wPYbuGRXZjVw2tCeTxwRiQU7AzFDTeFEKuUFpJZpcix',
-]
 
 export const useWalletNfts = () => {
   const wallet = useWallet()

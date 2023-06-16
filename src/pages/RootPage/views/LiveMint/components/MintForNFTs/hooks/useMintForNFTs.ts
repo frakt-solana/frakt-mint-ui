@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata'
 import { setComputeUnitLimit } from '@metaplex-foundation/mpl-essentials'
-import { useConnection } from '@solana/wallet-adapter-react'
+import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import {
   generateSigner,
   publicKey,
@@ -19,12 +19,18 @@ import { CANDY_MACHINE_PUBKEY, DESTINATION_PUBKEY } from '@frakt/constants'
 import { throwLogsError } from '@frakt/utils'
 import { useUmi } from '@frakt/helpers/umi'
 
-import { MintedNft, getMetadataByCertainNft } from '../helpers'
+import {
+  MintedNft,
+  getCertainGroupByNft,
+  getMetadataByCertainNft,
+} from '../helpers'
 import { useSelectedNFTs } from './../nftsState'
 import { useWalletNfts } from './useWalletNfts'
 
 export const useMintForNFTs = () => {
   const { connection } = useConnection()
+  const { publicKey: walletPublicKey } = useWallet()
+
   const { nfts } = useWalletNfts()
   const umi = useUmi()
 
@@ -48,6 +54,10 @@ export const useMintForNFTs = () => {
     }
   }, [nfts, isBulkMint, selection])
 
+  useEffect(() => {
+    clearSelection()
+  }, [walletPublicKey])
+
   const selectedNft = selection[0]
 
   const defaultImage = selection?.length
@@ -62,23 +72,28 @@ export const useMintForNFTs = () => {
     }
   }
 
-  const onSubmit = async () => {
+  const onSingleMint = async () => {
     try {
       setIsLoading(true)
+
+      //TODO: need fetch ceartain CANDY_MACHINE_PUBKEY for each nft
 
       const candyMachine = await fetchCandyMachine(
         umi,
         publicKey(CANDY_MACHINE_PUBKEY),
       )
-      console.log(candyMachine)
 
       const candyGuard = await fetchCandyGuard(umi, candyMachine.mintAuthority)
-
+      const group = getCertainGroupByNft(selectedNft)
       const nftMint = generateSigner(umi)
 
-      // Gnomie
-
-      console.log(selectedNft)
+      const mintArgs = {
+        nftPayment: some({
+          mint: publicKey(selectedNft?.mint),
+          destination: publicKey(DESTINATION_PUBKEY),
+          tokenStandard: TokenStandard.NonFungible,
+        }),
+      }
 
       const tx = transactionBuilder()
         .add(setComputeUnitLimit(umi, { units: 600_000 }))
@@ -89,14 +104,8 @@ export const useMintForNFTs = () => {
             collectionUpdateAuthority: candyMachine.authority,
             nftMint,
             candyGuard: candyGuard?.publicKey,
-            group: some('Frakts'),
-            mintArgs: {
-              nftPayment: some({
-                mint: publicKey(selectedNft?.mint),
-                destination: publicKey(DESTINATION_PUBKEY),
-                tokenStandard: TokenStandard.NonFungible,
-              }),
-            },
+            group: some(group),
+            mintArgs,
             tokenStandard: TokenStandard.ProgrammableNonFungible,
           }),
         )
@@ -142,7 +151,7 @@ export const useMintForNFTs = () => {
     clearSelection,
     findLoanInSelection,
     selection,
-    onSubmit,
+    onSubmit: onSingleMint,
     isBulkMint,
     setIsBulkMint,
     isLoading,

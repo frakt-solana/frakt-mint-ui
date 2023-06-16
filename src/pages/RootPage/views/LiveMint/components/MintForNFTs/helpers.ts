@@ -1,6 +1,14 @@
 import { web3 } from '@project-serum/anchor'
 
 import { getNFTMetadata } from '@frakt/utils/nfts/'
+import { NFT } from '@frakt/api/nft'
+import {
+  FRAKTS_GROUP,
+  FRAKT_CREATOR,
+  GNOMIES_GROUP,
+  GNOMIE_CREATOR,
+  creators,
+} from '@frakt/constants'
 
 export interface MintedNft {
   mint: string
@@ -14,6 +22,18 @@ const parseNft = (nft: any): MintedNft => {
     name: nft?.externalMetadata?.name,
     imageUrl: nft?.externalMetadata?.image,
   }
+}
+
+export const getCertainGroupByNft = (nft: NFT): string => {
+  const creator = creators.find(
+    (creator) =>
+      creator === nft?.bondParams?.whitelistEntry?.whitelistedAddress,
+  )
+
+  if (creator === FRAKT_CREATOR) return FRAKTS_GROUP
+  if (creator === GNOMIE_CREATOR) return GNOMIES_GROUP
+
+  return ''
 }
 
 export const getMetadataByCertainNft = async ({

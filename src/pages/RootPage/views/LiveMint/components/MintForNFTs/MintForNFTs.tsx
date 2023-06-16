@@ -1,7 +1,7 @@
 import { useWallet } from '@solana/wallet-adapter-react'
 import classNames from 'classnames'
 
-import OpenAnimaion from '@frakt/pages/RootPage/components/OpenAnimaion/OpenAnimaion'
+import RevealAnimation from '@frakt/pages/RootPage/components/RevealAnimation/RevealAnimation'
 import Checkbox from '@frakt/components/Checkbox/Checkbox'
 import { Button } from '@frakt/components/Button'
 import { Loader } from '@frakt/components/Loader'
@@ -47,10 +47,12 @@ const MintForNFTs = () => {
     setIsBulkMint(!isBulkMint)
   }
 
+  const shouldShowAnimation = isStartAnimation || isLoading
+
   return (
     <>
-      {(isStartAnimation || isLoading) && (
-        <OpenAnimaion
+      {shouldShowAnimation && (
+        <RevealAnimation
           selectedNftImage={selectedNft?.imageUrl}
           isStartAnimation={isStartAnimation}
           mintedNft={mintedNft}
