@@ -36,6 +36,11 @@
     padding: 24px;
     height: calc(100% - 84px);
   }
+
+  @media screen and (max-width: 550px) {
+    height: calc(100% - 76px);
+    padding: 16px;
+  }
 }
 
 .leftImage,

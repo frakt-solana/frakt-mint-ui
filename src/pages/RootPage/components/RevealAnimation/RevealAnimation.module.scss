@@ -59,6 +59,10 @@
       transform: unset;
     }
   }
+
+  @media (max-width: 550px) {
+    font-size: 20px;
+  }
 }
 
 .rarityButtonWrapper {
@@ -162,11 +166,36 @@
   font: var(--font-text-5);
   font-size: 16px;
   text-transform: uppercase;
+
+  @media (max-width: 960px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 550px) {
+    font-size: 12px;
+  }
 }
 
 .value {
   font: var(--font-text-1);
   font-size: 20px;
+
+  overflow: auto;
+  white-space: nowrap;
+  width: 220px;
+
+  @media (max-width: 960px) {
+    font-size: 16px;
+    width: 170px;
+  }
+
+  @media (max-width: 550px) {
+    font-size: 14px;
+  }
+
+  &::-webkit-scrollbar {
+    height: 0;
+  }
 }
 
 .values1 {
@@ -181,11 +210,19 @@
   border-bottom: 1px solid var(--primary-border);
   border-left: 1px solid var(--primary-border);
   padding-left: 24px !important;
+
+  @media (max-width: 960px) {
+    padding-left: 0 !important;
+  }
 }
 .values4 {
   grid-area: 2 / 2 / 3 / 3;
   border-left: 1px solid var(--primary-border);
   padding-left: 24px !important;
+
+  @media (max-width: 960px) {
+    padding-left: 0 !important;
+  }
 }
 
 .starIcon1 {
@@ -250,14 +287,14 @@
   opacity: 0;
   transition: opacity 0.5s ease-out;
   position: absolute;
-  bottom: 75px;
+  bottom: 60px;
 
   @media (max-width: 960px) {
     bottom: 120px;
   }
 
   @media (max-width: 550px) {
-    bottom: 100px;
+    bottom: 130px;
   }
 }
 .selectNextNftButton.active {
