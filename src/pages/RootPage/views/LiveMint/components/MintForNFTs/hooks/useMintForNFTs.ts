@@ -26,10 +26,14 @@ import {
   getCertainGroupByNft,
   getMetadataByCertainNft,
 } from '../helpers'
+import {
+  buildMintTransaction,
+  makeMintTransaction,
+} from '@frakt/utils/transactions/makeMintTransaction'
 
 export const useMintForNFTs = () => {
   const { connection } = useConnection()
-  const { publicKey: walletPublicKey } = useWallet()
+  const wallet = useWallet()
 
   const { nfts, hideNFT, isLoading: nftsLoading } = useWalletNfts()
   const umi = useUmi()
@@ -56,7 +60,7 @@ export const useMintForNFTs = () => {
 
   useEffect(() => {
     clearSelection()
-  }, [walletPublicKey])
+  }, [wallet?.publicKey])
 
   const selectedNft = selection[0]
 
@@ -84,60 +88,35 @@ export const useMintForNFTs = () => {
 
       //TODO: need fetch ceartain CANDY_MACHINE_PUBKEY for each nft
 
-      const candyMachine = await fetchCandyMachine(
-        umi,
-        publicKey(CANDY_MACHINE_PUBKEY),
-      )
-
-      const candyGuard = await fetchCandyGuard(umi, candyMachine.mintAuthority)
       const group = getCertainGroupByNft(selectedNft)
-      const nftMint = generateSigner(umi)
 
-      const mintArgs = {
-        nftPayment: some({
-          mint: publicKey(selectedNft?.mint),
-          destination: publicKey(DESTINATION_PUBKEY),
-          tokenStandard: TokenStandard.NonFungible,
-        }),
-      }
+      const { transaction, nftSigner } = await buildMintTransaction({
+        umi,
+        group,
+        candyMachineAddress: CANDY_MACHINE_PUBKEY,
+        selectedNftMint: selectedNft?.mint,
+      })
 
-      const tx = transactionBuilder()
-        .add(setComputeUnitLimit(umi, { units: 600_000 }))
-        .add(
-          mintV2(umi, {
-            candyMachine: candyMachine.publicKey,
-            collectionMint: candyMachine.collectionMint,
-            collectionUpdateAuthority: candyMachine.authority,
-            nftMint,
-            candyGuard: candyGuard?.publicKey,
-            group: some(group),
-            mintArgs,
-            tokenStandard: TokenStandard.ProgrammableNonFungible,
-          }),
-        )
-
-      const { result } = await tx.sendAndConfirm(umi, {
+      const { result } = await transaction.sendAndConfirm(umi, {
         confirm: { commitment: 'finalized' },
         send: {
           skipPreflight: true,
         },
       })
 
-      const receivedNftMint = base58PublicKey(nftMint?.publicKey?.bytes)
-
-      console.log('TRANSACTION RESULT: ', result)
-
       if (result.value.err !== null) {
-        return
+        console.log('TRANSACTION RESULT: ', result)
+        return false
       }
 
+      const receivedNftMint = base58PublicKey(nftSigner?.publicKey?.bytes)
       const nft = await getMetadataByCertainNft({
         nftMint: receivedNftMint,
         connection,
       })
 
       if (!nft?.mint) {
-        return
+        return false
       }
 
       setMintedNft(nft)
@@ -151,6 +130,43 @@ export const useMintForNFTs = () => {
     }
   }
 
+  const onBulkMint = async () => {
+    try {
+      const mintTransactions = []
+
+      for (const nft of selection) {
+        try {
+          const group = getCertainGroupByNft(nft)
+
+          const transaction = await makeMintTransaction({
+            umi,
+            group,
+            candyMachineAddress: CANDY_MACHINE_PUBKEY,
+            selectedNftMint: nft?.mint,
+          })
+          mintTransactions.push(transaction)
+        } catch (error) {
+          console.log(`Error processing item: ${nft}`)
+          console.log(error)
+        }
+      }
+
+      const signedTransactions = await wallet.signAllTransactions(
+        mintTransactions,
+      )
+
+      const txids = await Promise.all(
+        signedTransactions.map((signedTransaction) =>
+          connection.sendRawTransaction(signedTransaction.serialize()),
+        ),
+      )
+
+      await new Promise((r) => setTimeout(r, 7000))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return {
     nfts,
     onSelectNFTs,
@@ -158,7 +174,7 @@ export const useMintForNFTs = () => {
     clearSelection,
     findLoanInSelection,
     selection,
-    onSubmit: onSingleMint,
+    onSubmit: isBulkMint ? onBulkMint : onSingleMint,
     isBulkMint,
     setIsBulkMint,
     isLoading,
