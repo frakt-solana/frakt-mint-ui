@@ -7,6 +7,11 @@ import { getNFTsByOwner } from '@frakt/utils/nfts'
 
 const FETCH_LIMIT = 1000
 
+const creators = [
+  'EEgrfJLLdEo8GdP25BCLAaEAofcGq7Bq1Qpb9ZrXizGm',
+  '6wPYbuGRXZjVw2tCeTxwRiQU7AzFDTeFEKuUFpJZpcix',
+]
+
 export const useWalletNfts = () => {
   const wallet = useWallet()
 
@@ -25,7 +30,10 @@ export const useWalletNfts = () => {
   )
 
   return {
-    nfts: data || [],
+    nfts:
+      data?.filter((nft) =>
+        creators.includes(nft?.bondParams?.whitelistEntry?.whitelistedAddress),
+      ) || [],
     isLoading,
   }
 }

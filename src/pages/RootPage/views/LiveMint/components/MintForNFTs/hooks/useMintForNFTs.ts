@@ -1,33 +1,38 @@
 import { useEffect, useState } from 'react'
 import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata'
 import { setComputeUnitLimit } from '@metaplex-foundation/mpl-essentials'
+import { useConnection } from '@solana/wallet-adapter-react'
 import {
   generateSigner,
   publicKey,
   some,
   transactionBuilder,
+  base58PublicKey,
 } from '@metaplex-foundation/umi'
 import {
   fetchCandyGuard,
   fetchCandyMachine,
   mintV2,
 } from '@metaplex-foundation/mpl-candy-machine'
+
+import { CANDY_MACHINE_PUBKEY, DESTINATION_PUBKEY } from '@frakt/constants'
+import { throwLogsError } from '@frakt/utils'
 import { useUmi } from '@frakt/helpers/umi'
 
-import { throwLogsError } from '@frakt/utils'
-
-import { useDevnetWalletNfts, useWalletNfts } from './useWalletNfts'
+import { MintedNft, getMetadataByCertainNft } from '../helpers'
 import { useSelectedNFTs } from './../nftsState'
-import { CANDY_MACHINE_PUBKEY, RECEIVER_PUBKEY } from '@frakt/constants'
+import { useWalletNfts } from './useWalletNfts'
 
 export const useMintForNFTs = () => {
-  // const { nfts } = useWalletNfts()
-  const { nfts } = useDevnetWalletNfts()
+  const { connection } = useConnection()
+  const { nfts } = useWalletNfts()
   const umi = useUmi()
 
   const [isBulkMint, setIsBulkMint] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isStartAnimation, setIsStartAnimation] = useState<boolean>(false)
+
+  const [mintedNft, setMintedNft] = useState<MintedNft>(null)
 
   const {
     selection,
@@ -43,8 +48,10 @@ export const useMintForNFTs = () => {
     }
   }, [nfts, isBulkMint, selection])
 
+  const selectedNft = selection[0]
+
   const defaultImage = selection?.length
-    ? selection[0]?.imageUrl
+    ? selectedNft?.imageUrl
     : nfts[0]?.imageUrl
 
   const onSelectNFTs = (): void => {
@@ -63,10 +70,15 @@ export const useMintForNFTs = () => {
         umi,
         publicKey(CANDY_MACHINE_PUBKEY),
       )
+      console.log(candyMachine)
 
       const candyGuard = await fetchCandyGuard(umi, candyMachine.mintAuthority)
 
       const nftMint = generateSigner(umi)
+
+      // Gnomie
+
+      console.log(selectedNft)
 
       const tx = transactionBuilder()
         .add(setComputeUnitLimit(umi, { units: 600_000 }))
@@ -75,17 +87,14 @@ export const useMintForNFTs = () => {
             candyMachine: candyMachine.publicKey,
             collectionMint: candyMachine.collectionMint,
             collectionUpdateAuthority: candyMachine.authority,
-            nftMint: nftMint.publicKey,
+            nftMint,
             candyGuard: candyGuard?.publicKey,
-            group: some('OGs'),
+            group: some('Frakts'),
             mintArgs: {
-              tokenGate: some({
-                mint: publicKey('FPMRWy8QY4Qi6myiDwTpsEkU2AHQ8KUfiqKVsDHkQQ6N'),
-                amount: 1,
-              }),
-              solPayment: some({
-                lamports: 0,
-                destination: publicKey(RECEIVER_PUBKEY),
+              nftPayment: some({
+                mint: publicKey(selectedNft?.mint),
+                destination: publicKey(DESTINATION_PUBKEY),
+                tokenStandard: TokenStandard.NonFungible,
               }),
             },
             tokenStandard: TokenStandard.ProgrammableNonFungible,
@@ -99,28 +108,30 @@ export const useMintForNFTs = () => {
         },
       })
 
-      console.log(result, `TRANSACTION RESULT: ${result}`)
+      const receivedNftMint = base58PublicKey(nftMint?.publicKey?.bytes)
+
+      console.log('TRANSACTION RESULT: ', result)
 
       if (result.value.err !== null) {
         return
       }
 
+      const nft = await getMetadataByCertainNft({
+        nftMint: receivedNftMint,
+        connection,
+      })
+
+      if (!nft?.mint) {
+        return
+      }
+
+      setMintedNft(nft)
       setIsStartAnimation(true)
     } catch (error) {
       throwLogsError(error)
+      setIsLoading(false)
     } finally {
       setIsLoading(false)
-    }
-  }
-
-  const getMetadataByCertainNft = async () => {
-    // TODO: Make request to metadata
-    const result = await Promise.resolve(true)
-
-    // TODO: parse response to normal NFT interface
-
-    return {
-      result,
     }
   }
 
@@ -137,5 +148,7 @@ export const useMintForNFTs = () => {
     isLoading,
     isStartAnimation,
     defaultImage,
+    mintedNft,
+    selectedNft,
   }
 }

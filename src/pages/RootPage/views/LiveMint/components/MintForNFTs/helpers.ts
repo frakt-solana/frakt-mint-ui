@@ -1,17 +1,37 @@
-import { NFTMetadata } from '@frakt/utils/nfts'
+import { web3 } from '@project-serum/anchor'
 
-export interface NFT {
-  nftMint: string
-  collectionName: string
-  collectionImage: string
+import { getNFTMetadata } from '@frakt/utils/nfts/'
+
+export interface MintedNft {
+  mint: string
+  name: string
+  imageUrl: string
 }
 
-export const mapNFTsAccounts = (NFTs: NFTMetadata[]): NFT[] => {
-  return NFTs.map((nft) => {
-    return {
-      nftMint: nft.mint?.toBase58(),
-      collectionName: nft.externalMetadata.name,
-      collectionImage: nft.externalMetadata.image,
-    }
-  })
+const parseNft = (nft: any): MintedNft => {
+  return {
+    mint: nft?.mint?.toBase58(),
+    name: nft?.externalMetadata?.name,
+    imageUrl: nft?.externalMetadata?.image,
+  }
+}
+
+export const getMetadataByCertainNft = async ({
+  nftMint,
+  connection,
+}: {
+  nftMint: string
+  connection: web3.Connection
+}) => {
+  const token = {
+    pubkey: undefined,
+    mint: new web3.PublicKey(nftMint),
+    state: null,
+  }
+  const nft = await getNFTMetadata(token, connection)
+  console.log(nft)
+
+  const parsedNft = parseNft(nft)
+
+  return parsedNft
 }

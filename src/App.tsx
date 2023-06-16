@@ -46,7 +46,7 @@ export const UmiProvider = ({
 }
 
 const App: FC = () => {
-  const endpoint = 'https://api.devnet.solana.com'
+  // const endpoint = 'https://api.devnet.solana.com'
 
   const wallets = useMemo(
     () => [
@@ -66,9 +66,9 @@ const App: FC = () => {
   )
 
   return (
-    <ConnectionProvider endpoint={endpoint}>
+    <ConnectionProvider endpoint={ENDPOINT}>
       <WalletProvider wallets={wallets} autoConnect>
-        <UmiProvider endpoint={endpoint}>
+        <UmiProvider endpoint={ENDPOINT}>
           <QueryClientProvider client={queryClient}>
             <Router />
           </QueryClientProvider>

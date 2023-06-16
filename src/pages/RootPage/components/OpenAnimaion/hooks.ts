@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react'
 export const useOpenAnimation = ({
   isStartAnimation,
   selectedNftImage,
-  receivedNftImage,
+  mintedNftImage,
 }: {
   isStartAnimation: boolean
   selectedNftImage: string
-  receivedNftImage: string
+  mintedNftImage: string
 }) => {
   const [scale, setScale] = useState(1)
   const [isAnimationEnd, setIsAnimationEnd] = useState(false)
@@ -21,7 +21,7 @@ export const useOpenAnimation = ({
 
       const animationTimeout2 = setTimeout(() => {
         setScale(1)
-        setNftImage(receivedNftImage)
+        setNftImage(mintedNftImage)
       }, 1500)
 
       const animationTimeout3 = setTimeout(() => {

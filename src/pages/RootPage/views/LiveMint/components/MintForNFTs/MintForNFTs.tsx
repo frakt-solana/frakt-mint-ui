@@ -1,7 +1,6 @@
 import { useWallet } from '@solana/wallet-adapter-react'
 import classNames from 'classnames'
 
-import LoaderAnimation from '@frakt/pages/RootPage/components/LoaderAnimation/LoaderAnimation'
 import OpenAnimaion from '@frakt/pages/RootPage/components/OpenAnimaion/OpenAnimaion'
 import Checkbox from '@frakt/components/Checkbox/Checkbox'
 import { Button } from '@frakt/components/Button'
@@ -12,8 +11,6 @@ import { BulkMintButtons, BulkMintStats, ColumnValue } from './BulkComponents'
 import { useMintForNFTs } from './hooks'
 
 import styles from './MintForNFTs.module.scss'
-
-const RECEIVED_NFT_IMAGE = 'https://pbs.twimg.com/media/FuaAl7sXoAIm_jk.png'
 
 const MintForNFTs = () => {
   const { connected } = useWallet()
@@ -31,6 +28,8 @@ const MintForNFTs = () => {
     isLoading,
     isStartAnimation,
     defaultImage,
+    mintedNft,
+    selectedNft,
   } = useMintForNFTs()
 
   const handeSelectNFt = (nft: NFT) => {
@@ -51,9 +50,9 @@ const MintForNFTs = () => {
     <>
       {(isStartAnimation || isLoading) && (
         <OpenAnimaion
-          selectedNftImage={selection[0]?.imageUrl}
+          selectedNftImage={selectedNft?.imageUrl}
           isStartAnimation={isStartAnimation}
-          receivedNftImage={RECEIVED_NFT_IMAGE}
+          mintedNft={mintedNft}
           isLoading={isLoading}
         />
       )}
@@ -92,6 +91,7 @@ const MintForNFTs = () => {
                 {!nfts.length && connected && <Loader />}
                 {nfts.map((nft) => (
                   <NftCard
+                    key={nft?.mint}
                     nft={nft}
                     selected={!!findLoanInSelection(nft.mint)}
                     onClick={() => handeSelectNFt(nft)}

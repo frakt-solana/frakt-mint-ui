@@ -1,31 +1,32 @@
 import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
+import { MintedNft } from '../../views/LiveMint/components/MintForNFTs/helpers'
 import { useCardAnimation, useOpenAnimation } from './hooks'
+import LoaderAnimation from '../LoaderAnimation'
+import starIcon from './star.svg'
 import Card from '../Card/Card'
 import Svg1 from './svg1.svg'
-import starIcon from './star.svg'
 
 import styles from './OpenAnimaion.module.scss'
-import LoaderAnimation from '../LoaderAnimation'
 
 interface OpenAnimaionProps {
   isStartAnimation: boolean
   selectedNftImage: string
-  receivedNftImage: string
+  mintedNft: MintedNft
   isLoading: boolean
 }
 
 const OpenAnimaion = ({
   isStartAnimation,
   selectedNftImage,
-  receivedNftImage,
+  mintedNft,
   isLoading,
 }: OpenAnimaionProps) => {
   const { scale, isAnimationEnd, nftImage } = useOpenAnimation({
     isStartAnimation: !isLoading && isStartAnimation,
     selectedNftImage,
-    receivedNftImage,
+    mintedNftImage: mintedNft?.imageUrl,
   })
 
   const {
@@ -54,7 +55,7 @@ const OpenAnimaion = ({
         <>
           <NftName
             isVisible={isCardAnimationEnded}
-            name="You minted Banx #2345!"
+            name={`You minted ${mintedNft?.name}!`}
           />
           <div className={styles.rarityButtonWrapper}>
             <RaritiButton isVisible={isCardAnimationEnded} rarity="Legendary" />
