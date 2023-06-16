@@ -19,69 +19,45 @@ const MintForNFTs = () => {
 
   const {
     nfts,
-    toggleLoanInSelection,
-    findLoanInSelection,
     onSelectNFTs,
+    findLoanInSelection,
     selection,
-    onSubmit,
-    clearSelection,
-    isBulkMint,
-    setIsBulkMint,
-    isLoading,
-    isStartAnimation,
-    defaultImage,
+    selectedNFT,
     mintedNft,
-    selectedNft,
+
+    isBulkMint,
+    isLoading,
+
+    onSubmit,
     handleResetAnimation,
-    nftsLoading,
+    handeSelectNFt,
+    handleToggleBulkMint,
+
+    showNoSuitableNftsState,
+    showContent,
+    showReveal,
+    showLoader,
   } = useMintForNFTs()
-
-  const handeSelectNFt = (nft: NFT) => {
-    if (!isBulkMint) {
-      clearSelection()
-      toggleLoanInSelection(nft)
-    } else {
-      toggleLoanInSelection(nft)
-    }
-  }
-
-  const handleChecked = () => {
-    clearSelection()
-    setIsBulkMint(!isBulkMint)
-  }
-
-  const shouldShowAnimation = isStartAnimation || isLoading
-  const hasNfts = !nftsLoading && !!nfts?.length
-  const shouldShowNoSuitableNftsState =
-    connected &&
-    !nfts?.length &&
-    !nftsLoading &&
-    !isStartAnimation &&
-    !isLoading
-
-  const shouldShowContent =
-    connected && hasNfts && !isStartAnimation && !isLoading
 
   return (
     <>
-      {shouldShowAnimation && (
+      {showReveal && (
         <RevealAnimation
-          selectedNftImage={selectedNft?.imageUrl}
-          isStartAnimation={isStartAnimation}
+          handleResetAnimation={handleResetAnimation}
+          selectedNftImage={selectedNFT?.imageUrl}
           mintedNft={mintedNft}
           isLoading={isLoading}
-          handleResetAnimation={handleResetAnimation}
         />
       )}
-
+      {showLoader && <Loader />}
+      {showNoSuitableNftsState && <NoSuitableNftsState />}
       {!connected && <NotConnectedState />}
-      {shouldShowNoSuitableNftsState && <NoSuitableNftsState />}
 
-      {shouldShowContent && (
+      {showContent && (
         <>
           <h2 className={styles.heading}>Tap on selected NFT to reveal</h2>
           <Checkbox
-            onChange={handleChecked}
+            onChange={handleToggleBulkMint}
             checked={isBulkMint}
             label="Disable animation to bulk mint"
           />
@@ -89,7 +65,7 @@ const MintForNFTs = () => {
             {!isBulkMint && (
               <div className={styles.cardWrapper}>
                 <div className={styles.card}>
-                  <img src={defaultImage} />
+                  <img src={selectedNFT?.imageUrl} />
                 </div>
                 <Button
                   onClick={onSubmit}
@@ -123,7 +99,7 @@ const MintForNFTs = () => {
           </div>
 
           {!isBulkMint && (
-            <ColumnValue label="Banx minted" value={`${0}/${nfts?.length}`} />
+            <ColumnValue label="Total NFTS" value={nfts?.length} />
           )}
 
           {isBulkMint && (

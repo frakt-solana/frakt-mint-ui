@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
+import { Button } from '@frakt/components/Button'
+
 import { MintedNft } from '../../views/LiveMint/components/MintForNFTs/helpers'
 import { useCardAnimation, useOpenAnimation } from './hooks'
 import LoaderAnimation from '../LoaderAnimation'
@@ -9,10 +11,8 @@ import Card from '../Card/Card'
 import Svg1 from './svg1.svg'
 
 import styles from './RevealAnimation.module.scss'
-import { Button } from '@frakt/components/Button'
 
 interface RevealAnimationProps {
-  isStartAnimation: boolean
   selectedNftImage: string
   mintedNft: MintedNft
   isLoading: boolean
@@ -20,14 +20,13 @@ interface RevealAnimationProps {
 }
 
 const RevealAnimation = ({
-  isStartAnimation,
   selectedNftImage,
   mintedNft,
   isLoading,
   handleResetAnimation,
 }: RevealAnimationProps) => {
   const { scale, isAnimationEnd, nftImage } = useOpenAnimation({
-    isStartAnimation: !isLoading && isStartAnimation,
+    isStartAnimation: !isLoading,
     selectedNftImage,
     mintedNftImage: mintedNft?.imageUrl,
   })
@@ -47,7 +46,7 @@ const RevealAnimation = ({
           image={nftImage}
           onAnimationEnd={handleAnimationEnd}
           isAnimationStarted={isStartCardAnimation}
-          isStartFlip={!isLoading && isStartAnimation}
+          isStartFlip={!isLoading}
         />
       </div>
 
