@@ -16,7 +16,7 @@ const ConnectButton: FC<ConnectButtonProps> = () => {
   const { toggleVisible } = useWalletModal()
 
   return (
-    <button className={styles.connectButton} onClick={() => toggleVisible()}>
+    <button className={styles.connectButton} onClick={toggleVisible}>
       {connected && (
         <>
           {shortenAddress(walletPubKey?.toString())}

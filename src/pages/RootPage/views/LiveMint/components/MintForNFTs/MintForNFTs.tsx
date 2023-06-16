@@ -11,6 +11,7 @@ import { BulkMintButtons, BulkMintStats, ColumnValue } from './BulkComponents'
 import { useMintForNFTs } from './hooks'
 
 import styles from './MintForNFTs.module.scss'
+import NotConnectedState from './NotConnectedState'
 
 const MintForNFTs = () => {
   const { connected } = useWallet()
@@ -56,7 +57,9 @@ const MintForNFTs = () => {
           isLoading={isLoading}
         />
       )}
-      {!isStartAnimation && !isLoading && (
+
+      {!connected && <NotConnectedState />}
+      {connected && !isStartAnimation && !isLoading && (
         <>
           <h2 className={styles.heading}>Tap on selected NFT to reveal</h2>
           <Checkbox
