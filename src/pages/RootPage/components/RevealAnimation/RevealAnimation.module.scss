@@ -243,3 +243,23 @@
 .visible {
   opacity: 1;
 }
+
+.selectNextNftButton {
+  width: 208px;
+  height: 40px;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+  position: absolute;
+  bottom: 75px;
+
+  @media (max-width: 960px) {
+    bottom: 120px;
+  }
+
+  @media (max-width: 550px) {
+    bottom: 100px;
+  }
+}
+.selectNextNftButton.active {
+  opacity: 1;
+}

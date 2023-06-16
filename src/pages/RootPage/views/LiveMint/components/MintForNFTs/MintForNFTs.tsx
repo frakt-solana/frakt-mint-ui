@@ -12,6 +12,7 @@ import { useMintForNFTs } from './hooks'
 
 import styles from './MintForNFTs.module.scss'
 import NotConnectedState from './NotConnectedState'
+import NoSuitableNftsState from './NoSuitableNftsState'
 
 const MintForNFTs = () => {
   const { connected } = useWallet()
@@ -31,6 +32,8 @@ const MintForNFTs = () => {
     defaultImage,
     mintedNft,
     selectedNft,
+    handleResetAnimation,
+    nftsLoading,
   } = useMintForNFTs()
 
   const handeSelectNFt = (nft: NFT) => {
@@ -48,6 +51,18 @@ const MintForNFTs = () => {
   }
 
   const shouldShowAnimation = isStartAnimation || isLoading
+  const hasNfts = !nftsLoading && !!nfts?.length
+  const shouldShowNotConnectedState =
+    !connected && !nftsLoading && !nfts?.length
+  const shouldShowNoSuitableNftsState =
+    connected &&
+    !nfts?.length &&
+    !nftsLoading &&
+    !isStartAnimation &&
+    !isLoading
+
+  const shouldShowContent =
+    connected && hasNfts && !isStartAnimation && !isLoading
 
   return (
     <>
@@ -57,11 +72,14 @@ const MintForNFTs = () => {
           isStartAnimation={isStartAnimation}
           mintedNft={mintedNft}
           isLoading={isLoading}
+          handleResetAnimation={handleResetAnimation}
         />
       )}
 
-      {!connected && <NotConnectedState />}
-      {connected && !isStartAnimation && !isLoading && (
+      {shouldShowNotConnectedState && <NotConnectedState />}
+      {shouldShowNoSuitableNftsState && <NoSuitableNftsState />}
+
+      {shouldShowContent && (
         <>
           <h2 className={styles.heading}>Tap on selected NFT to reveal</h2>
           <Checkbox

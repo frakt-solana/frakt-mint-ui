@@ -49,7 +49,6 @@ export const getMetadataByCertainNft = async ({
     state: null,
   }
   const nft = await getNFTMetadata(token, connection)
-  console.log(nft)
 
   const parsedNft = parseNft(nft)
 

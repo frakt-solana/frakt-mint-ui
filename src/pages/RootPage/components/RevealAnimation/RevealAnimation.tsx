@@ -9,12 +9,15 @@ import Card from '../Card/Card'
 import Svg1 from './svg1.svg'
 
 import styles from './RevealAnimation.module.scss'
+import { Button } from '@frakt/components/Button'
+import { ColumnValue } from '../../views/LiveMint/components/MintForNFTs/BulkComponents'
 
 interface RevealAnimationProps {
   isStartAnimation: boolean
   selectedNftImage: string
   mintedNft: MintedNft
   isLoading: boolean
+  handleResetAnimation: () => void
 }
 
 const RevealAnimation = ({
@@ -22,6 +25,7 @@ const RevealAnimation = ({
   selectedNftImage,
   mintedNft,
   isLoading,
+  handleResetAnimation,
 }: RevealAnimationProps) => {
   const { scale, isAnimationEnd, nftImage } = useOpenAnimation({
     isStartAnimation: !isLoading && isStartAnimation,
@@ -61,6 +65,10 @@ const RevealAnimation = ({
             <RaritiButton isVisible={isCardAnimationEnded} rarity="Legendary" />
           </div>
           <Attributes isVisible={isCardAnimationEnded} />
+          <SelectNextNftButton
+            isVisible={isCardAnimationEnded}
+            onClick={handleResetAnimation}
+          />
         </>
       )}
     </div>
@@ -79,6 +87,31 @@ const ExplosionSvg = ({ scale, isAnimationEnd }) => (
     className={classNames(styles.svgImage, { [styles.active]: scale })}
   />
 )
+
+const SelectNextNftButton = ({ isVisible, onClick }) => {
+  const [visibleButton, setVisibleButton] = useState(false)
+
+  useEffect(() => {
+    if (isVisible) {
+      const timer = setTimeout(() => {
+        setVisibleButton(true)
+      }, 2000)
+      return () => clearTimeout(timer)
+    }
+  }, [isVisible])
+
+  return (
+    <Button
+      type="secondary"
+      className={classNames(styles.selectNextNftButton, {
+        [styles.active]: visibleButton,
+      })}
+      onClick={onClick}
+    >
+      Select next one
+    </Button>
+  )
+}
 
 const NftName = ({ isVisible, name }) => (
   <div className={classNames(styles.name, { [styles.active]: isVisible })}>

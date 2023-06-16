@@ -19,19 +19,19 @@ import { CANDY_MACHINE_PUBKEY, DESTINATION_PUBKEY } from '@frakt/constants'
 import { throwLogsError } from '@frakt/utils'
 import { useUmi } from '@frakt/helpers/umi'
 
+import { useSelectedNFTs } from './../nftsState'
+import { useWalletNfts } from './useWalletNfts'
 import {
   MintedNft,
   getCertainGroupByNft,
   getMetadataByCertainNft,
 } from '../helpers'
-import { useSelectedNFTs } from './../nftsState'
-import { useWalletNfts } from './useWalletNfts'
 
 export const useMintForNFTs = () => {
   const { connection } = useConnection()
   const { publicKey: walletPublicKey } = useWallet()
 
-  const { nfts } = useWalletNfts()
+  const { nfts, hideNFT, isLoading: nftsLoading } = useWalletNfts()
   const umi = useUmi()
 
   const [isBulkMint, setIsBulkMint] = useState<boolean>(false)
@@ -70,6 +70,12 @@ export const useMintForNFTs = () => {
     } else {
       setSelection(nfts)
     }
+  }
+
+  const handleResetAnimation = () => {
+    setIsStartAnimation(false)
+    setIsLoading(false)
+    clearSelection()
   }
 
   const onSingleMint = async () => {
@@ -135,6 +141,7 @@ export const useMintForNFTs = () => {
       }
 
       setMintedNft(nft)
+      hideNFT(selectedNft?.mint)
       setIsStartAnimation(true)
     } catch (error) {
       throwLogsError(error)
@@ -159,5 +166,7 @@ export const useMintForNFTs = () => {
     defaultImage,
     mintedNft,
     selectedNft,
+    handleResetAnimation,
+    nftsLoading,
   }
 }

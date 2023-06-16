@@ -1,3 +1,4 @@
+import { produce } from 'immer'
 import { useEffect, useState } from 'react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { useQuery } from '@tanstack/react-query'
@@ -5,10 +6,13 @@ import { useQuery } from '@tanstack/react-query'
 import { fetchWalletBorrowNfts } from '@frakt/api/nft'
 import { getNFTsByOwner } from '@frakt/utils/nfts'
 import { creators } from '@frakt/constants'
+import { create } from 'zustand'
 
 const FETCH_LIMIT = 1000
 
 export const useWalletNfts = () => {
+  const { hiddenNFTsMint, hideNFT } = useHiddenNFTsMint()
+
   const wallet = useWallet()
 
   const { data, isLoading } = useQuery(
@@ -25,14 +29,31 @@ export const useWalletNfts = () => {
     },
   )
 
+  const nfts = data?.filter(({ mint }) => !hiddenNFTsMint.includes(mint)) || []
+
   return {
     nfts:
-      data?.filter((nft) =>
+      nfts?.filter((nft) =>
         creators.includes(nft?.bondParams?.whitelistEntry?.whitelistedAddress),
       ) || [],
     isLoading,
+    hideNFT,
   }
 }
+
+interface HiddenNFTsPubkeysState {
+  hiddenNFTsMint: string[]
+  hideNFT: (nft: string) => void
+}
+const useHiddenNFTsMint = create<HiddenNFTsPubkeysState>((set) => ({
+  hiddenNFTsMint: [],
+  hideNFT: (nftMint: string) =>
+    set(
+      produce((state: HiddenNFTsPubkeysState) => {
+        state.hiddenNFTsMint = [...state.hiddenNFTsMint, nftMint]
+      }),
+    ),
+}))
 
 export const useDevnetWalletNfts = () => {
   const { publicKey } = useWallet()
