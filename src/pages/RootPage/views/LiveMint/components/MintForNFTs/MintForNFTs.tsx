@@ -13,6 +13,7 @@ import { useMintForNFTs } from './hooks'
 import styles from './MintForNFTs.module.scss'
 import NotConnectedState from './NotConnectedState'
 import NoSuitableNftsState from './NoSuitableNftsState'
+import { LoadingModal } from '@frakt/components/LoadingModal'
 
 const MintForNFTs = () => {
   const { connected } = useWallet()
@@ -27,6 +28,7 @@ const MintForNFTs = () => {
 
     isBulkMint,
     isLoading,
+    loadingModalVisible,
 
     onSubmit,
     handleResetAnimation,
@@ -119,6 +121,10 @@ const MintForNFTs = () => {
           )}
         </>
       )}
+      <LoadingModal
+        title="Please approve transaction"
+        visible={loadingModalVisible}
+      />
     </>
   )
 }

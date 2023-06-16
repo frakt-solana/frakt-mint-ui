@@ -56,6 +56,7 @@ export const useMintForNFTs = () => {
     isStartAnimation,
     mintedNft,
     handleResetAnimation,
+    loadingModalVisible,
   } = useMintTransactions({
     selection,
     hideNFT,
@@ -87,6 +88,7 @@ export const useMintForNFTs = () => {
 
     isBulkMint,
     isLoading,
+    loadingModalVisible,
 
     onSubmit: isBulkMint ? onBulkMint : onSingleMint,
     handleResetAnimation,

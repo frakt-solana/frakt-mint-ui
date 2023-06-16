@@ -1,19 +1,21 @@
+import { useState } from 'react'
+import { useConnection, useWallet } from '@solana/wallet-adapter-react'
+import { base58PublicKey } from '@metaplex-foundation/umi'
+
+import { CANDY_MACHINE_PUBKEY } from '@frakt/constants'
+import { throwLogsError } from '@frakt/utils'
+import { useUmi } from '@frakt/helpers/umi'
 import {
   buildMintTransaction,
   makeMintTransaction,
 } from '@frakt/utils/transactions/makeMintTransaction'
-import { useConnection, useWallet } from '@solana/wallet-adapter-react'
-import { useUmi } from '@frakt/helpers/umi'
 
 import {
   MintedNft,
   getCertainGroupByNft,
   getMetadataByCertainNft,
 } from '../helpers'
-import { CANDY_MACHINE_PUBKEY } from '@frakt/constants'
-import { base58PublicKey } from '@metaplex-foundation/umi'
-import { useState } from 'react'
-import { throwLogsError } from '@frakt/utils'
+import { useLoadingModal } from '@frakt/components/LoadingModal'
 
 export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
   const { connection } = useConnection()
@@ -22,6 +24,12 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isStartAnimation, setIsStartAnimation] = useState<boolean>(false)
+
+  const {
+    visible: loadingModalVisible,
+    open: openLoadingModal,
+    close: closeLoadingModal,
+  } = useLoadingModal()
 
   const [mintedNft, setMintedNft] = useState<MintedNft>(null)
 
@@ -34,6 +42,7 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
   }
 
   const onBulkMint = async () => {
+    openLoadingModal()
     try {
       const mintTransactions = []
 
@@ -49,7 +58,7 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
           })
           mintTransactions.push(transaction)
         } catch (error) {
-          console.log(`Error processing item: ${nft}`)
+          console.log(`Error processing nft: ${nft}`)
           console.log(error)
         }
       }
@@ -58,7 +67,7 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
         mintTransactions,
       )
 
-      const txids = await Promise.all(
+      await Promise.all(
         signedTransactions.map((signedTransaction) =>
           connection.sendRawTransaction(signedTransaction.serialize()),
         ),
@@ -67,6 +76,8 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
       await new Promise((r) => setTimeout(r, 7000))
     } catch (error) {
       console.log(error)
+    } finally {
+      closeLoadingModal()
     }
   }
 
@@ -125,5 +136,6 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
     isStartAnimation,
     mintedNft,
     handleResetAnimation,
+    loadingModalVisible,
   }
 }
