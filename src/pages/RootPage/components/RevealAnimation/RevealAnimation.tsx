@@ -10,7 +10,6 @@ import Svg1 from './svg1.svg'
 
 import styles from './RevealAnimation.module.scss'
 import { Button } from '@frakt/components/Button'
-import { ColumnValue } from '../../views/LiveMint/components/MintForNFTs/BulkComponents'
 
 interface RevealAnimationProps {
   isStartAnimation: boolean
