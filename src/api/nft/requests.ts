@@ -22,3 +22,22 @@ export const fetchWalletBorrowNfts: FetchWalletBorrowNfts = async ({
 
   return data
 }
+
+interface MintNftsQueryParams {
+  metadata: any
+  mint: string
+  baseNftMint: string
+  user: string
+  txId: string
+}
+
+type MintNftsQuery = (params: MintNftsQueryParams[]) => Promise<any>
+
+export const mintNftsQuery: MintNftsQuery = async (params) => {
+  const { data } = await axios.get<NFT[]>(
+    `https://${BACKEND_DOMAIN}/banx/reveal`,
+    { params },
+  )
+
+  return data
+}

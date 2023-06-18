@@ -26,7 +26,10 @@ type MakeMintTransaction = (params: {
   group: string
   candyMachineAddress: string
   selectedNftMint: string
-}) => Promise<web3.VersionedTransaction>
+}) => Promise<{
+  transactionMint: web3.VersionedTransaction
+  nftSigner: KeypairSigner
+}>
 
 export const makeMintTransaction: MakeMintTransaction = async ({
   umi,
@@ -49,7 +52,7 @@ export const makeMintTransaction: MakeMintTransaction = async ({
   const rightNftSigner = web3.Keypair.fromSecretKey(nftSigner.secretKey)
   transactionMint.sign([rightNftSigner])
 
-  return transactionMint
+  return { transactionMint, nftSigner }
 }
 
 type BuildMintTransaction = (params: {

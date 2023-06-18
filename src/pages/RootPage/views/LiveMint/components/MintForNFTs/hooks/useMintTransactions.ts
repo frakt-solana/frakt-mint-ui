@@ -16,6 +16,14 @@ import {
   getMetadataByCertainNft,
 } from '../helpers'
 import { useLoadingModal } from '@frakt/components/LoadingModal'
+import { bs58 } from '@project-serum/anchor/dist/cjs/utils/bytes'
+import { mintNftsQuery } from '@frakt/api/nft'
+
+const encodeSignature = (signature) => {
+  const buffer = Buffer.from(signature)
+  const encodedSignature = bs58.encode(buffer)
+  return encodedSignature
+}
 
 export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
   const { connection } = useConnection()
@@ -31,7 +39,7 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
     close: closeLoadingModal,
   } = useLoadingModal()
 
-  const [mintedNft, setMintedNft] = useState<MintedNft>(null)
+  const [mintedNft, setMintedNft] = useState<any>(null)
 
   const selectedNft = selection[0]
 
@@ -44,30 +52,46 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
   const onBulkMint = async () => {
     openLoadingModal()
     try {
-      const mintTransactions = []
+      const mintsTransactionsParams = []
 
       for (const nft of selection) {
         try {
           const group = getCertainGroupByNft(nft)
 
-          const transaction = await makeMintTransaction({
+          const { transactionMint, nftSigner } = await makeMintTransaction({
             umi,
             group,
             candyMachineAddress: CANDY_MACHINE_PUBKEY,
             selectedNftMint: nft?.mint,
           })
-          mintTransactions.push(transaction)
+
+          const metadata = await getMetadataByCertainNft({
+            nftMint: selectedNft?.mint,
+            connection,
+          })
+
+          mintsTransactionsParams.push({
+            metadata: metadata?.externalMetadata,
+            transaction: transactionMint,
+            mint: nftSigner,
+            baseNftMint: nft?.mint,
+            user: wallet?.publicKey?.toBase58(),
+          })
         } catch (error) {
           console.log(`Error processing nft: ${nft}`)
           console.log(error)
         }
       }
 
+      const mintTransactions = mintsTransactionsParams.map(
+        ({ transaction }) => transaction,
+      )
+
       const signedTransactions = await wallet.signAllTransactions(
         mintTransactions,
       )
 
-      await Promise.all(
+      const txids = await Promise.all(
         signedTransactions.map((signedTransaction) =>
           connection.sendRawTransaction(signedTransaction.serialize()),
         ),
@@ -85,8 +109,6 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
     try {
       setIsLoading(true)
 
-      //TODO: need fetch ceartain CANDY_MACHINE_PUBKEY for each nft
-
       const group = getCertainGroupByNft(selectedNft)
 
       const { transaction, nftSigner } = await buildMintTransaction({
@@ -96,7 +118,7 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
         selectedNftMint: selectedNft?.mint,
       })
 
-      const { result } = await transaction.sendAndConfirm(umi, {
+      const { result, signature } = await transaction.sendAndConfirm(umi, {
         confirm: { commitment: 'finalized' },
         send: {
           skipPreflight: true,
@@ -108,17 +130,29 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
         return false
       }
 
-      const receivedNftMint = base58PublicKey(nftSigner?.publicKey?.bytes)
-      const nft = await getMetadataByCertainNft({
-        nftMint: receivedNftMint,
+      const encodedSignature = encodeSignature(signature)
+      const BANXMint = base58PublicKey(nftSigner?.publicKey?.bytes)
+
+      const metadata = await getMetadataByCertainNft({
+        nftMint: selectedNft?.mint,
         connection,
       })
 
-      if (!nft?.mint) {
+      if (!metadata?.mint) {
         return false
       }
 
-      setMintedNft(nft)
+      // const response = await mintNftsQuery([
+      //   {
+      //     metadata,
+      //     mint: BANXMint,
+      //     baseNftMint: selectedNft?.mint,
+      //     user: wallet?.publicKey?.toBase58(),
+      //     txId: encodedSignature,
+      //   },
+      // ])
+
+      setMintedNft(metadata)
       hideNFT(selectedNft?.mint)
       setIsStartAnimation(true)
     } catch (error) {

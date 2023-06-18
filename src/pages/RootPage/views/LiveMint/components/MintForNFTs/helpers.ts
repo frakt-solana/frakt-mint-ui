@@ -50,7 +50,7 @@ export const getMetadataByCertainNft = async ({
   }
   const nft = await getNFTMetadata(token, connection)
 
-  const parsedNft = parseNft(nft)
+  // const parsedNft = parseNft(nft)
 
-  return parsedNft
+  return nft
 }
