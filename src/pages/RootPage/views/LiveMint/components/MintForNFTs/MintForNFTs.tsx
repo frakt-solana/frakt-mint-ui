@@ -1,3 +1,5 @@
+import { Howl } from 'howler'
+import { useLayoutEffect } from 'react'
 import { useWallet } from '@solana/wallet-adapter-react'
 import classNames from 'classnames'
 
@@ -14,6 +16,8 @@ import styles from './MintForNFTs.module.scss'
 import NotConnectedState from './NotConnectedState'
 import NoSuitableNftsState from './NoSuitableNftsState'
 import { LoadingModal } from '@frakt/components/LoadingModal'
+
+import bgLooped from '@frakt/sounds/backgroundSound.mp3'
 
 const MintForNFTs = () => {
   const { connected } = useWallet()
@@ -40,6 +44,22 @@ const MintForNFTs = () => {
     showReveal,
     showLoader,
   } = useMintForNFTs()
+
+  useLayoutEffect(() => {
+    const sound = new Howl({
+      src: [bgLooped],
+      loop: true,
+      volume: 0.5,
+    })
+
+    console.log(sound)
+
+    sound.play()
+
+    return () => {
+      sound.stop()
+    }
+  }, [])
 
   return (
     <>
