@@ -271,3 +271,36 @@
     height: 136px;
   }
 }
+
+.notSuitableNftCard {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  img {
+    width: 225px;
+    height: 225px;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .connectButton {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 225px;
+  }
+
+  @media (max-width: 650px) {
+    img {
+      width: 163px;
+      height: 163px;
+    }
+    .connectButton {
+      width: 163px;
+      font-size: 14px;
+    }
+  }
+}

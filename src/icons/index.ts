@@ -6,6 +6,7 @@ export * from './MathWallet'
 export * from './Moon'
 export * from './Solana'
 export * from './Sun'
+export * from './Tensor'
 
 //? Raster icons
 export { default as BANX } from './BANX.png'

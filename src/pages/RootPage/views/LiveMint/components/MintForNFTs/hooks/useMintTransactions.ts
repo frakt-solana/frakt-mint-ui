@@ -152,7 +152,7 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
       //   },
       // ])
 
-      setMintedNft(metadata)
+      setMintedNft(selectedNft?.mint)
       hideNFT(selectedNft?.mint)
       setIsStartAnimation(true)
     } catch (error) {
