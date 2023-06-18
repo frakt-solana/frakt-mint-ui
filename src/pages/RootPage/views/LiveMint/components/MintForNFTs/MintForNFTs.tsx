@@ -52,8 +52,6 @@ const MintForNFTs = () => {
       volume: 0.5,
     })
 
-    console.log(sound)
-
     sound.play()
 
     return () => {

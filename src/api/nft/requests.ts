@@ -34,9 +34,11 @@ interface MintNftsQueryParams {
 type MintNftsQuery = (params: MintNftsQueryParams[]) => Promise<any>
 
 export const mintNftsQuery: MintNftsQuery = async (params) => {
-  const { data } = await axios.get<NFT[]>(
+  const { data } = await axios.post<NFT[]>(
     `https://${BACKEND_DOMAIN}/banx/reveal`,
-    { params },
+    {
+      nfts: params,
+    },
   )
 
   return data

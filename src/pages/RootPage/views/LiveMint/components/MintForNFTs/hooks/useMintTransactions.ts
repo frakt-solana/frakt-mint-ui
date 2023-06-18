@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
+import { bs58 } from '@project-serum/anchor/dist/cjs/utils/bytes'
 import { base58PublicKey } from '@metaplex-foundation/umi'
 
 import { CANDY_MACHINE_PUBKEY } from '@frakt/constants'
@@ -9,15 +10,16 @@ import {
   buildMintTransaction,
   makeMintTransaction,
 } from '@frakt/utils/transactions/makeMintTransaction'
+import { useLoadingModal } from '@frakt/components/LoadingModal'
+import { mintNftsQuery } from '@frakt/api/nft'
 
 import {
   MintedNft,
   getCertainGroupByNft,
   getMetadataByCertainNft,
+  parseNft,
 } from '../helpers'
-import { useLoadingModal } from '@frakt/components/LoadingModal'
-import { bs58 } from '@project-serum/anchor/dist/cjs/utils/bytes'
-import { mintNftsQuery } from '@frakt/api/nft'
+
 
 const encodeSignature = (signature) => {
   const buffer = Buffer.from(signature)
@@ -39,7 +41,7 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
     close: closeLoadingModal,
   } = useLoadingModal()
 
-  const [mintedNft, setMintedNft] = useState<any>(null)
+  const [mintedNft, setMintedNft] = useState<MintedNft>(null)
 
   const selectedNft = selection[0]
 
@@ -70,15 +72,18 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
             connection,
           })
 
+          if (!metadata?.mint) {
+            return false
+          }
+
           mintsTransactionsParams.push({
-            metadata: metadata?.externalMetadata,
+            metadata: JSON.stringify(metadata?.externalMetadata),
             transaction: transactionMint,
-            mint: nftSigner,
+            mint: base58PublicKey(nftSigner?.publicKey?.bytes),
             baseNftMint: nft?.mint,
             user: wallet?.publicKey?.toBase58(),
           })
         } catch (error) {
-          console.log(`Error processing nft: ${nft}`)
           console.log(error)
         }
       }
@@ -98,6 +103,10 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
       )
 
       await new Promise((r) => setTimeout(r, 7000))
+
+      const response = await mintNftsQuery(mintsTransactionsParams)
+
+      console.log(response)
     } catch (error) {
       console.log(error)
     } finally {
@@ -131,7 +140,6 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
       }
 
       const encodedSignature = encodeSignature(signature)
-      const BANXMint = base58PublicKey(nftSigner?.publicKey?.bytes)
 
       const metadata = await getMetadataByCertainNft({
         nftMint: selectedNft?.mint,
@@ -142,17 +150,25 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
         return false
       }
 
-      // const response = await mintNftsQuery([
-      //   {
-      //     metadata,
-      //     mint: BANXMint,
-      //     baseNftMint: selectedNft?.mint,
-      //     user: wallet?.publicKey?.toBase58(),
-      //     txId: encodedSignature,
-      //   },
-      // ])
+      const [success, newMetadata] = await mintNftsQuery([
+        {
+          metadata: JSON.stringify(metadata?.externalMetadata),
+          mint: base58PublicKey(nftSigner?.publicKey?.bytes),
+          baseNftMint: selectedNft?.mint,
+          user: wallet?.publicKey?.toBase58(),
+          txId: encodedSignature,
+        },
+      ])
 
-      setMintedNft(selectedNft?.mint)
+      console.log('New metadata: ', newMetadata)
+
+      if (!success) {
+        return false
+      }
+
+      const parsedNewMetadata = parseNft(newMetadata)
+
+      setMintedNft(parsedNewMetadata)
       hideNFT(selectedNft?.mint)
       setIsStartAnimation(true)
     } catch (error) {

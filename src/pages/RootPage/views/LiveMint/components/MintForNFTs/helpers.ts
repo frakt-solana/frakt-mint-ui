@@ -1,6 +1,5 @@
-import { web3 } from '@project-serum/anchor'
-
 import { getNFTMetadata } from '@frakt/utils/nfts/'
+import { web3 } from '@project-serum/anchor'
 import { NFT } from '@frakt/api/nft'
 import {
   FRAKTS_GROUP,
@@ -10,17 +9,18 @@ import {
   creators,
 } from '@frakt/constants'
 
+
 export interface MintedNft {
   mint: string
   name: string
   imageUrl: string
 }
 
-const parseNft = (nft: any): MintedNft => {
+export const parseNft = (nft: any): MintedNft => {
   return {
     mint: nft?.mint?.toBase58(),
-    name: nft?.externalMetadata?.name,
-    imageUrl: nft?.externalMetadata?.image,
+    name: nft?.name,
+    imageUrl: nft?.image,
   }
 }
 
