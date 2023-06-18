@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Howl } from 'howler'
 
 import tableReveal from '@frakt/sounds/tableRevealSound.mp3'
-import pfpRevealSound from '@frakt/sounds/pfpRevealSound.wav'
+import pfpRevealSound from '@frakt/sounds/pfpRevealSound.mp3'
 import cardMove from '@frakt/sounds/cardMoveSound.mp3'
 import flashSound from '@frakt/sounds/flashSound.mp3'
 

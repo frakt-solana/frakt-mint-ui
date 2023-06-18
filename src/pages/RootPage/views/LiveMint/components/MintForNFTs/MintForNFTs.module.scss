@@ -231,6 +231,10 @@
   font-family: Chakra Petch;
   font-size: 16px;
   font-weight: 600;
+
+  @media (max-width: 650px) {
+    height: 40px;
+  }
 }
 
 .notConnectedContainer {
@@ -251,9 +255,19 @@
 .notConnectedSmallImage {
   width: 177px;
   height: 177px;
+
+  @media (max-width: 650px) {
+    width: 96px;
+    height: 96px;
+  }
 }
 
 .notConnectedImage {
   height: 225px;
   width: 225px;
+
+  @media (max-width: 650px) {
+    width: 136px;
+    height: 136px;
+  }
 }
