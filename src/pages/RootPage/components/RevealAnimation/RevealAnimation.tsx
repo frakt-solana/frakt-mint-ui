@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import classNames from 'classnames'
+import { Howl } from 'howler'
 
 import { Button } from '@frakt/components/Button'
 
@@ -9,6 +10,8 @@ import LoaderAnimation from '../LoaderAnimation'
 import starIcon from './star.svg'
 import Card from '../Card/Card'
 import Svg1 from './svg1.svg'
+
+import bgLooped from '@frakt/sounds/backgroundSound.mp3'
 
 import styles from './RevealAnimation.module.scss'
 
@@ -25,6 +28,16 @@ const RevealAnimation = ({
   isLoading,
   handleResetAnimation,
 }: RevealAnimationProps) => {
+  const sound = new Howl({ src: [bgLooped], loop: true })
+
+  useEffect(() => {
+    sound.play()
+
+    return () => {
+      sound.stop()
+    }
+  }, [])
+
   const { scale, isAnimationEnd, nftImage } = useOpenAnimation({
     isStartAnimation: !isLoading,
     selectedNftImage,

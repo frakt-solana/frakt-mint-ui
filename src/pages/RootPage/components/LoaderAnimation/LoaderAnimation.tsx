@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import classNames from 'classnames'
+import { Howl } from 'howler'
 
 import styles from './LoaderAnimation.module.scss'
 
@@ -8,8 +9,12 @@ import Svg2 from './svg2.svg'
 import Svg3 from './svg3.svg'
 import Svg4 from './svg4.svg'
 
+import loaderSound from '@frakt/sounds/loaderSound.mp3'
+
 const LoaderAnimation = () => {
   const [currentSVGIndex, setCurrentSVGIndex] = useState(0)
+
+  const sound = new Howl({ src: [loaderSound], loop: true })
 
   useEffect(() => {
     const startAnimation = () => {
@@ -22,6 +27,14 @@ const LoaderAnimation = () => {
 
     return () => {
       clearInterval(interval)
+    }
+  }, [])
+
+  useEffect(() => {
+    sound.play()
+
+    return () => {
+      sound.stop()
     }
   }, [])
 

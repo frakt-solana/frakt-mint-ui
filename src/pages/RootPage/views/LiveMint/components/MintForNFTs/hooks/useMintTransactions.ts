@@ -96,30 +96,30 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
         selectedNftMint: selectedNft?.mint,
       })
 
-      const { result } = await transaction.sendAndConfirm(umi, {
-        confirm: { commitment: 'finalized' },
-        send: {
-          skipPreflight: true,
-        },
-      })
+      // const { result } = await transaction.sendAndConfirm(umi, {
+      //   confirm: { commitment: 'finalized' },
+      //   send: {
+      //     skipPreflight: true,
+      //   },
+      // })
 
-      if (result.value.err !== null) {
-        console.log('TRANSACTION RESULT: ', result)
-        return false
-      }
+      // if (result.value.err !== null) {
+      //   console.log('TRANSACTION RESULT: ', result)
+      //   return false
+      // }
 
-      const receivedNftMint = base58PublicKey(nftSigner?.publicKey?.bytes)
-      const nft = await getMetadataByCertainNft({
-        nftMint: receivedNftMint,
-        connection,
-      })
+      // const receivedNftMint = base58PublicKey(nftSigner?.publicKey?.bytes)
+      // const nft = await getMetadataByCertainNft({
+      //   nftMint: receivedNftMint,
+      //   connection,
+      // })
 
-      if (!nft?.mint) {
-        return false
-      }
+      // if (!nft?.mint) {
+      //   return false
+      // }
 
-      setMintedNft(nft)
-      hideNFT(selectedNft?.mint)
+      setMintedNft(selectedNft)
+      // hideNFT(selectedNft?.mint)
       setIsStartAnimation(true)
     } catch (error) {
       throwLogsError(error)

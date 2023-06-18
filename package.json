@@ -24,6 +24,7 @@
     "browserify-zlib": "^0.2.0",
     "classnames": "^2.3.1",
     "crypto-browserify": "^3.12.0",
+    "howler": "^2.2.3",
     "https-browserify": "^1.0.0",
     "immer": "^9.0.18",
     "lodash": "^4.17.21",
