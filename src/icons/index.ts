@@ -7,6 +7,8 @@ export * from './Moon'
 export * from './Solana'
 export * from './Sun'
 export * from './Tensor'
+export * from './AudioOff'
+export * from './AudioOn'
 
 //? Raster icons
 export { default as BANX } from './BANX.png'

@@ -78,7 +78,7 @@ export const buildMintTransaction: BuildMintTransaction = async ({
   console.log('group: ', group)
 
   const tx = transactionBuilder()
-    .add(setComputeUnitLimit(umi, { units: 600_000 }))
+    .add(setComputeUnitLimit(umi, { units: 800_000 }))
     .add(
       mintV2(umi, {
         candyMachine: candyMachine.publicKey,

@@ -8,6 +8,7 @@ import { Button } from '@frakt/components/Button'
 import Checkbox from '@frakt/components/Checkbox/Checkbox'
 import { Loader } from '@frakt/components/Loader'
 import { LoadingModal } from '@frakt/components/LoadingModal'
+import { useHeaderAudio } from '@frakt/layouts/Header/Header'
 import RevealAnimation from '@frakt/pages/RootPage/components/RevealAnimation/RevealAnimation'
 import bgLooped from '@frakt/sounds/backgroundSound.mp3'
 import { useWallet } from '@solana/wallet-adapter-react'
@@ -41,19 +42,23 @@ const MintForNFTs = () => {
     showLoader,
   } = useMintForNFTs()
 
+  const { isAudioOn } = useHeaderAudio()
+
   useLayoutEffect(() => {
-    const sound = new Howl({
-      src: [bgLooped],
-      loop: true,
-      volume: 0.5,
-    })
+    if (isAudioOn) {
+      const sound = new Howl({
+        src: [bgLooped],
+        loop: true,
+        volume: 0.5,
+      })
 
-    sound.play()
+      sound.play()
 
-    return () => {
-      sound.stop()
+      return () => {
+        sound.stop()
+      }
     }
-  }, [])
+  }, [isAudioOn])
 
   return (
     <>

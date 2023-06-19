@@ -1,16 +1,22 @@
+import styles from './Header.module.scss'
+import Button from '@frakt/components/Button'
+import ConnectButton from '@frakt/components/ConnectButton'
+import ThemeSwitcher from '@frakt/components/ThemeSwitcher'
+import { useWalletModal } from '@frakt/components/WalletContent'
+import WalletContent from '@frakt/components/WalletContent'
+import { AudioOff, AudioOn, FraktLogo } from '@frakt/icons'
 import { FC } from 'react'
 import { Outlet } from 'react-router-dom'
-
-import { useWalletModal } from '@frakt/components/WalletContent'
-import ConnectButton from '@frakt/components/ConnectButton'
-import WalletContent from '@frakt/components/WalletContent'
-import ThemeSwitcher from '@frakt/components/ThemeSwitcher'
-import { FraktLogo } from '@frakt/icons'
-
-import styles from './Header.module.scss'
+import { create } from 'zustand'
 
 const Header: FC = () => {
   const { visible } = useWalletModal()
+
+  const { isAudioOn, toggleAudio } = useHeaderAudio()
+
+  const handleButtonClick = () => {
+    toggleAudio()
+  }
 
   return (
     <>
@@ -23,6 +29,13 @@ const Header: FC = () => {
           <div className={styles.switcherContainer}>
             <ThemeSwitcher />
           </div>
+          <Button
+            className={styles.soundButton}
+            type="tertiary"
+            onClick={handleButtonClick}
+          >
+            {isAudioOn ? <AudioOn /> : <AudioOff />}
+          </Button>
           <ConnectButton className={styles.walletBtn} />
         </div>
       </header>
@@ -32,3 +45,13 @@ const Header: FC = () => {
 }
 
 export default Header
+
+type HeaderStore = {
+  isAudioOn: boolean
+  toggleAudio: () => void
+}
+
+export const useHeaderAudio = create<HeaderStore>((set) => ({
+  isAudioOn: true,
+  toggleAudio: () => set((state) => ({ isAudioOn: !state.isAudioOn })),
+}))
