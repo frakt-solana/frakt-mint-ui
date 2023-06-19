@@ -65,7 +65,7 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
           })
 
           const metadata = await getMetadataByCertainNft({
-            nftMint: selectedNft?.mint,
+            nftMint: nft?.mint,
             connection,
           })
 
