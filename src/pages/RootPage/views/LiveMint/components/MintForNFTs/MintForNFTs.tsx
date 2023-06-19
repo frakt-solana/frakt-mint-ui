@@ -49,7 +49,7 @@ const MintForNFTs = () => {
       const sound = new Howl({
         src: [bgLooped],
         loop: true,
-        volume: 0.5,
+        volume: 0.3,
       })
 
       sound.play()

@@ -54,6 +54,9 @@ const RevealAnimation = ({
 
   return (
     <div className={styles.container}>
+      {(isLoading || !imageRendered) && (
+        <h2 className={styles.heading}>Revealing your Banx...</h2>
+      )}
       <div>
         {(isLoading || !imageRendered) && <LoaderAnimation />}
         <Card
