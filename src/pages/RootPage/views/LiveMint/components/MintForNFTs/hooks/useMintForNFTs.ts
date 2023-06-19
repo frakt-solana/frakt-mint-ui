@@ -57,6 +57,7 @@ export const useMintForNFTs = () => {
     mintedNft,
     handleResetAnimation,
     loadingModalVisible,
+    startTxnOneByOne,
   } = useMintTransactions({
     selection,
     hideNFT,
@@ -72,7 +73,8 @@ export const useMintForNFTs = () => {
   }
 
   const isConnectedAndNotLoading = connected && !nftsLoading && !isLoading
-  const showConnectedState = isConnectedAndNotLoading && !isStartAnimation
+  const showConnectedState =
+    isConnectedAndNotLoading && !isStartAnimation && !startTxnOneByOne
   const showNoSuitableNftsState = showConnectedState && !nfts?.length
   const showContent = showConnectedState && !!nfts?.length
   const showReveal = isStartAnimation || isLoading

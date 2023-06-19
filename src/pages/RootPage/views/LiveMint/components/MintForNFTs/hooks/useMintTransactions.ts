@@ -16,7 +16,7 @@ import {
 import { base58PublicKey } from '@metaplex-foundation/umi'
 import { bs58 } from '@project-serum/anchor/dist/cjs/utils/bytes'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const encodeSignature = (signature) => {
   const buffer = Buffer.from(signature)
@@ -42,11 +42,20 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
 
   const selectedNft = selection[0]
 
+  const [startTxnOneByOne, setStartTxnOneByOne] = useState(false)
+
   const handleResetAnimation = () => {
     setIsStartAnimation(false)
     setIsLoading(false)
     clearSelection()
+    setStartTxnOneByOne(true)
   }
+
+  useEffect(() => {
+    if (startTxnOneByOne && !!selectedNft?.mint) {
+      onSingleMint()
+    }
+  }, [startTxnOneByOne, selectedNft])
 
   const onBulkMint = async () => {
     openLoadingModal()
@@ -185,8 +194,10 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
     } catch (error) {
       throwLogsError(error)
       setIsLoading(false)
+      setStartTxnOneByOne(false)
     } finally {
       setIsLoading(false)
+      setStartTxnOneByOne(false)
     }
   }
 
@@ -198,5 +209,6 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
     mintedNft,
     handleResetAnimation,
     loadingModalVisible,
+    startTxnOneByOne,
   }
 }

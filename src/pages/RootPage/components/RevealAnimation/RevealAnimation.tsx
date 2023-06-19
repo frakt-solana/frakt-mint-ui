@@ -82,7 +82,12 @@ const RevealAnimation = ({
               rarity={mintedNft?.attributes?.rarity}
             />
           </div>
-          <Attributes isVisible={isCardAnimationEnded} mintedNft={mintedNft} />
+          {mintedNft?.attributes?.rarity !== '1/1' && (
+            <Attributes
+              isVisible={isCardAnimationEnded}
+              mintedNft={mintedNft}
+            />
+          )}
           <SelectNextNftButton
             isVisible={isCardAnimationEnded}
             onClick={handleResetAnimation}
@@ -126,7 +131,7 @@ const SelectNextNftButton = ({ isVisible, onClick }) => {
       })}
       onClick={onClick}
     >
-      Select next one
+      Reveal next one
     </Button>
   )
 }
