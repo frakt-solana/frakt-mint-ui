@@ -1,67 +1,84 @@
+import { BulkMintButtons, BulkMintStats, ColumnValue } from './BulkComponents'
+import styles from './MintForNFTs.module.scss'
+import NoSuitableNftsState from './NoSuitableNftsState'
+import NotConnectedState from './NotConnectedState'
+import { useMintForNFTs } from './hooks'
+import { NFT } from '@frakt/api/nft'
+import { Button } from '@frakt/components/Button'
+import Checkbox from '@frakt/components/Checkbox/Checkbox'
+import { Loader } from '@frakt/components/Loader'
+import { LoadingModal } from '@frakt/components/LoadingModal'
+import { useHeaderAudio } from '@frakt/layouts/Header/Header'
+import RevealAnimation from '@frakt/pages/RootPage/components/RevealAnimation/RevealAnimation'
+import bgLooped from '@frakt/sounds/backgroundSound.mp3'
 import { useWallet } from '@solana/wallet-adapter-react'
 import classNames from 'classnames'
-
-import LoaderAnimation from '@frakt/pages/RootPage/components/LoaderAnimation/LoaderAnimation'
-import OpenAnimaion from '@frakt/pages/RootPage/components/OpenAnimaion/OpenAnimaion'
-import Checkbox from '@frakt/components/Checkbox/Checkbox'
-import { Button } from '@frakt/components/Button'
-import { Loader } from '@frakt/components/Loader'
-import { NFT } from '@frakt/api/nft'
-
-import { BulkMintButtons, BulkMintStats, ColumnValue } from './BulkComponents'
-import { useMintForNFTs } from './hooks'
-
-import styles from './MintForNFTs.module.scss'
-
-const RECEIVED_NFT_IMAGE = 'https://pbs.twimg.com/media/FuaAl7sXoAIm_jk.png'
+import { Howl } from 'howler'
+import { useLayoutEffect } from 'react'
 
 const MintForNFTs = () => {
   const { connected } = useWallet()
 
   const {
     nfts,
-    toggleLoanInSelection,
-    findLoanInSelection,
     onSelectNFTs,
+    findLoanInSelection,
     selection,
-    onSubmit,
-    clearSelection,
+    selectedNFT,
+    mintedNft,
+
     isBulkMint,
-    setIsBulkMint,
     isLoading,
-    isStartAnimation,
-    defaultImage,
+    loadingModalVisible,
+
+    onSubmit,
+    handleResetAnimation,
+    handeSelectNFt,
+    handleToggleBulkMint,
+
+    showNoSuitableNftsState,
+    showContent,
+    showReveal,
+    showLoader,
   } = useMintForNFTs()
 
-  const handeSelectNFt = (nft: NFT) => {
-    if (!isBulkMint) {
-      clearSelection()
-      toggleLoanInSelection(nft)
-    } else {
-      toggleLoanInSelection(nft)
-    }
-  }
+  const { isAudioOn } = useHeaderAudio()
 
-  const handleChecked = () => {
-    clearSelection()
-    setIsBulkMint(!isBulkMint)
-  }
+  useLayoutEffect(() => {
+    if (isAudioOn) {
+      const sound = new Howl({
+        src: [bgLooped],
+        loop: true,
+        volume: 0.25,
+      })
+
+      sound.play()
+
+      return () => {
+        sound.stop()
+      }
+    }
+  }, [isAudioOn])
 
   return (
     <>
-      {(isStartAnimation || isLoading) && (
-        <OpenAnimaion
-          selectedNftImage={selection[0]?.imageUrl}
-          isStartAnimation={isStartAnimation}
-          receivedNftImage={RECEIVED_NFT_IMAGE}
+      {showReveal && (
+        <RevealAnimation
+          handleResetAnimation={handleResetAnimation}
+          selectedNftImage={selectedNFT?.imageUrl}
+          mintedNft={mintedNft}
           isLoading={isLoading}
         />
       )}
-      {!isStartAnimation && !isLoading && (
+      {showLoader && <Loader />}
+      {showNoSuitableNftsState && <NoSuitableNftsState />}
+      {!connected && <NotConnectedState />}
+
+      {showContent && (
         <>
           <h2 className={styles.heading}>Tap on selected NFT to reveal</h2>
           <Checkbox
-            onChange={handleChecked}
+            onChange={handleToggleBulkMint}
             checked={isBulkMint}
             label="Disable animation to bulk mint"
           />
@@ -69,11 +86,12 @@ const MintForNFTs = () => {
             {!isBulkMint && (
               <div className={styles.cardWrapper}>
                 <div className={styles.card}>
-                  <img src={defaultImage} />
+                  <img src={selectedNFT?.imageUrl} />
                 </div>
                 <Button
                   onClick={onSubmit}
                   className={styles.revealButton}
+                  disabled={!selection?.length}
                   type="secondary"
                 >
                   Reveal
@@ -91,6 +109,7 @@ const MintForNFTs = () => {
                 {!nfts.length && connected && <Loader />}
                 {nfts.map((nft) => (
                   <NftCard
+                    key={nft?.mint}
                     nft={nft}
                     selected={!!findLoanInSelection(nft.mint)}
                     onClick={() => handeSelectNFt(nft)}
@@ -101,7 +120,7 @@ const MintForNFTs = () => {
           </div>
 
           {!isBulkMint && (
-            <ColumnValue label="Banx minted" value={`${0}/${nfts?.length}`} />
+            <ColumnValue label="Total NFTS" value={nfts?.length} />
           )}
 
           {isBulkMint && (
@@ -121,6 +140,10 @@ const MintForNFTs = () => {
           )}
         </>
       )}
+      <LoadingModal
+        title="Please approve transaction"
+        visible={loadingModalVisible}
+      />
     </>
   )
 }

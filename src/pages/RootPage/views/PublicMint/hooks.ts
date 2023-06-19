@@ -1,20 +1,19 @@
+import { CANDY_MACHINE_PUBKEY, RECEIVER_PUBKEY } from '@frakt/constants'
+import { useUmi } from '@frakt/helpers/umi'
 import { throwLogsError } from '@frakt/utils'
-import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata'
+import {
+  fetchCandyGuard,
+  fetchCandyMachine,
+  mintV2,
+} from '@metaplex-foundation/mpl-candy-machine'
 import { setComputeUnitLimit } from '@metaplex-foundation/mpl-essentials'
+import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata'
 import {
   generateSigner,
   publicKey,
   some,
   transactionBuilder,
 } from '@metaplex-foundation/umi'
-import {
-  fetchCandyGuard,
-  fetchCandyMachine,
-  mintV2,
-} from '@metaplex-foundation/mpl-candy-machine'
-
-import { CANDY_MACHINE_PUBKEY, RECEIVER_PUBKEY } from '@frakt/constants'
-import { useUmi } from '@frakt/helpers/umi'
 
 export const usePublicMint = () => {
   const umi = useUmi()
@@ -41,8 +40,7 @@ export const usePublicMint = () => {
             candyGuard: candyGuard?.publicKey,
             group: some('Public'),
             mintArgs: {
-              solPayment: some({
-                lamports: 10000000000,
+              freezeSolPayment: some({
                 destination: publicKey(RECEIVER_PUBKEY),
               }),
             },

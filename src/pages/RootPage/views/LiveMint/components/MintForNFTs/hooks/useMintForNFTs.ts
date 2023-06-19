@@ -1,53 +1,70 @@
 import { useEffect, useState } from 'react'
-import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata'
-import { setComputeUnitLimit } from '@metaplex-foundation/mpl-essentials'
-import {
-  generateSigner,
-  publicKey,
-  some,
-  transactionBuilder,
-} from '@metaplex-foundation/umi'
-import {
-  fetchCandyGuard,
-  fetchCandyMachine,
-  mintV2,
-} from '@metaplex-foundation/mpl-candy-machine'
-import { useUmi } from '@frakt/helpers/umi'
+import { useWallet } from '@solana/wallet-adapter-react'
 
-import { throwLogsError } from '@frakt/utils'
+import { NFT } from '@frakt/api/nft'
 
-import { useDevnetWalletNfts, useWalletNfts } from './useWalletNfts'
+import { useMintTransactions } from './useMintTransactions'
 import { useSelectedNFTs } from './../nftsState'
-import { CANDY_MACHINE_PUBKEY, RECEIVER_PUBKEY } from '@frakt/constants'
+import { useWalletNfts } from './useWalletNfts'
 
 export const useMintForNFTs = () => {
-  // const { nfts } = useWalletNfts()
-  const { nfts } = useDevnetWalletNfts()
-  const umi = useUmi()
+  const wallet = useWallet()
+  const { connected } = useWallet()
+
+  const { nfts, hideNFT, isLoading: nftsLoading } = useWalletNfts()
 
   const [isBulkMint, setIsBulkMint] = useState<boolean>(false)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isStartAnimation, setIsStartAnimation] = useState<boolean>(false)
 
   const {
     selection,
-    toggleLoanInSelection,
+    toggleNftInSelection,
     clearSelection,
     findLoanInSelection,
     setSelection,
   } = useSelectedNFTs()
 
+  const selectedNFT = selection[0]
+
   useEffect(() => {
-    if (!selection?.length && nfts?.length && !isBulkMint) {
-      toggleLoanInSelection(nfts[0])
+    if (!selection?.length && !!nfts?.length && !isBulkMint) {
+      toggleNftInSelection(nfts[0])
     }
   }, [nfts, isBulkMint, selection])
 
-  const defaultImage = selection?.length
-    ? selection[0]?.imageUrl
-    : nfts[0]?.imageUrl
+  useEffect(() => {
+    clearSelection()
+  }, [wallet?.publicKey])
 
-  const onSelectNFTs = (): void => {
+  const handeSelectNFt = (nft: NFT) => {
+    if (!isBulkMint) {
+      clearSelection()
+      toggleNftInSelection(nft)
+    } else {
+      toggleNftInSelection(nft)
+    }
+  }
+
+  const handleToggleBulkMint = () => {
+    clearSelection()
+    setIsBulkMint(!isBulkMint)
+  }
+
+  const {
+    onBulkMint,
+    onSingleMint,
+    isLoading,
+    isStartAnimation,
+    mintedNft,
+    handleResetAnimation,
+    loadingModalVisible,
+    startTxnOneByOne,
+  } = useMintTransactions({
+    selection,
+    hideNFT,
+    clearSelection,
+  })
+
+  const onSelectNFTs = () => {
     if (selection.length) {
       clearSelection()
     } else {
@@ -55,87 +72,34 @@ export const useMintForNFTs = () => {
     }
   }
 
-  const onSubmit = async () => {
-    try {
-      setIsLoading(true)
-
-      const candyMachine = await fetchCandyMachine(
-        umi,
-        publicKey(CANDY_MACHINE_PUBKEY),
-      )
-
-      const candyGuard = await fetchCandyGuard(umi, candyMachine.mintAuthority)
-
-      const nftMint = generateSigner(umi)
-
-      const tx = transactionBuilder()
-        .add(setComputeUnitLimit(umi, { units: 600_000 }))
-        .add(
-          mintV2(umi, {
-            candyMachine: candyMachine.publicKey,
-            collectionMint: candyMachine.collectionMint,
-            collectionUpdateAuthority: candyMachine.authority,
-            nftMint: nftMint.publicKey,
-            candyGuard: candyGuard?.publicKey,
-            group: some('OGs'),
-            mintArgs: {
-              tokenGate: some({
-                mint: publicKey('FPMRWy8QY4Qi6myiDwTpsEkU2AHQ8KUfiqKVsDHkQQ6N'),
-                amount: 1,
-              }),
-              solPayment: some({
-                lamports: 0,
-                destination: publicKey(RECEIVER_PUBKEY),
-              }),
-            },
-            tokenStandard: TokenStandard.ProgrammableNonFungible,
-          }),
-        )
-
-      const { result } = await tx.sendAndConfirm(umi, {
-        confirm: { commitment: 'finalized' },
-        send: {
-          skipPreflight: true,
-        },
-      })
-
-      console.log(result, `TRANSACTION RESULT: ${result}`)
-
-      if (result.value.err !== null) {
-        return
-      }
-
-      setIsStartAnimation(true)
-    } catch (error) {
-      throwLogsError(error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const getMetadataByCertainNft = async () => {
-    // TODO: Make request to metadata
-    const result = await Promise.resolve(true)
-
-    // TODO: parse response to normal NFT interface
-
-    return {
-      result,
-    }
-  }
+  const isConnectedAndNotLoading = connected && !nftsLoading && !isLoading
+  const showConnectedState =
+    isConnectedAndNotLoading && !isStartAnimation && !startTxnOneByOne
+  const showNoSuitableNftsState = showConnectedState && !nfts?.length
+  const showContent = showConnectedState && !!nfts?.length
+  const showReveal = isStartAnimation || isLoading
+  const showLoader = nftsLoading && connected
 
   return {
     nfts,
     onSelectNFTs,
-    toggleLoanInSelection,
-    clearSelection,
     findLoanInSelection,
     selection,
-    onSubmit,
+    selectedNFT,
+    mintedNft,
+
     isBulkMint,
-    setIsBulkMint,
     isLoading,
-    isStartAnimation,
-    defaultImage,
+    loadingModalVisible,
+
+    onSubmit: isBulkMint ? onBulkMint : onSingleMint,
+    handleResetAnimation,
+    handeSelectNFt,
+    handleToggleBulkMint,
+
+    showNoSuitableNftsState,
+    showContent,
+    showReveal,
+    showLoader,
   }
 }

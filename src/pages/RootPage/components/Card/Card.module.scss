@@ -1,18 +1,46 @@
 .card {
-  width: 328px;
-  height: 328px;
   transition: transform 0.5s;
   background-size: cover;
 }
 
+.card,
+.flipCard {
+  width: 328px;
+  height: 328px;
+
+  @media (max-width: 1080px) {
+    width: 280px;
+    height: 280px;
+  }
+
+  @media (max-width: 960px) {
+    width: 248px;
+    height: 248px;
+    position: relative;
+    top: 0;
+  }
+
+  @media (max-width: 550px) {
+    width: 144px;
+    height: 144px;
+  }
+}
+
 .card.animate {
   transform: translateX(-300px);
+
+  @media (max-width: 1080px) {
+    transform: translateX(-280px);
+  }
+
+  @media (max-width: 960px) {
+    transform: translateY(-120px);
+    position: relative;
+  }
 }
 
 .flipCard {
   perspective: 1000px;
-  width: 328px;
-  height: 328px;
 
   .flipCardInner {
     position: relative;

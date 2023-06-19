@@ -14,7 +14,7 @@ export const BulkMintStats = ({ totalSelectedNfts, totalNfts }) => (
       label="Nfts selected"
       value={`${totalSelectedNfts}/${totalNfts}`}
     />
-    <ColumnValue label="Banx minted" value={`${0}/${totalNfts}`} />
+    {/* <ColumnValue label="Banx minted" value={`${0}/${totalNfts}`} /> */}
   </div>
 )
 

@@ -31,6 +31,16 @@ export interface NFT {
   }
 
   bondParams?: {
+    duration: number
+    fee: number
     marketPubkey: string
+    whitelistEntry: {
+      publicKey: string
+      fraktMarket: string
+      whitelistedAddress: string
+    }
+    fraktMarket: string
+    oracleFloor: string
+    durations: Array<number> //? days
   }
 }

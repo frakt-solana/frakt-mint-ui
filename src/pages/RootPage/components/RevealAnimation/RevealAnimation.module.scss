@@ -20,7 +20,10 @@
   height: 100%;
   width: 970px;
   position: relative;
-  gap: 32px;
+
+  @media (max-width: 960px) {
+    width: 100%;
+  }
 }
 
 .name {
@@ -28,7 +31,8 @@
   font-size: 40px;
   position: absolute;
   right: 0;
-  width: 600px;
+  max-width: 600px;
+  width: 100%;
 
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
   text-transform: uppercase;
@@ -37,11 +41,42 @@
     opacity: 1;
     transform: translateY(-115px);
   }
+
+  @media (max-width: 1080px) {
+    font-size: 32px;
+  }
+
+  @media (max-width: 960px) {
+    font-size: 24px;
+
+    text-align: center;
+    top: 0;
+    left: 0;
+    transform: unset;
+    max-width: unset;
+
+    &.active {
+      transform: unset;
+    }
+  }
+
+  @media (max-width: 550px) {
+    font-size: 20px;
+  }
 }
 
 .rarityButtonWrapper {
   position: absolute;
   transform: translate(-25px, -15px);
+
+  @media (max-width: 960px) {
+    font-size: 32px;
+    transform: unset;
+  }
+
+  @media (max-width: 550px) {
+    transform: translateY(-50px);
+  }
 }
 .rarityButton {
   display: flex;
@@ -59,6 +94,11 @@
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 
   position: relative;
+
+  @media (max-width: 550px) {
+    height: 30px;
+    width: 112px;
+  }
 }
 .rarityButton.active {
   opacity: 1;
@@ -68,6 +108,10 @@
   color: #000000;
   font: var(--font-subtitle-2);
   font-weight: 600px;
+
+  @media (max-width: 550px) {
+    font-size: 12px;
+  }
 }
 
 .attriburesWrapper {
@@ -91,9 +135,27 @@
   grid-template-rows: repeat(2, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0;
+
+  @media (max-width: 1080px) {
+    width: 450px;
+    right: 150px;
+  }
+
+  @media (max-width: 960px) {
+    width: 343px;
+    right: unset;
+  }
+
+  @media (max-width: 550px) {
+    transform: translateY(40px);
+  }
 }
 .attributes > div {
   padding: 8px 0;
+
+  @media (max-width: 960px) {
+    text-align: center;
+  }
 }
 .attributes.active {
   opacity: 1;
@@ -104,11 +166,36 @@
   font: var(--font-text-5);
   font-size: 16px;
   text-transform: uppercase;
+
+  @media (max-width: 960px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 550px) {
+    font-size: 12px;
+  }
 }
 
 .value {
   font: var(--font-text-1);
   font-size: 20px;
+
+  overflow: auto;
+  white-space: nowrap;
+  width: 220px;
+
+  @media (max-width: 960px) {
+    font-size: 16px;
+    width: 170px;
+  }
+
+  @media (max-width: 550px) {
+    font-size: 14px;
+  }
+
+  &::-webkit-scrollbar {
+    height: 0;
+  }
 }
 
 .values1 {
@@ -123,11 +210,19 @@
   border-bottom: 1px solid var(--primary-border);
   border-left: 1px solid var(--primary-border);
   padding-left: 24px !important;
+
+  @media (max-width: 960px) {
+    padding-left: 0 !important;
+  }
 }
 .values4 {
   grid-area: 2 / 2 / 3 / 3;
   border-left: 1px solid var(--primary-border);
   padding-left: 24px !important;
+
+  @media (max-width: 960px) {
+    padding-left: 0 !important;
+  }
 }
 
 .starIcon1 {
@@ -184,4 +279,43 @@
 
 .visible {
   opacity: 1;
+}
+
+.selectNextNftButton {
+  width: 208px;
+  height: 40px;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+  position: absolute;
+  bottom: 60px;
+
+  @media (max-width: 960px) {
+    bottom: 120px;
+  }
+
+  @media (max-width: 550px) {
+    bottom: 130px;
+  }
+}
+.selectNextNftButton.active {
+  opacity: 1;
+}
+
+.heading {
+  font: var(--font-title-2);
+  font-size: 40px;
+  max-width: 840px;
+  margin-bottom: 16px;
+  text-align: center;
+  text-transform: uppercase;
+  position: absolute;
+  top: 0;
+
+  @media (max-width: 960px) {
+    font-size: 32px;
+  }
+
+  @media (max-width: 550px) {
+    font-size: 16px;
+  }
 }

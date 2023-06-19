@@ -9,7 +9,7 @@ interface SelectedNFTsState {
   findLoanInSelection: (nftPubkey: string) => NFT | null
   addLoanToSelection: (nft: NFT) => void
   removeLoanFromSelection: (nftPubkey: string) => void
-  toggleLoanInSelection: (nft: NFT) => void
+  toggleNftInSelection: (nft: NFT) => void
   clearSelection: () => void
 }
 
@@ -49,7 +49,7 @@ export const useSelectedNFTs = create<SelectedNFTsState>((set, get) => ({
       }),
     )
   },
-  toggleLoanInSelection: (nft: NFT) => {
+  toggleNftInSelection: (nft: NFT) => {
     const { findLoanInSelection, addLoanToSelection, removeLoanFromSelection } =
       get()
     const isLoanInSelection = !!findLoanInSelection(nft.mint)

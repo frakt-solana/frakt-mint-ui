@@ -35,7 +35,7 @@ const {
   metadata: { Metadata },
 } = programs
 
-const getNFTMetadata = async (
+export const getNFTMetadata = async (
   token: {
     pubkey: web3.PublicKey
     mint: web3.PublicKey
