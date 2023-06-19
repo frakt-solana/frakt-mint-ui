@@ -118,6 +118,7 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
     } catch (error) {
       console.log(error)
     } finally {
+      clearSelection()
       closeLoadingModal()
     }
   }
