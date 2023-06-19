@@ -13,20 +13,42 @@ export interface MintedNft {
   mint: string
   name: string
   imageUrl: string
+  attributes: {
+    rarity: string
+    body: string
+    background: string
+    fur: string
+    eyes: string
+  }
+}
+
+const findAttributeValue = (attributes: any[], traitType: string) => {
+  const attribute = attributes.find(
+    ({ trait_type }) => trait_type === traitType,
+  )
+  return attribute ? attribute.value : undefined
 }
 
 export const parseNft = (nft: any): MintedNft => {
+  const { name, image, attributes } = nft
+
+  const rarity = findAttributeValue(attributes, 'Tier')
+  const body = findAttributeValue(attributes, 'Body')
+  const fur = findAttributeValue(attributes, 'Fur')
+  const background = findAttributeValue(attributes, 'Background')
+  const eyes = findAttributeValue(attributes, 'Eyes')
+
   return {
-    mint: nft?.mint?.toBase58(),
-    name: nft?.name,
-    imageUrl: nft?.image,
-    // attributes: {
-    //   rarity: 'Legendary',
-    //   body: 'Legendary',
-    //   fur: 'Legendary',
-    //   background: 'Legendary',
-    //   eyes: 'Solana Glasses',
-    // },
+    mint: name,
+    name,
+    imageUrl: image,
+    attributes: {
+      rarity,
+      body,
+      fur,
+      background,
+      eyes,
+    },
   }
 }
 

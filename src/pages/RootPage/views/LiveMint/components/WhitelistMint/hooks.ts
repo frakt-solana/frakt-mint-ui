@@ -46,11 +46,10 @@ export const useWhitelistMint = () => {
             group: some('Wls'),
             mintArgs: {
               tokenBurn: some({
-                mint: publicKey(WL_TOKEN_MINT),
+                mint: publicKey('E7fUvjw6gqyev9B77f5hjsyuGhw4yurqP85hAKxQdU43'),
                 amount: 1,
               }),
-              solPayment: some({
-                lamports: 10000000000,
+              freezeSolPayment: some({
                 destination: publicKey(RECEIVER_PUBKEY),
               }),
             },

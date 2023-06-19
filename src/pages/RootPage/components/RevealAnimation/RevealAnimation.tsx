@@ -1,16 +1,13 @@
-import { useEffect, useState } from 'react'
-import classNames from 'classnames'
-
-import { Button } from '@frakt/components/Button'
-
 import { MintedNft } from '../../views/LiveMint/components/MintForNFTs/helpers'
-import { useCardAnimation, useOpenAnimation } from './hooks'
-import LoaderAnimation from '../LoaderAnimation'
-import starIcon from './star.svg'
 import Card from '../Card/Card'
-import Svg1 from './svg1.svg'
-
+import LoaderAnimation from '../LoaderAnimation'
 import styles from './RevealAnimation.module.scss'
+import { useCardAnimation, useOpenAnimation } from './hooks'
+import starIcon from './star.svg'
+import Svg1 from './svg1.svg'
+import { Button } from '@frakt/components/Button'
+import classNames from 'classnames'
+import { useEffect, useState } from 'react'
 
 interface RevealAnimationProps {
   selectedNftImage: string
@@ -25,8 +22,25 @@ const RevealAnimation = ({
   isLoading,
   handleResetAnimation,
 }: RevealAnimationProps) => {
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const [imageRendered, setImageRendered] = useState(false)
+
+  useEffect(() => {
+    const image = new Image()
+    image.onload = () => {
+      setImageLoaded(true)
+    }
+    image.src = mintedNft?.imageUrl
+
+    const imgElement = document.createElement('img')
+    imgElement.onload = () => {
+      setImageRendered(true)
+    }
+    imgElement.src = mintedNft?.imageUrl
+  }, [mintedNft?.imageUrl])
+
   const { scale, isAnimationEnd, nftImage } = useOpenAnimation({
-    isStartAnimation: !isLoading,
+    isStartAnimation: !isLoading && imageRendered,
     selectedNftImage,
     mintedNftImage: mintedNft?.imageUrl,
   })
@@ -46,11 +60,11 @@ const RevealAnimation = ({
           image={nftImage}
           onAnimationEnd={handleAnimationEnd}
           isAnimationStarted={isStartCardAnimation}
-          isStartFlip={!isLoading}
+          isStartFlip={!isLoading && imageRendered}
         />
       </div>
 
-      {!isLoading && (
+      {!isLoading && imageRendered && (
         <ExplosionSvg scale={scale} isAnimationEnd={isAnimationEnd} />
       )}
       {animationCompleted && (
@@ -60,9 +74,12 @@ const RevealAnimation = ({
             name={`You minted ${mintedNft?.name}!`}
           />
           <div className={styles.rarityButtonWrapper}>
-            <RaritiButton isVisible={isCardAnimationEnded} rarity="Legendary" />
+            <RaritiButton
+              isVisible={isCardAnimationEnded}
+              rarity={mintedNft?.attributes?.rarity}
+            />
           </div>
-          <Attributes isVisible={isCardAnimationEnded} />
+          <Attributes isVisible={isCardAnimationEnded} mintedNft={mintedNft} />
           <SelectNextNftButton
             isVisible={isCardAnimationEnded}
             onClick={handleResetAnimation}
@@ -155,12 +172,34 @@ const RaritiButton = ({ isVisible, rarity }) => {
   )
 }
 
-const Attributes = ({ isVisible }) => {
+const Attributes = ({
+  isVisible,
+  mintedNft,
+}: {
+  isVisible: boolean
+  mintedNft: MintedNft
+}) => {
   const attributes = [
-    { label: 'Body', value: 'Polo shirt', className: styles.values1 },
-    { label: 'Fur', value: 'Blue', className: styles.values2 },
-    { label: 'Eyes', value: 'Solana Glasses', className: styles.values3 },
-    { label: 'Background', value: 'Purple', className: styles.values4 },
+    {
+      label: 'Body',
+      value: mintedNft?.attributes?.body,
+      className: styles.values1,
+    },
+    {
+      label: 'Fur',
+      value: mintedNft?.attributes?.fur,
+      className: styles.values2,
+    },
+    {
+      label: 'Eyes',
+      value: mintedNft?.attributes?.eyes,
+      className: styles.values3,
+    },
+    {
+      label: 'Background',
+      value: mintedNft?.attributes?.background,
+      className: styles.values4,
+    },
   ]
 
   return (
