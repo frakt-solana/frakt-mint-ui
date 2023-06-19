@@ -1,23 +1,19 @@
-import { Howl } from 'howler'
-import { useLayoutEffect } from 'react'
+import { BulkMintButtons, BulkMintStats, ColumnValue } from './BulkComponents'
+import styles from './MintForNFTs.module.scss'
+import NoSuitableNftsState from './NoSuitableNftsState'
+import NotConnectedState from './NotConnectedState'
+import { useMintForNFTs } from './hooks'
+import { NFT } from '@frakt/api/nft'
+import { Button } from '@frakt/components/Button'
+import Checkbox from '@frakt/components/Checkbox/Checkbox'
+import { Loader } from '@frakt/components/Loader'
+import { LoadingModal } from '@frakt/components/LoadingModal'
+import RevealAnimation from '@frakt/pages/RootPage/components/RevealAnimation/RevealAnimation'
+import bgLooped from '@frakt/sounds/backgroundSound.mp3'
 import { useWallet } from '@solana/wallet-adapter-react'
 import classNames from 'classnames'
-
-import RevealAnimation from '@frakt/pages/RootPage/components/RevealAnimation/RevealAnimation'
-import Checkbox from '@frakt/components/Checkbox/Checkbox'
-import { Button } from '@frakt/components/Button'
-import { Loader } from '@frakt/components/Loader'
-import { NFT } from '@frakt/api/nft'
-
-import { BulkMintButtons, BulkMintStats, ColumnValue } from './BulkComponents'
-import { useMintForNFTs } from './hooks'
-
-import styles from './MintForNFTs.module.scss'
-import NotConnectedState from './NotConnectedState'
-import NoSuitableNftsState from './NoSuitableNftsState'
-import { LoadingModal } from '@frakt/components/LoadingModal'
-
-import bgLooped from '@frakt/sounds/backgroundSound.mp3'
+import { Howl } from 'howler'
+import { useLayoutEffect } from 'react'
 
 const MintForNFTs = () => {
   const { connected } = useWallet()

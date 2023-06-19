@@ -55,7 +55,7 @@ const RevealAnimation = ({
   return (
     <div className={styles.container}>
       <div>
-        {isLoading && <LoaderAnimation />}
+        {(isLoading || !imageRendered) && <LoaderAnimation />}
         <Card
           image={nftImage}
           onAnimationEnd={handleAnimationEnd}

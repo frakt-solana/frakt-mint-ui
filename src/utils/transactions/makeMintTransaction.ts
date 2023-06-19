@@ -1,25 +1,24 @@
+import { DESTINATION_PUBKEY } from '@frakt/constants'
+import {
+  fetchCandyGuard,
+  fetchCandyMachine,
+} from '@metaplex-foundation/mpl-candy-machine'
+import { mintV2 } from '@metaplex-foundation/mpl-candy-machine'
+import { setComputeUnitLimit } from '@metaplex-foundation/mpl-essentials'
+import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata'
 import {
   KeypairSigner,
   TransactionBuilder,
   Umi,
 } from '@metaplex-foundation/umi'
 import {
-  fetchCandyGuard,
-  fetchCandyMachine,
-} from '@metaplex-foundation/mpl-candy-machine'
-import {
   generateSigner,
   publicKey,
   some,
   transactionBuilder,
 } from '@metaplex-foundation/umi'
-import { mintV2 } from '@metaplex-foundation/mpl-candy-machine'
-
-import { setComputeUnitLimit } from '@metaplex-foundation/mpl-essentials'
-import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata'
-import { VersionedMessage, VersionedTransaction } from '@solana/web3.js'
 import { web3 } from '@project-serum/anchor'
-import { DESTINATION_PUBKEY } from '@frakt/constants'
+import { VersionedMessage, VersionedTransaction } from '@solana/web3.js'
 
 type MakeMintTransaction = (params: {
   umi: Umi
@@ -76,6 +75,8 @@ export const buildMintTransaction: BuildMintTransaction = async ({
 
   const candyGuard = await fetchCandyGuard(umi, candyMachine.mintAuthority)
 
+  console.log('group: ', group)
+
   const tx = transactionBuilder()
     .add(setComputeUnitLimit(umi, { units: 600_000 }))
     .add(
@@ -87,6 +88,9 @@ export const buildMintTransaction: BuildMintTransaction = async ({
         candyGuard: candyGuard?.publicKey,
         group: some(group),
         mintArgs: {
+          freezeSolPayment: some({
+            destination: publicKey(DESTINATION_PUBKEY),
+          }),
           nftPayment: some({
             mint: publicKey(selectedNftMint),
             destination: publicKey(DESTINATION_PUBKEY),
