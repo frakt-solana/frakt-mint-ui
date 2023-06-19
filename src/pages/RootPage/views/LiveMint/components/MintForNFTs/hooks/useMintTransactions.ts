@@ -1,25 +1,22 @@
-import { useState } from 'react'
-import { useConnection, useWallet } from '@solana/wallet-adapter-react'
-import { bs58 } from '@project-serum/anchor/dist/cjs/utils/bytes'
-import { base58PublicKey } from '@metaplex-foundation/umi'
-
-import { CANDY_MACHINE_PUBKEY } from '@frakt/constants'
-import { throwLogsError } from '@frakt/utils'
-import { useUmi } from '@frakt/helpers/umi'
-import {
-  buildMintTransaction,
-  makeMintTransaction,
-} from '@frakt/utils/transactions/makeMintTransaction'
-import { useLoadingModal } from '@frakt/components/LoadingModal'
-import { mintNftsQuery } from '@frakt/api/nft'
-
 import {
   MintedNft,
   getCertainGroupByNft,
   getMetadataByCertainNft,
   parseNft,
 } from '../helpers'
-
+import { mintNftsQuery } from '@frakt/api/nft'
+import { useLoadingModal } from '@frakt/components/LoadingModal'
+import { CANDY_MACHINE_PUBKEY } from '@frakt/constants'
+import { useUmi } from '@frakt/helpers/umi'
+import { throwLogsError } from '@frakt/utils'
+import {
+  buildMintTransaction,
+  makeMintTransaction,
+} from '@frakt/utils/transactions/makeMintTransaction'
+import { base58PublicKey } from '@metaplex-foundation/umi'
+import { bs58 } from '@project-serum/anchor/dist/cjs/utils/bytes'
+import { useConnection, useWallet } from '@solana/wallet-adapter-react'
+import { useState } from 'react'
 
 const encodeSignature = (signature) => {
   const buffer = Buffer.from(signature)
@@ -102,11 +99,22 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
         ),
       )
 
-      await new Promise((r) => setTimeout(r, 7000))
+      await new Promise((r) => setTimeout(r, 8000))
 
-      const response = await mintNftsQuery(mintsTransactionsParams)
+      const mintsTransactionsParamsWithTxids = mintsTransactionsParams.map(
+        (mintTransaction, id) => {
+          return {
+            ...mintTransaction,
+            txId: txids[id],
+          }
+        },
+      )
 
+      const response = await mintNftsQuery(mintsTransactionsParamsWithTxids)
       console.log(response)
+
+      hideNFT(mintsTransactionsParams?.map(({ baseNftMint }) => baseNftMint))
+      console.log(response, 'response')
     } catch (error) {
       console.log(error)
     } finally {
@@ -150,7 +158,7 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
         return false
       }
 
-      const [success, newMetadata] = await mintNftsQuery([
+      const [response] = await mintNftsQuery([
         {
           metadata: JSON.stringify(metadata?.externalMetadata),
           mint: base58PublicKey(nftSigner?.publicKey?.bytes),
@@ -160,16 +168,18 @@ export const useMintTransactions = ({ selection, hideNFT, clearSelection }) => {
         },
       ])
 
-      console.log('New metadata: ', newMetadata)
+      console.log(response?.success, 'success')
 
-      if (!success) {
+      console.log('New metadata: ', response?.metadata)
+
+      if (!response?.success) {
         return false
       }
 
-      const parsedNewMetadata = parseNft(newMetadata)
+      const parsedNewMetadata = parseNft(response?.metadata)
 
       setMintedNft(parsedNewMetadata)
-      hideNFT(selectedNft?.mint)
+      hideNFT([selectedNft?.mint])
       setIsStartAnimation(true)
     } catch (error) {
       throwLogsError(error)

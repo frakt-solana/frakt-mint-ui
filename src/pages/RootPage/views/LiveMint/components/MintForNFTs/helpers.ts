@@ -1,5 +1,3 @@
-import { getNFTMetadata } from '@frakt/utils/nfts/'
-import { web3 } from '@project-serum/anchor'
 import { NFT } from '@frakt/api/nft'
 import {
   FRAKTS_GROUP,
@@ -8,7 +6,8 @@ import {
   GNOMIE_CREATOR,
   creators,
 } from '@frakt/constants'
-
+import { getNFTMetadata } from '@frakt/utils/nfts/'
+import { web3 } from '@project-serum/anchor'
 
 export interface MintedNft {
   mint: string
@@ -21,6 +20,13 @@ export const parseNft = (nft: any): MintedNft => {
     mint: nft?.mint?.toBase58(),
     name: nft?.name,
     imageUrl: nft?.image,
+    // attributes: {
+    //   rarity: 'Legendary',
+    //   body: 'Legendary',
+    //   fur: 'Legendary',
+    //   background: 'Legendary',
+    //   eyes: 'Solana Glasses',
+    // },
   }
 }
 

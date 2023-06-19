@@ -1,11 +1,10 @@
-import { produce } from 'immer'
-import { useEffect, useState } from 'react'
+import { fetchWalletBorrowNfts } from '@frakt/api/nft'
+import { creators } from '@frakt/constants'
+import { getNFTsByOwner } from '@frakt/utils/nfts'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { useQuery } from '@tanstack/react-query'
-
-import { fetchWalletBorrowNfts } from '@frakt/api/nft'
-import { getNFTsByOwner } from '@frakt/utils/nfts'
-import { creators } from '@frakt/constants'
+import { produce } from 'immer'
+import { useEffect, useState } from 'react'
 import { create } from 'zustand'
 
 const FETCH_LIMIT = 1000
@@ -43,14 +42,14 @@ export const useWalletNfts = () => {
 
 interface HiddenNFTsPubkeysState {
   hiddenNFTsMint: string[]
-  hideNFT: (nft: string) => void
+  hideNFT: (nft: string[]) => void
 }
 const useHiddenNFTsMint = create<HiddenNFTsPubkeysState>((set) => ({
   hiddenNFTsMint: [],
-  hideNFT: (nftMint: string) =>
+  hideNFT: (nftMint: string[]) =>
     set(
       produce((state: HiddenNFTsPubkeysState) => {
-        state.hiddenNFTsMint = [...state.hiddenNFTsMint, nftMint]
+        state.hiddenNFTsMint = [...state.hiddenNFTsMint, ...nftMint]
       }),
     ),
 }))
