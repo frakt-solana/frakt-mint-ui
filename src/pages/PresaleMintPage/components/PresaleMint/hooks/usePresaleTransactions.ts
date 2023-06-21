@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 
 import { useLoadingModal } from '@frakt/components/LoadingModal'
-import { encodeSignature, throwLogsError } from '@frakt/utils'
+import { encodeSignature, notify, throwLogsError } from '@frakt/utils'
 import { base58PublicKey } from '@metaplex-foundation/umi'
 import { useUmi } from '@frakt/helpers/umi'
 import {
@@ -14,6 +14,7 @@ import {
   parseNft,
 } from '@frakt/pages/RootPage/views/LiveMint/components/MintForNFTs/helpers'
 import { mintPresaleNftsQuery } from '@frakt/api/nft'
+import { NotifyType } from '@frakt/utils/solanaUtils'
 
 export const usePresaleTransactions = (
   inputValue: string,
@@ -138,6 +139,11 @@ export const usePresaleTransactions = (
       const response = await mintPresaleNftsQuery(
         mintsTransactionsParamsWithTxids,
       )
+
+      notify({
+        message: 'Mint successfully!',
+        type: NotifyType.SUCCESS,
+      })
 
       console.log(response, 'response')
       resetInputValue()
