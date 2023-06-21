@@ -90,4 +90,19 @@ h5 {
       text-decoration: underline;
     }
   }
+
+  .ant-notification .ant-notification-notice {
+    background: #191919;
+    border-radius: 0 !important;
+  }
+
+  .ant-notification-notice-message {
+    color: #fff !important;
+  }
+
+  .ant-notification .ant-notification-notice .ant-notification-notice-close {
+    svg {
+      fill: #fff !important;
+    }
+  }
 }
