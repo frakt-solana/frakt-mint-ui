@@ -1,4 +1,5 @@
 import { useWallet } from '@solana/wallet-adapter-react'
+import classNames from 'classnames'
 
 import NotConnectedState from '@frakt/pages/RootPage/views/LiveMint/components/MintForNFTs/NotConnectedState'
 import RevealAnimation from '@frakt/pages/RootPage/components/RevealAnimation'
@@ -8,7 +9,7 @@ import Checkbox from '@frakt/components/Checkbox'
 import Button from '@frakt/components/Button'
 import Field from '@frakt/components/Field'
 
-import { useWhitelistMint } from './hooks'
+import { usePresaleMint } from './hooks/usePresaleMint'
 import styles from './PresaleMint.module.scss'
 
 const MAX_FIELD_VALUE_FOR_SINGLE_MINT = 1
@@ -28,7 +29,7 @@ const PresaleMint = () => {
     loadingModalVisible,
     mintedNft,
     showConnectedState,
-  } = useWhitelistMint()
+  } = usePresaleMint()
 
   const whitelistTokenExistAndSingleMint = whitelistTokenAmount && !isBulkMint
 
@@ -58,28 +59,29 @@ const PresaleMint = () => {
             label="Disable animation to bulk mint"
           />
           <div className={styles.container}>
-            <h4 className={styles.title}>Mint with WL</h4>
+            <h4 className={styles.title}>Mint with presale tokens</h4>
             <div className={styles.content}>
-              <p className={styles.subtitle}>
-                You have {whitelistTokenAmount} WL tokens
+              <p className={classNames(styles.subtitle)}>
+                You have {whitelistTokenAmount || 0} presale tokens
               </p>
-              <Field
-                className={styles.field}
-                value={fieldValue}
-                lpBalance={fieldLpBalance}
-                onValueChange={onChangeInputValue}
-                placeholder="0"
-                integerOnly
-              />
+              {isBulkMint && (
+                <Field
+                  className={styles.field}
+                  value={fieldValue}
+                  lpBalance={fieldLpBalance}
+                  onValueChange={onChangeInputValue}
+                  placeholder="0"
+                  integerOnly
+                />
+              )}
             </div>
             <StatsValues label="Mint price" value={0} />
             <StatsValues label="Will be received">
               {inputValue || 0} BANX
             </StatsValues>
-
             <Button
               onClick={onSubmit}
-              disabled={!parseFloat(inputValue)}
+              disabled={!parseFloat(inputValue) || !whitelistTokenAmount}
               className={styles.button}
               type="secondary"
             >

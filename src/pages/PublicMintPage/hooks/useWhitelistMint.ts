@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 
-import { usePresaleTransactions } from './usePresaleTransactions'
 import { WL_TOKEN_MINT } from '@frakt/constants'
 import { useTokenBalance } from '@frakt/hooks'
+import { useWhiteListTransactions } from './useWhiteListTransactions'
 
 export const useWhitelistMint = () => {
   const { connection } = useConnection()
@@ -31,6 +31,10 @@ export const useWhitelistMint = () => {
     }
   }
 
+  const resetInputValue = () => {
+    setInputValue('0')
+  }
+
   const handleToggleBulkMint = () => {
     setIsBulkMint(!isBulkMint)
   }
@@ -44,11 +48,18 @@ export const useWhitelistMint = () => {
     handleResetAnimation,
     mintedNft,
     startTxnOneByOne,
-  } = usePresaleTransactions(
+  } = useWhiteListTransactions(
     inputValue,
     whitelistTokenAmount,
     refetchWhitelistTokens,
+    resetInputValue,
   )
+
+  useEffect(() => {
+    if (startTxnOneByOne && !!whitelistTokenAmount) {
+      onSingleMint()
+    }
+  }, [startTxnOneByOne, whitelistTokenAmount])
 
   const showReveal = isStartAnimation || isLoading
   const showConnectedState = connected && !showReveal && !startTxnOneByOne

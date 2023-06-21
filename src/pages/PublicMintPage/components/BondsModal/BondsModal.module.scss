@@ -2,6 +2,10 @@
   :global {
     z-index: 2;
 
+    .ant-modal-content {
+      padding: 0 !important;
+    }
+
     .ant-modal-body {
       padding: 0 !important;
       margin: -1px;

@@ -15,7 +15,6 @@ import {
   transactionBuilder,
 } from '@metaplex-foundation/umi'
 import { useState } from 'react'
-import { bs58 } from '@project-serum/anchor/dist/cjs/utils/bytes'
 
 export const usePublicMint = () => {
   const umi = useUmi()

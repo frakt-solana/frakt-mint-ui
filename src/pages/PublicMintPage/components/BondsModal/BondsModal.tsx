@@ -14,7 +14,7 @@ interface BondsModalProps {
 
 const BondsModal: FC<BondsModalProps> = ({ open, onCancel }) => {
   const { nfts, loading } = useFetchWalletNFTs()
-    console.log(nfts)
+
   return (
     <Modal
       open={open}
@@ -29,7 +29,7 @@ const BondsModal: FC<BondsModalProps> = ({ open, onCancel }) => {
       <div className={styles.content}>
         <div className={styles.stats}>
           <div className={styles.statsValue}>
-            <p>20</p>
+            <p>{nfts?.length || 0}</p>
             <span>NFTs</span>
           </div>
           <div className={styles.statsValue}>

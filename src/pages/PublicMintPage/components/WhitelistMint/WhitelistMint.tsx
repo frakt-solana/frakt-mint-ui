@@ -8,8 +8,9 @@ import Checkbox from '@frakt/components/Checkbox'
 import Button from '@frakt/components/Button'
 import Field from '@frakt/components/Field'
 
-import { useWhitelistMint } from './hooks/useWhitelistMint'
 import styles from './WhitelistMint.module.scss'
+import BondsModal from '../BondsModal/BondsModal'
+import { useWhitelistMint } from '../../hooks/useWhitelistMint'
 
 const MAX_FIELD_VALUE_FOR_SINGLE_MINT = 1
 
@@ -102,6 +103,7 @@ const WhitelistMint = () => {
         visible={loadingModalVisible}
         title="Please approve transaction"
       />
+      {/* <BondsModal open={true} /> */}
     </>
   )
 }

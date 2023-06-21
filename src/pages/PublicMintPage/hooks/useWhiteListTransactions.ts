@@ -13,12 +13,13 @@ import {
   MintedNft,
   parseNft,
 } from '@frakt/pages/RootPage/views/LiveMint/components/MintForNFTs/helpers'
-import { WL_TOKEN_MINT } from '@frakt/constants'
+import { mintPresaleNftsQuery } from '@frakt/api/nft'
 
-export const usePresaleTransactions = (
+export const useWhiteListTransactions = (
   inputValue: string,
   whitelistTokenAmount: number,
   refetchWhitelistTokens: () => void,
+  resetInputValue: () => void,
 ) => {
   const umi = useUmi()
   const { connection } = useConnection()
@@ -55,33 +56,35 @@ export const usePresaleTransactions = (
           return false
         }
 
-        // const [response] = await mintNftsQuery([
-        //   {
-        //     mint: base58PublicKey(nftSigner?.publicKey?.bytes),
-        //     user: wallet?.publicKey?.toBase58(),
-        //     txId: encodedSignature,
-        //   },
-        // ])
+        const [response] = await mintPresaleNftsQuery([
+          {
+            mint: base58PublicKey(nftSigner?.publicKey?.bytes),
+            user: wallet?.publicKey?.toBase58(),
+            txId: encodedSignature,
+          },
+        ])
 
-        // console.log(response?.success, 'success')
+        console.log(response?.success, 'success')
 
-        // console.log('New metadata: ', response?.metadata)
+        console.log('New metadata: ', response?.metadata)
 
-        // if (!response?.success) {
-        //   return false
-        // }
+        if (!response?.success) {
+          return false
+        }
 
-        // const parsedNewMetadata = parseNft(response?.metadata)
+        const parsedNewMetadata = parseNft(response?.metadata)
 
-        // setMintedNft(parsedNewMetadata)
+        setMintedNft(parsedNewMetadata)
         setIsStartAnimation(true)
         refetchWhitelistTokens()
       }
     } catch (error) {
-      console.log(error)
       throwLogsError(error)
+      setIsLoading(false)
+      setStartTxnOneByOne(false)
     } finally {
       setIsLoading(false)
+      setStartTxnOneByOne(false)
     }
   }
 
@@ -100,7 +103,6 @@ export const usePresaleTransactions = (
           mintsTransactionsParams.push({
             mint: base58PublicKey(nftSigner?.publicKey?.bytes),
             transaction: transactionMint,
-            token: WL_TOKEN_MINT,
             user: wallet?.publicKey?.toBase58(),
           })
         } catch (error) {
@@ -133,9 +135,12 @@ export const usePresaleTransactions = (
         },
       )
 
-      // const response = await mintNftsQuery(mintsTransactionsParamsWithTxids)
+      const response = await mintPresaleNftsQuery(
+        mintsTransactionsParamsWithTxids,
+      )
 
-      // console.log(response, 'response')
+      console.log(response, 'response')
+      resetInputValue()
       refetchWhitelistTokens()
     } catch (error) {
       console.log(error)

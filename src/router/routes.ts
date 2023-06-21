@@ -21,10 +21,10 @@ export const routes: ReadonlyArray<Route> = [
     path: PATHS.PRESALE,
     component: PresaleMintPage,
   },
-  {
-    path: PATHS.PUBLIC,
-    component: PublicMintPage,
-  },
+  // {
+  //   path: PATHS.PUBLIC,
+  //   component: PublicMintPage,
+  // },
   {
     path: '*',
     component: Page404,

@@ -1,89 +1,25 @@
-import { MintedNft } from '../../../RootPage/views/LiveMint/components/MintForNFTs/helpers'
-import { base58PublicKey } from '@metaplex-foundation/umi'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
-import { encodeSignature, throwLogsError } from '@frakt/utils'
 
 import { useLoadingModal } from '@frakt/components/LoadingModal'
-import { WL_TOKEN_MINT } from '@frakt/constants'
-import { useTokenBalance } from '@frakt/hooks'
+import { encodeSignature, throwLogsError } from '@frakt/utils'
+import { base58PublicKey } from '@metaplex-foundation/umi'
 import { useUmi } from '@frakt/helpers/umi'
 import {
   buildPublicMintTransaction,
   makeWhitelistMintTransaction,
 } from '@frakt/utils/transactions/makeWhitelistMintTransaction'
-import { parseNft } from '@frakt/pages/RootPage/views/LiveMint/components/MintForNFTs/helpers'
+import {
+  MintedNft,
+  parseNft,
+} from '@frakt/pages/RootPage/views/LiveMint/components/MintForNFTs/helpers'
+import { mintPresaleNftsQuery } from '@frakt/api/nft'
 
-export const useWhitelistMint = () => {
-  const { connection } = useConnection()
-  const { connected } = useWallet()
-
-  const [whitelistTokenAmount, refetchWhitelistTokens] = useTokenBalance(
-    WL_TOKEN_MINT,
-    connection,
-  )
-
-  const [isBulkMint, setIsBulkMint] = useState<boolean>(false)
-  const [inputValue, setInputValue] = useState<string>('0')
-
-  useEffect(() => {
-    if (whitelistTokenAmount && !isBulkMint) {
-      setInputValue('1')
-    }
-  }, [whitelistTokenAmount, inputValue, isBulkMint])
-
-  const onChangeInputValue = (value: string) => {
-    if (whitelistTokenAmount < parseFloat(value)) {
-      setInputValue(String(whitelistTokenAmount))
-    } else {
-      setInputValue(value)
-    }
-  }
-
-  const handleToggleBulkMint = () => {
-    setIsBulkMint(!isBulkMint)
-  }
-
-  const {
-    onSingleMint,
-    onBulkMint,
-    isLoading,
-    isStartAnimation,
-    loadingModalVisible,
-    handleResetAnimation,
-    mintedNft,
-    startTxnOneByOne,
-  } = useWhitelistTransactions(
-    inputValue,
-    whitelistTokenAmount,
-    refetchWhitelistTokens,
-  )
-
-  const showReveal = isStartAnimation || isLoading
-  const showConnectedState = connected && !showReveal && !startTxnOneByOne
-
-  return {
-    mintedNft,
-    whitelistTokenAmount,
-    inputValue,
-
-    onSubmit: isBulkMint ? onBulkMint : onSingleMint,
-    handleResetAnimation,
-    handleToggleBulkMint,
-    onChangeInputValue,
-
-    showReveal,
-    isLoading,
-    isBulkMint,
-    loadingModalVisible,
-    showConnectedState,
-  }
-}
-
-export const useWhitelistTransactions = (
+export const usePresaleTransactions = (
   inputValue: string,
   whitelistTokenAmount: number,
   refetchWhitelistTokens: () => void,
+  resetInputValue: () => void,
 ) => {
   const umi = useUmi()
   const { connection } = useConnection()
@@ -120,33 +56,35 @@ export const useWhitelistTransactions = (
           return false
         }
 
-        // const [response] = await mintNftsQuery([
-        //   {
-        //     mint: base58PublicKey(nftSigner?.publicKey?.bytes),
-        //     user: wallet?.publicKey?.toBase58(),
-        //     txId: encodedSignature,
-        //   },
-        // ])
+        const [response] = await mintPresaleNftsQuery([
+          {
+            mint: base58PublicKey(nftSigner?.publicKey?.bytes),
+            user: wallet?.publicKey?.toBase58(),
+            txId: encodedSignature,
+          },
+        ])
 
-        // console.log(response?.success, 'success')
+        console.log(response?.success, 'success')
 
-        // console.log('New metadata: ', response?.metadata)
+        console.log('New metadata: ', response?.metadata)
 
-        // if (!response?.success) {
-        //   return false
-        // }
+        if (!response?.success) {
+          return false
+        }
 
-        // const parsedNewMetadata = parseNft(response?.metadata)
+        const parsedNewMetadata = parseNft(response?.metadata)
 
-        // setMintedNft(parsedNewMetadata)
+        setMintedNft(parsedNewMetadata)
         setIsStartAnimation(true)
         refetchWhitelistTokens()
       }
     } catch (error) {
-      console.log(error)
       throwLogsError(error)
+      setIsLoading(false)
+      setStartTxnOneByOne(false)
     } finally {
       setIsLoading(false)
+      setStartTxnOneByOne(false)
     }
   }
 
@@ -165,7 +103,6 @@ export const useWhitelistTransactions = (
           mintsTransactionsParams.push({
             mint: base58PublicKey(nftSigner?.publicKey?.bytes),
             transaction: transactionMint,
-            token: WL_TOKEN_MINT,
             user: wallet?.publicKey?.toBase58(),
           })
         } catch (error) {
@@ -198,9 +135,12 @@ export const useWhitelistTransactions = (
         },
       )
 
-      // const response = await mintNftsQuery(mintsTransactionsParamsWithTxids)
+      const response = await mintPresaleNftsQuery(
+        mintsTransactionsParamsWithTxids,
+      )
 
-      // console.log(response, 'response')
+      console.log(response, 'response')
+      resetInputValue()
       refetchWhitelistTokens()
     } catch (error) {
       console.log(error)
@@ -222,6 +162,7 @@ export const useWhitelistTransactions = (
     onSingleMint,
     onBulkMint,
     handleResetAnimation,
+    openLoadingModal,
 
     isLoading,
     isStartAnimation,
