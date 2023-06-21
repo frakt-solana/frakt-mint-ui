@@ -42,6 +42,7 @@ export const buildPublicMintTransaction = async ({ umi }) => {
           }),
           freezeSolPayment: some({
             destination: publicKey(DESTINATION_PUBKEY),
+            freezeSolPayment: 0,
           }),
         },
         tokenStandard: TokenStandard.ProgrammableNonFungible,

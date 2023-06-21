@@ -94,7 +94,6 @@ const WhitelistMint = () => {
         visible={loadingModalVisible}
         title="Please approve transaction"
       />
-      {/* <BondsModal open={true}/> */}
     </>
   )
 }

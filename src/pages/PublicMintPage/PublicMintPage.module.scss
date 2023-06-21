@@ -1,0 +1,10 @@
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  @extend .column;
+  width: 100%;
+}
