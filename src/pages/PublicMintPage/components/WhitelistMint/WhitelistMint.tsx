@@ -11,11 +11,14 @@ import Field from '@frakt/components/Field'
 import styles from './WhitelistMint.module.scss'
 import BondsModal from '../BondsModal/BondsModal'
 import { useWhitelistMint } from '../../hooks/useWhitelistMint'
+import { MINT_PRICE } from '@frakt/constants'
+import { useState } from 'react'
 
 const MAX_FIELD_VALUE_FOR_SINGLE_MINT = 1
 
 const WhitelistMint = () => {
   const { connected } = useWallet()
+
   const {
     onSubmit,
     showReveal,
@@ -30,6 +33,8 @@ const WhitelistMint = () => {
     mintedNft,
     showConnectedState,
   } = useWhitelistMint()
+
+  const [visibleBondsModal, setVisibleBondsModal] = useState(false)
 
   const whitelistTokenExistAndSingleMint = whitelistTokenAmount && !isBulkMint
 
@@ -64,23 +69,21 @@ const WhitelistMint = () => {
               <p className={styles.subtitle}>
                 You have {whitelistTokenAmount} WL tokens
               </p>
-              <Field
-                className={styles.field}
-                value={fieldValue}
-                lpBalance={fieldLpBalance}
-                onValueChange={onChangeInputValue}
-                placeholder="0"
-                integerOnly
-              />
+              {isBulkMint && (
+                <Field
+                  className={styles.field}
+                  value={fieldValue}
+                  lpBalance={fieldLpBalance}
+                  onValueChange={onChangeInputValue}
+                  placeholder="0"
+                  integerOnly
+                />
+              )}
             </div>
-            <StatsValues label="Mint price" value={0} />
-            <StatsValues label="Will be received">
-              {inputValue || 0} BANX
-            </StatsValues>
+            <StatsValues label="Mint price" value={MINT_PRICE} />
             <div className={styles.buttonWrapper}>
               <Button
-                onClick={onSubmit}
-                disabled={!parseFloat(inputValue)}
+                onClick={() => setVisibleBondsModal(true)}
                 className={styles.button}
                 type="secondary"
               >
@@ -88,7 +91,7 @@ const WhitelistMint = () => {
               </Button>
               <Button
                 onClick={onSubmit}
-                disabled={!parseFloat(inputValue)}
+                disabled={!parseFloat(inputValue) || !whitelistTokenAmount}
                 className={styles.button}
                 type="secondary"
               >
@@ -103,7 +106,10 @@ const WhitelistMint = () => {
         visible={loadingModalVisible}
         title="Please approve transaction"
       />
-      {/* <BondsModal open={true} /> */}
+      <BondsModal
+        open={visibleBondsModal}
+        onCancel={() => setVisibleBondsModal(false)}
+      />
     </>
   )
 }
