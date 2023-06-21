@@ -10,7 +10,7 @@ import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 
 interface RevealAnimationProps {
-  selectedNftImage: string
+  selectedNftImage?: string
   mintedNft: MintedNft
   isLoading: boolean
   handleResetAnimation: () => void

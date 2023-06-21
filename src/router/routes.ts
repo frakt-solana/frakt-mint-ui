@@ -1,13 +1,14 @@
-import { FC } from 'react';
+import { FC } from 'react'
 
-import RootPage from '@frakt/pages/RootPage';
-import Page404 from '@frakt/pages/Page404';
+import PublicMint from '@frakt/pages/PublicMint/PublicMint'
+import RootPage from '@frakt/pages/RootPage'
+import Page404 from '@frakt/pages/Page404'
 
-import { PATHS } from './paths';
+import { PATHS } from './paths'
 
 interface Route {
-  path: string;
-  component: FC;
+  path: string
+  component: FC
 }
 
 export const routes: ReadonlyArray<Route> = [
@@ -16,7 +17,11 @@ export const routes: ReadonlyArray<Route> = [
     component: RootPage,
   },
   {
+    path: PATHS.PUBLIC,
+    component: PublicMint,
+  },
+  {
     path: '*',
     component: Page404,
   },
-];
+]

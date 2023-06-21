@@ -1,6 +1,6 @@
 import { CANDY_MACHINE_PUBKEY, RECEIVER_PUBKEY } from '@frakt/constants'
 import { useUmi } from '@frakt/helpers/umi'
-import { throwLogsError } from '@frakt/utils'
+import { encodeSignature, throwLogsError } from '@frakt/utils'
 import {
   fetchCandyGuard,
   fetchCandyMachine,
@@ -14,12 +14,19 @@ import {
   some,
   transactionBuilder,
 } from '@metaplex-foundation/umi'
+import { useState } from 'react'
+import { bs58 } from '@project-serum/anchor/dist/cjs/utils/bytes'
 
 export const usePublicMint = () => {
   const umi = useUmi()
 
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isStartAnimation, setIsStartAnimation] = useState<boolean>(false)
+
   const onSubmit = async () => {
     try {
+      setIsLoading(true)
+
       const candyMachine = await fetchCandyMachine(
         umi,
         publicKey(CANDY_MACHINE_PUBKEY),
@@ -55,19 +62,26 @@ export const usePublicMint = () => {
         },
       })
 
-      console.log(signature, 'signature')
-      console.log(result, `TRANSACTION RESULT: ${result}`)
+      const encodedSignature = encodeSignature(signature)
 
       if (result.value.err !== null) {
-        //? Transaction failed
+        return false
       }
-
-      //? Transaction completed successfully
+      setIsStartAnimation(true)
     } catch (error) {
       console.log(error)
       throwLogsError(error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  return { onSubmit }
+  const showReveal = isStartAnimation || isLoading
+
+  const handleResetAnimation = () => {
+    setIsStartAnimation(false)
+    setIsLoading(false)
+  }
+
+  return { onSubmit, showReveal, handleResetAnimation, isLoading }
 }

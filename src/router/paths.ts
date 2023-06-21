@@ -1,5 +1,5 @@
 export const PATHS = {
-    ROOT: '/',
-    PAGE_404: '/404',
-  }
-  
+  ROOT: '/',
+  PUBLIC: '/public',
+  PAGE_404: '/404',
+}
