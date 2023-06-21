@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 
-import { usePresaleTransactions } from './usePresaleTransactions'
 import { WL_TOKEN_MINT } from '@frakt/constants'
 import { useTokenBalance } from '@frakt/hooks'
+
+import { usePresaleTransactions } from './usePresaleTransactions'
 
 export const usePresaleMint = () => {
   const { connection } = useConnection()
