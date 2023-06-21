@@ -1,4 +1,3 @@
-export * from './useSearch';
-export * from './useTable';
-export * from './useSortDropdownModal';
-export * from './useTableView';
+export * from './useSearch'
+export * from './useTable'
+export * from './useTableView'

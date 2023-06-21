@@ -1,1 +1,1 @@
-export { default } from './Defaultmint'
+export { default } from './DefaultMint'

@@ -9,7 +9,7 @@ interface HeaderCellProps<T> {
 
 export const HeaderCell = <T extends unknown>({
   label,
-  fixedLeft,
+  fixedLeft = false,
 }: HeaderCellProps<T>) => {
   return (
     <div

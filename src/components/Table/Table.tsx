@@ -1,45 +1,40 @@
-import { ChangeEvent } from 'react';
-import { ColumnsType } from 'antd/es/table';
-import { DebouncedFunc } from 'lodash';
+import { ChangeEvent } from 'react'
+import { ColumnsType } from 'antd/es/table'
+import { DebouncedFunc } from 'lodash'
 
 import {
   ActiveRowParams,
   ViewParams,
   PartialBreakpoints,
   SelectLoansParams,
-} from './types';
-import { Loader } from '../Loader';
+} from './types'
+import { Loader } from '../Loader'
 
-import { SortDropdownProps } from './components/SortDropdown';
-import { TableView, CardView, SortView } from './views';
-import { Search } from './components/Search';
+import { TableView, CardView, SortView } from './views'
+import { Search } from './components/Search'
 
 export interface TableProps<T> {
-  data: ReadonlyArray<T>;
-  columns: ColumnsType<T>;
+  data: ReadonlyArray<T>
+  columns: ColumnsType<T>
 
-  loading?: boolean;
-  rowKeyField?: string;
-  onRowClick?: (dataItem: T) => void;
-  defaultField?: string;
-  filterField?: string | string[];
+  loading?: boolean
+  rowKeyField?: string
+  onRowClick?: (dataItem: T) => void
+  defaultField?: string
+  filterField?: string | string[]
   search?: {
-    placeHolderText?: string;
-    onChange: DebouncedFunc<(event: ChangeEvent<HTMLInputElement>) => void>;
-  };
+    placeHolderText?: string
+    onChange: DebouncedFunc<(event: ChangeEvent<HTMLInputElement>) => void>
+  }
 
-  selectLoansParams?: SelectLoansParams;
-  breakpoints?: PartialBreakpoints;
-  activeRowParams?: ActiveRowParams;
-  viewParams?: ViewParams;
+  selectLoansParams?: SelectLoansParams
+  breakpoints?: PartialBreakpoints
+  activeRowParams?: ActiveRowParams
+  viewParams?: ViewParams
 
-  className?: string;
-  cardClassName?: string;
+  className?: string
+  cardClassName?: string
 }
-
-export interface TablePropsWithSortProps<T>
-  extends TableProps<T>,
-    SortDropdownProps<T> {}
 
 const Table = <T extends unknown>({
   data,
@@ -50,42 +45,23 @@ const Table = <T extends unknown>({
   className,
   breakpoints,
   activeRowParams,
-  sort,
-  setSort,
   search,
   viewParams,
-  selectLoansParams,
-  setQueryData,
   cardClassName,
-  isToggleChecked,
-  setIsToggleChecked,
-}: TablePropsWithSortProps<T>): JSX.Element => {
-  if (loading) return <Loader />;
+}: any): JSX.Element => {
+  if (loading) return <Loader />
 
-  const showSorting = viewParams?.showSorting;
-  const showSearching = viewParams?.showSearching;
-  const showCard = viewParams?.showCard;
-  const showToggle = viewParams?.showToggle;
+  const showSorting = viewParams?.showSorting
+  const showSearching = viewParams?.showSearching
+  const showCard = viewParams?.showCard
 
-  const SortViewComponent = showSorting || showSearching ? SortView : null;
-  const ViewComponent = showCard ? CardView : TableView;
+  const SortViewComponent = showSorting || showSearching ? SortView : null
+  const ViewComponent = showCard ? CardView : TableView
 
   return (
     <>
       {SortViewComponent && (
-        <SortViewComponent
-          search={search}
-          sort={sort}
-          setSort={setSort}
-          columns={columns}
-          selectLoansParams={selectLoansParams}
-          setQueryData={setQueryData}
-          showSorting={showSorting}
-          showSearching={showSearching}
-          showToggle={showToggle}
-          isToggleChecked={isToggleChecked}
-          setIsToggleChecked={setIsToggleChecked}
-        />
+        <SortViewComponent search={search} showSearching={showSearching} />
       )}
       {ViewComponent && (
         <ViewComponent
@@ -100,9 +76,9 @@ const Table = <T extends unknown>({
         />
       )}
     </>
-  );
-};
+  )
+}
 
-Table.Search = Search;
+Table.Search = Search
 
-export { Table };
+export { Table }

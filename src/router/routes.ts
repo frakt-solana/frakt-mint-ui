@@ -1,6 +1,7 @@
 import { FC } from 'react'
 
 import PresaleMintPage from '@frakt/pages/PresaleMintPage/PresaleMintPage'
+import PublicMintPage from '@frakt/pages/PublicMintPage/PublicMintPage'
 import RootPage from '@frakt/pages/RootPage'
 import Page404 from '@frakt/pages/Page404'
 
@@ -19,6 +20,10 @@ export const routes: ReadonlyArray<Route> = [
   {
     path: PATHS.PRESALE,
     component: PresaleMintPage,
+  },
+  {
+    path: PATHS.PUBLIC,
+    component: PublicMintPage,
   },
   {
     path: '*',

@@ -17,27 +17,26 @@ export const getTableList = () => {
     {
       key: 'name',
       dataIndex: 'name',
-      title: (column) =>
-        createHeaderCell(column, 'Name', 'name', null, true, true),
+      title: () => createHeaderCell('Name', true),
       // render: (_, nft) => <CollectionInfoCell nft={nft} />,
     },
     {
       key: 'borrow',
       dataIndex: 'borrow',
-      title: (column) => createHeaderCell(column, 'Borrow', 'borrow'),
+      title: () => createHeaderCell('Borrow'),
       render: (_, nft) => createSolValueJSX(nft?.maxLoanValue),
     },
     {
       key: 'fee',
       dataIndex: 'fee',
-      title: (column) => createHeaderCell(column, 'Fee', 'fee'),
+      title: () => createHeaderCell('Fee'),
       render: (_, nft) =>
         createValueJSX(parseFloat(nft?.bondParams?.fee?.toFixed(2))),
     },
     {
       key: 'repay',
       dataIndex: 'repay',
-      title: (column) => createHeaderCell(column, 'Repay', 'repay'),
+      title: () => createHeaderCell('Repay'),
       render: (_, nft) =>
         createValueJSX(parseFloat(nft?.bondParams?.fee?.toFixed(2))),
     },

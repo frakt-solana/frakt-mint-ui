@@ -1,23 +1,22 @@
-import { DebouncedFunc, get } from 'lodash';
+import { DebouncedFunc, get } from 'lodash'
 
-import { TableProps, TablePropsWithSortProps } from './../Table';
-import { useSortDropdownModal } from '../hooks';
-import { PartialSearchParams } from '../types';
-import { useSearch } from './useSearch';
+import { TableProps } from './../Table'
+import { PartialSearchParams } from '../types'
+import { useSearch } from './useSearch'
 
-type Event = { target: { value: string } };
+type Event = { target: { value: string } }
 
 interface UseTableProps<T> extends TableProps<T> {
-  searchParams?: PartialSearchParams;
+  searchParams?: PartialSearchParams
 }
 
 type UseTable = <T>(props: UseTableProps<T>) => {
-  table: TablePropsWithSortProps<T>;
+  table: any
   search: {
-    placeHolderText?: string;
-    onChange: DebouncedFunc<(event: Event) => void>;
-  };
-};
+    placeHolderText?: string
+    onChange: DebouncedFunc<(event: Event) => void>
+  }
+}
 
 export const useTable: UseTable = ({
   data,
@@ -25,8 +24,6 @@ export const useTable: UseTable = ({
   onRowClick,
   rowKeyField = 'id',
   loading,
-  defaultField,
-  filterField,
   searchParams = {
     debounceWait: 0,
     searchField: 'name',
@@ -37,35 +34,20 @@ export const useTable: UseTable = ({
     data,
     searchField: get(searchParams, 'searchField', 'name'),
     debounceWait: get(searchParams, 'debounceWait', 0),
-  });
-
-  const {
-    modal: sortDropdownModal,
-    sortedData,
-    setIsToggleChecked,
-    isToggleChecked,
-  } = useSortDropdownModal({
-    data: filteredData,
-    columns,
-    defaultField,
-    filterField,
-  });
+  })
 
   const search = {
     placeHolderText: get(searchParams, 'placeHolderText', 'Search by name'),
     onChange,
-  };
+  }
 
   const table = {
-    data: sortedData,
+    data: filteredData,
     columns,
     onRowClick,
     rowKeyField,
     loading,
-    setIsToggleChecked,
-    isToggleChecked,
-    ...sortDropdownModal,
-  };
+  }
 
-  return { table, search };
-};
+  return { table, search }
+}

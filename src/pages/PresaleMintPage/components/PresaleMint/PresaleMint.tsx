@@ -9,12 +9,11 @@ import Button from '@frakt/components/Button'
 import Field from '@frakt/components/Field'
 
 import { useWhitelistMint } from './hooks'
-import styles from './WhitelistMint.module.scss'
-import BondsModal from '../../../PublicMintPage/components/BondsModal/BondsModal'
+import styles from './PresaleMint.module.scss'
 
 const MAX_FIELD_VALUE_FOR_SINGLE_MINT = 1
 
-const WhitelistMint = () => {
+const PresaleMint = () => {
   const { connected } = useWallet()
   const {
     onSubmit,
@@ -98,4 +97,4 @@ const WhitelistMint = () => {
   )
 }
 
-export default WhitelistMint
+export default PresaleMint
