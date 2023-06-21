@@ -34,7 +34,7 @@
   flex-direction: column;
   justify-content: center;
   margin: 16px 0;
-  height: 270px;
+  height: 180px;
 
   @media (max-width: 960px) {
     height: 150px;
@@ -47,4 +47,21 @@
 
 .checkbox {
   margin-bottom: 16px;
+}
+
+.heading {
+  font: var(--font-title-2);
+  font-size: 40px;
+  max-width: 840px;
+  margin-bottom: 16px;
+  text-align: center;
+  text-transform: uppercase;
+
+  @media (max-width: 960px) {
+    font-size: 32px;
+  }
+
+  @media (max-width: 550px) {
+    font-size: 16px;
+  }
 }

@@ -52,6 +52,7 @@ const PresaleMint = () => {
       )}
       {showConnectedState && (
         <>
+          <h2 className={styles.heading}>Meet BANX</h2>
           <Checkbox
             className={styles.checkbox}
             onChange={handleToggleBulkMint}
@@ -76,9 +77,6 @@ const PresaleMint = () => {
               )}
             </div>
             <StatsValues label="Mint price" value={0} />
-            <StatsValues label="Will be received">
-              {inputValue || 0} BANX
-            </StatsValues>
             <Button
               onClick={onSubmit}
               disabled={!parseFloat(inputValue) || !whitelistTokenAmount}
