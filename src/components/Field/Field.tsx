@@ -18,6 +18,7 @@ export interface FieldProps {
   amountMaxLength?: number
   disabled?: boolean
   lpBalance?: number
+  integerOnly?: boolean
 }
 
 const Field: FC<FieldProps> = ({
@@ -31,6 +32,7 @@ const Field: FC<FieldProps> = ({
   placeholder = '0.0',
   disabled = false,
   lpBalance,
+  integerOnly,
 }) => {
   const [isFocused, setIsFocused] = useState<boolean>(false)
 
@@ -65,6 +67,7 @@ const Field: FC<FieldProps> = ({
           onChange={onValueChange}
           placeholder={placeholder}
           positiveOnly
+          integerOnly={integerOnly}
           className={classNames([
             styles.valueInput,
             { [styles.valueInput_disabled]: disabled },
