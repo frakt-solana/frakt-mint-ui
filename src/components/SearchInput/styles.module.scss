@@ -1,0 +1,56 @@
+html body .input {
+  height: 31px;
+  padding: 0;
+
+  &,
+  &:not(.ant-input-affix-wrapper-disabled):hover,
+  &:hover {
+    border: 0;
+    border-bottom: 1px solid var(--primary-border);
+  }
+
+  &:global(.ant-input-affix-wrapper-focused:hover),
+  &:global(.ant-input-affix-wrapper-focused) {
+    box-shadow: none !important;
+    border-bottom: 1px solid var(--secondary-border);
+
+    :local(.search) {
+      svg {
+        color: var(--secondary-border);
+      }
+    }
+
+    input {
+      color: var(--secondary-border);
+    }
+  }
+
+  &:global(.ant-input-affix-wrapper-lg) {
+    font-size: 32px;
+    padding-bottom: 8px;
+    :local(.search) {
+      svg {
+        font-size: 32px;
+        margin-right: 10px;
+      }
+    }
+  }
+  input {
+    color: var(--secondary-text);
+    font-size: 20px;
+    font-family: var(--font-family-chakra);
+
+    &::placeholder {
+      color: var(--secondary-text);
+    }
+  }
+}
+
+.search {
+  svg {
+    font-size: 15px;
+    transition: color var(--transition-1);
+    color: var(--secondary-text);
+    margin-right: 5px;
+  }
+}

@@ -1,0 +1,33 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rowFixedRight {
+  justify-content: flex-end;
+}
+
+.fixedLeftRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.headerCellTitle {
+  color: var(--secondary-text);
+  font: var(--font-text-7);
+  text-transform: uppercase;
+}
+
+.value {
+  color: var(--primary-text);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font: var(--font-text-4);
+  font-size: 14px;
+  gap: 4px;
+  white-space: nowrap;
+}

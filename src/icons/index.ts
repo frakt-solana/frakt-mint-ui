@@ -9,6 +9,8 @@ export * from './Sun'
 export * from './Tensor'
 export * from './AudioOff'
 export * from './AudioOn'
+export * from './CardView'
+export * from './TableView'
 
 //? Raster icons
 export { default as BANX } from './BANX.png'

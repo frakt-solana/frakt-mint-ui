@@ -1,5 +1,6 @@
 import { useWallet } from '@solana/wallet-adapter-react'
 
+import NotConnectedState from '@frakt/pages/RootPage/views/LiveMint/components/MintForNFTs/NotConnectedState'
 import RevealAnimation from '@frakt/pages/RootPage/components/RevealAnimation'
 import { LoadingModal } from '@frakt/components/LoadingModal'
 import { StatsValues } from '@frakt/components/StatsValues'
@@ -9,7 +10,7 @@ import Field from '@frakt/components/Field'
 
 import { useWhitelistMint } from './hooks'
 import styles from './WhitelistMint.module.scss'
-import NotConnectedState from '@frakt/pages/RootPage/views/LiveMint/components/MintForNFTs/NotConnectedState'
+import BondsModal from '../BondsModal/BondsModal'
 
 const MAX_FIELD_VALUE_FOR_SINGLE_MINT = 1
 
@@ -93,6 +94,7 @@ const WhitelistMint = () => {
         visible={loadingModalVisible}
         title="Please approve transaction"
       />
+      {/* <BondsModal open={true}/> */}
     </>
   )
 }
