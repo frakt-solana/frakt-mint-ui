@@ -15,12 +15,12 @@ interface Route {
 export const routes: ReadonlyArray<Route> = [
   {
     path: PATHS.ROOT,
-    component: RootPage,
-  },
-  {
-    path: PATHS.PRESALE,
     component: PresaleMintPage,
   },
+  // {
+  //   path: PATHS.PRESALE,
+  //   component: PresaleMintPage,
+  // },
   // {
   //   path: PATHS.PUBLIC,
   //   component: PublicMintPage,
