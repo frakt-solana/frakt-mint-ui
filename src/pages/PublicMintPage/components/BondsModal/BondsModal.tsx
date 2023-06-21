@@ -1,8 +1,11 @@
 import { FC } from 'react'
 import { Modal } from '@frakt/components/Modal'
 
-import styles from './BondsModal.module.scss'
+import { useFetchWalletNFTs } from './hooks'
 import { BondsTable } from '../BondsTable'
+
+import styles from './BondsModal.module.scss'
+import { Loader } from '@frakt/components/Loader'
 
 interface BondsModalProps {
   open: boolean
@@ -10,6 +13,8 @@ interface BondsModalProps {
 }
 
 const BondsModal: FC<BondsModalProps> = ({ open, onCancel }) => {
+  const { nfts, loading } = useFetchWalletNFTs()
+    console.log(nfts)
   return (
     <Modal
       open={open}
@@ -32,7 +37,10 @@ const BondsModal: FC<BondsModalProps> = ({ open, onCancel }) => {
             <span>BANX available</span>
           </div>
         </div>
-        <BondsTable data={[]} />
+        {!!nfts?.length && !loading && (
+          <BondsTable className={styles.bondsTable} data={nfts} />
+        )}
+        {!nfts?.length && loading && <Loader />}
       </div>
     </Modal>
   )

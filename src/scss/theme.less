@@ -1,0 +1,126 @@
+@import './abstracts/_variables.scss';
+
+@primary-background: var(--primary-background);
+@primary-border: var(--primary-border);
+@tabel-row-hover: var(--gray-table-hover);
+
+@light-green-color: var(--light-green-color);
+@border-light-green: var(--border-light-green-1);
+@light-green-color-3: var(--light-green-color-3);
+
+// Table styles
+.ant-table {
+  background: @primary-background !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  overflow: auto !important;
+}
+
+.ant-table table {
+  table-layout: auto !important;
+}
+
+.ant-table-thead {
+  position: sticky;
+  top: -1px;
+  z-index: 3;
+}
+
+.ant-table-tbody > tr > td,
+.ant-table-thead > tr > th {
+  padding: 8px !important;;
+  transition: unset !important;;
+}
+
+.ant-table-tbody > tr > td {
+  border: 0 !important;;
+  vertical-align: middle !important;;
+}
+
+.ant-table-thead > tr > th {
+  background: @primary-background !important;;
+  border-bottom: 1px solid @primary-border !important;;
+  white-space: nowrap !important;;
+}
+
+.activeRowClassName {
+  display: table-row !important;
+
+  & > td {
+    background: @light-green-color-3 !important;
+    border-top: @border-light-green !important;
+    border-bottom: @border-light-green !important;
+  }
+  & > td:first-child {
+    border-left: @border-light-green !important;
+  }
+  & > td:nth-child(2) {
+    border-right: @border-light-green !important;
+  }
+
+  @media (max-width: 1300px) {
+    & > td:nth-child(2) {
+      border-right: 0 !important;
+    }
+    & > td:last-child {
+      border-right: @border-light-green !important;
+    }
+  }
+}
+
+.graceRowClassName {
+  display: table-row !important;
+
+  & > td {
+    background: rgba(255, 112, 31, 0.1) !important;
+  }
+}
+
+//? Remove default sort icon
+.ant-table-column-sorter {
+  display: none;
+}
+
+//? Remove shadow cantainer
+.ant-table-container::before,
+.ant-table-container::after,
+.ant-table-cell-fix-left-last::after {
+  display: none;
+}
+
+//? Unster default transition
+.ant-table-thead th.ant-table-column-has-sorters {
+  transition: unset;
+}
+
+//? Remove separete line between cells
+.ant-table-cell::before {
+  display: none;
+}
+
+//? Set color for active column
+td.ant-table-column-sort {
+  background: @primary-background;
+}
+
+//? Remove default "No data" view
+.ant-table-empty .ant-table-tbody > tr.ant-table-placeholder {
+  display: none;
+}
+
+.ant-table-row:hover > td {
+  background: @tabel-row-hover !important;
+}
+
+.ant-table-thead th.ant-table-column-sort,
+.ant-table-thead th.ant-table-column-has-sorters:hover {
+  background: @primary-background;
+}
+
+.ant-table-container table > thead > tr:first-child th:first-child {
+  border-top-left-radius: 1px;
+}
+
+.ant-table-cell-row-hover {
+  background: @primary-background !important;
+}

@@ -1,4 +1,4 @@
-import { MintedNft } from './../../../RootPage/views/LiveMint/components/MintForNFTs/helpers'
+import { MintedNft } from '../../../RootPage/views/LiveMint/components/MintForNFTs/helpers'
 import { base58PublicKey } from '@metaplex-foundation/umi'
 import { useEffect, useState } from 'react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'

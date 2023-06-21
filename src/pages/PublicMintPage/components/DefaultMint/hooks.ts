@@ -49,6 +49,7 @@ export const usePublicMint = () => {
             mintArgs: {
               freezeSolPayment: some({
                 destination: publicKey(RECEIVER_PUBKEY),
+                freezeSolPayment: 0,
               }),
             },
             tokenStandard: TokenStandard.ProgrammableNonFungible,

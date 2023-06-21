@@ -10,7 +10,7 @@ import Field from '@frakt/components/Field'
 
 import { useWhitelistMint } from './hooks'
 import styles from './WhitelistMint.module.scss'
-import BondsModal from '../BondsModal/BondsModal'
+import BondsModal from '../../../PublicMintPage/components/BondsModal/BondsModal'
 
 const MAX_FIELD_VALUE_FOR_SINGLE_MINT = 1
 

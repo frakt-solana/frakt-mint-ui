@@ -3,9 +3,10 @@ import { FC } from 'react'
 import Table, { useTable, PartialBreakpoints } from '@frakt/components/Table'
 
 import { getTableList } from './columns'
+import { NFT } from '@frakt/api/nft'
 
 export interface BondsTableProps {
-  data: ReadonlyArray<any>
+  data: ReadonlyArray<NFT>
   loading?: boolean
   className?: string
   breakpoints?: PartialBreakpoints
