@@ -16,6 +16,7 @@ import { parseNft } from '@frakt/pages/RootPage/views/LiveMint/components/MintFo
 
 export const useWhitelistMint = () => {
   const { connection } = useConnection()
+  const { connected } = useWallet()
 
   const [whitelistTokenAmount, refetchWhitelistTokens] = useTokenBalance(
     WL_TOKEN_MINT,
@@ -26,10 +27,10 @@ export const useWhitelistMint = () => {
   const [inputValue, setInputValue] = useState<string>('0')
 
   useEffect(() => {
-    if (whitelistTokenAmount) {
+    if (whitelistTokenAmount && !isBulkMint) {
       setInputValue('1')
     }
-  }, [whitelistTokenAmount])
+  }, [whitelistTokenAmount, inputValue, isBulkMint])
 
   const onChangeInputValue = (value: string) => {
     if (whitelistTokenAmount < parseFloat(value)) {
@@ -51,9 +52,15 @@ export const useWhitelistMint = () => {
     loadingModalVisible,
     handleResetAnimation,
     mintedNft,
-  } = useWhitelistTransactions(inputValue, refetchWhitelistTokens)
+    startTxnOneByOne,
+  } = useWhitelistTransactions(
+    inputValue,
+    whitelistTokenAmount,
+    refetchWhitelistTokens,
+  )
 
   const showReveal = isStartAnimation || isLoading
+  const showConnectedState = connected && !showReveal && !startTxnOneByOne
 
   return {
     mintedNft,
@@ -69,11 +76,13 @@ export const useWhitelistMint = () => {
     isLoading,
     isBulkMint,
     loadingModalVisible,
+    showConnectedState,
   }
 }
 
 export const useWhitelistTransactions = (
   inputValue: string,
+  whitelistTokenAmount: number,
   refetchWhitelistTokens: () => void,
 ) => {
   const umi = useUmi()
@@ -90,46 +99,49 @@ export const useWhitelistTransactions = (
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isStartAnimation, setIsStartAnimation] = useState<boolean>(false)
+  const [startTxnOneByOne, setStartTxnOneByOne] = useState(false)
 
   const onSingleMint = async () => {
     try {
-      setIsLoading(true)
+      if (!!whitelistTokenAmount) {
+        setIsLoading(true)
 
-      const { transaction, nftSigner } = await buildPublicMintTransaction({
-        umi,
-      })
+        const { transaction, nftSigner } = await buildPublicMintTransaction({
+          umi,
+        })
 
-      const { signature, result } = await transaction.sendAndConfirm(umi, {
-        confirm: { commitment: 'finalized' },
-      })
+        const { signature, result } = await transaction.sendAndConfirm(umi, {
+          confirm: { commitment: 'finalized' },
+        })
 
-      const encodedSignature = encodeSignature(signature)
+        const encodedSignature = encodeSignature(signature)
 
-      if (result.value.err !== null) {
-        return false
+        if (result.value.err !== null) {
+          return false
+        }
+
+        // const [response] = await mintNftsQuery([
+        //   {
+        //     mint: base58PublicKey(nftSigner?.publicKey?.bytes),
+        //     user: wallet?.publicKey?.toBase58(),
+        //     txId: encodedSignature,
+        //   },
+        // ])
+
+        // console.log(response?.success, 'success')
+
+        // console.log('New metadata: ', response?.metadata)
+
+        // if (!response?.success) {
+        //   return false
+        // }
+
+        // const parsedNewMetadata = parseNft(response?.metadata)
+
+        // setMintedNft(parsedNewMetadata)
+        setIsStartAnimation(true)
+        refetchWhitelistTokens()
       }
-
-      // const [response] = await mintNftsQuery([
-      //   {
-      //     mint: base58PublicKey(nftSigner?.publicKey?.bytes),
-      //     user: wallet?.publicKey?.toBase58(),
-      //     txId: encodedSignature,
-      //   },
-      // ])
-
-      // console.log(response?.success, 'success')
-
-      // console.log('New metadata: ', response?.metadata)
-
-      // if (!response?.success) {
-      //   return false
-      // }
-
-      // const parsedNewMetadata = parseNft(response?.metadata)
-
-      // setMintedNft(parsedNewMetadata)
-      setIsStartAnimation(true)
-      refetchWhitelistTokens()
     } catch (error) {
       console.log(error)
       throwLogsError(error)
@@ -200,10 +212,12 @@ export const useWhitelistTransactions = (
   const handleResetAnimation = () => {
     setIsStartAnimation(false)
     setIsLoading(false)
+    setStartTxnOneByOne(true)
   }
 
   return {
     mintedNft,
+    startTxnOneByOne,
 
     onSingleMint,
     onBulkMint,
