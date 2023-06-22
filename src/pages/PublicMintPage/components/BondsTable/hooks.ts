@@ -141,7 +141,7 @@ export const makeMintTransaction: MakeMintTransaction = async ({ umi }) => {
         collectionUpdateAuthority: candyMachine.authority,
         nftMint: nftSigner,
         candyGuard: candyGuard?.publicKey,
-        group: some('Wls#1'),
+        group: some('Wls#2'),
         mintArgs: {
           tokenBurn: some({
             mint: publicKey(WL_TOKEN_MINT_1),
