@@ -122,7 +122,7 @@ export const useWhiteListTransactions = (
     openLoadingModal()
     try {
       const mintsTransactionsParams = []
-
+      
       for (let i = 0; i < parseFloat(inputValue); i++) {
         try {
           const { transactionMint, nftSigner } =

@@ -79,6 +79,7 @@
 
 .bondsTable :global {
   height: 320px;
+  overflow: auto;
 
   .ant-table-content {
     min-height: 315px !important;

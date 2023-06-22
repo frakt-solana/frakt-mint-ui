@@ -17,7 +17,7 @@ const MintAndBorrowButton: FC<{ nft?: NFT; onCancelModal: () => void }> = ({
       className={styles.button}
       type="secondary"
     >
-      Mint use this for 4.5◎
+      Mint
     </Button>
   )
 }
