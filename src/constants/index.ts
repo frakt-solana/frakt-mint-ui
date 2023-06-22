@@ -9,6 +9,9 @@ export const DESTINATION_PUBKEY = process.env.DESTINATION_PUBKEY
 export const WL_TOKEN_MINT = process.env.WL_TOKEN_MINT // not used
 export const RECEIVER_PUBKEY = process.env.DESTINATION_PUBKEY // not used
 
+export const WL_TOKEN_MINT_1 = process.env.WL_TOKEN_MINT_1
+export const WL_TOKEN_MINT_2 = process.env.WL_TOKEN_MINT_2
+
 export const FRAKTS_GROUP = 'Frakts'
 export const GNOMIES_GROUP = 'Gnomie'
 

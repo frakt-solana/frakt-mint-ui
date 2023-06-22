@@ -34,7 +34,7 @@
   flex-direction: column;
   justify-content: center;
   margin: 16px 0;
-  height: 270px;
+  height: 180px;
 
   @media (max-width: 960px) {
     height: 150px;
@@ -53,4 +53,32 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.heading {
+  font: var(--font-title-2);
+  font-size: 40px;
+  max-width: 840px;
+  margin-bottom: 16px;
+  text-align: center;
+  text-transform: uppercase;
+
+  @media (max-width: 960px) {
+    font-size: 32px;
+  }
+
+  @media (max-width: 550px) {
+    font-size: 16px;
+  }
+}
+
+.totalMinted {
+  color: #aeaeb2;
+  //styleName: Unchanged/Numbers;
+  font-family: Chakra Petch;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 42px;
+  letter-spacing: 0em;
+  text-align: left;
 }

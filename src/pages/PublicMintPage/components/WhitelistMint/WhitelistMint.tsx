@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useWallet } from '@solana/wallet-adapter-react'
 
 import NotConnectedState from '@frakt/pages/RootPage/views/LiveMint/components/MintForNFTs/NotConnectedState'
@@ -11,11 +12,16 @@ import Field from '@frakt/components/Field'
 import styles from './WhitelistMint.module.scss'
 import BondsModal from '../BondsModal/BondsModal'
 import { useWhitelistMint } from '../../hooks/useWhitelistMint'
+import { MINT_PRICE } from '@frakt/constants'
+import { create } from 'zustand'
+import LoanModal from '@frakt/components/LoanModal/LoanModal'
+import ProgressBar from '@frakt/pages/RootPage/components/ProgressBar'
 
 const MAX_FIELD_VALUE_FOR_SINGLE_MINT = 1
 
-const WhitelistMint = () => {
+const WhitelistMint = ({ totalMinted }: { totalMinted?: number }) => {
   const { connected } = useWallet()
+
   const {
     onSubmit,
     showReveal,
@@ -31,6 +37,8 @@ const WhitelistMint = () => {
     showConnectedState,
   } = useWhitelistMint()
 
+  const [visibleBondsModal, setVisibleBondsModal] = useState(false)
+
   const whitelistTokenExistAndSingleMint = whitelistTokenAmount && !isBulkMint
 
   const fieldValue = whitelistTokenExistAndSingleMint
@@ -40,6 +48,8 @@ const WhitelistMint = () => {
   const fieldLpBalance = whitelistTokenExistAndSingleMint
     ? MAX_FIELD_VALUE_FOR_SINGLE_MINT
     : whitelistTokenAmount
+
+  const { setVisibleLoanModal, visibleLoanModal } = useVisibleLoanModalStore()
 
   return (
     <>
@@ -52,6 +62,9 @@ const WhitelistMint = () => {
       )}
       {showConnectedState && (
         <>
+          <h2 className={styles.heading}>Meet BANX</h2>
+          <p className={styles.totalMinted}>{totalMinted} / 4445</p>
+          <ProgressBar value={totalMinted} maxValue={4445} />
           <Checkbox
             className={styles.checkbox}
             onChange={handleToggleBulkMint}
@@ -64,31 +77,30 @@ const WhitelistMint = () => {
               <p className={styles.subtitle}>
                 You have {whitelistTokenAmount} WL tokens
               </p>
-              <Field
-                className={styles.field}
-                value={fieldValue}
-                lpBalance={fieldLpBalance}
-                onValueChange={onChangeInputValue}
-                placeholder="0"
-                integerOnly
-              />
+              {isBulkMint && (
+                <Field
+                  className={styles.field}
+                  value={fieldValue}
+                  lpBalance={fieldLpBalance}
+                  onValueChange={onChangeInputValue}
+                  placeholder="0"
+                  integerOnly
+                />
+              )}
             </div>
-            <StatsValues label="Mint price" value={0} />
-            <StatsValues label="Will be received">
-              {inputValue || 0} BANX
-            </StatsValues>
+            <StatsValues label="Mint price" value={MINT_PRICE} />
             <div className={styles.buttonWrapper}>
               <Button
-                onClick={onSubmit}
-                disabled={!parseFloat(inputValue)}
+                onClick={() => setVisibleLoanModal(true)}
                 className={styles.button}
                 type="secondary"
+                disabled={!whitelistTokenAmount}
               >
-                Borrow to mint
+                Borrow ◎ to mint
               </Button>
               <Button
                 onClick={onSubmit}
-                disabled={!parseFloat(inputValue)}
+                disabled={!parseFloat(inputValue) || !whitelistTokenAmount}
                 className={styles.button}
                 type="secondary"
               >
@@ -103,9 +115,31 @@ const WhitelistMint = () => {
         visible={loadingModalVisible}
         title="Please approve transaction"
       />
-      {/* <BondsModal open={true} /> */}
+      <LoanModal
+        open={visibleLoanModal}
+        onCancel={() => setVisibleLoanModal(false)}
+        onSumbit={() => {
+          setVisibleLoanModal(false)
+          setVisibleBondsModal(true)
+        }}
+      />
+
+      <BondsModal
+        open={visibleBondsModal}
+        onCancel={() => setVisibleBondsModal(false)}
+      />
     </>
   )
 }
 
 export default WhitelistMint
+
+type State = {
+  visibleLoanModal: boolean
+  setVisibleLoanModal: (valie: boolean) => void
+}
+
+export const useVisibleLoanModalStore = create<State>((set) => ({
+  visibleLoanModal: false,
+  setVisibleLoanModal: (visibleLoanModal) => set({ visibleLoanModal }),
+}))

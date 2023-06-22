@@ -23,12 +23,6 @@ const SortView = <T extends unknown>({
   search,
   showSearching = false,
 }: SortViewProps<T>) => {
-  const { viewState, setViewState } = useTableView()
-
-  const handleViewStateChange = (state: 'card' | 'table') => {
-    setViewState(state)
-  }
-
   const renderSearchInput = () => {
     if (!showSearching) return null
 
@@ -43,37 +37,7 @@ const SortView = <T extends unknown>({
     )
   }
 
-  const renderSwitchButtons = () => {
-    return (
-      <div className={styles.switchButtons}>
-        <Button
-          className={classNames(styles.switchViewButton, {
-            [styles.active]: viewState === 'card',
-          })}
-          onClick={() => handleViewStateChange('card')}
-          type="tertiary"
-        >
-          <CardView />
-        </Button>
-        <Button
-          className={classNames(styles.switchViewButton, {
-            [styles.active]: viewState === 'table',
-          })}
-          onClick={() => handleViewStateChange('table')}
-          type="tertiary"
-        >
-          <TableView />
-        </Button>
-      </div>
-    )
-  }
-
-  return (
-    <div className={styles.sortWrapper}>
-      {renderSearchInput()}
-      <div className={styles.rowGap}>{renderSwitchButtons()}</div>
-    </div>
-  )
+  return <div className={styles.sortWrapper}>{renderSearchInput()}</div>
 }
 
 export default SortView

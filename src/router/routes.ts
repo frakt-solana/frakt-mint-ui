@@ -15,7 +15,7 @@ interface Route {
 export const routes: ReadonlyArray<Route> = [
   {
     path: PATHS.ROOT,
-    component: PresaleMintPage,
+    component: PublicMintPage,
   },
   // {
   //   path: PATHS.PRESALE,

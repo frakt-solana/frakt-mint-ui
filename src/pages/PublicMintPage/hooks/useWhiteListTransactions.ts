@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 
 import { useLoadingModal } from '@frakt/components/LoadingModal'
@@ -15,6 +14,30 @@ import {
 } from '@frakt/pages/RootPage/views/LiveMint/components/MintForNFTs/helpers'
 import { mintPresaleNftsQuery } from '@frakt/api/nft'
 
+import { create } from 'zustand'
+
+type State = {
+  isLoading: boolean
+  isStartAnimation: boolean
+  startTxnOneByOne: boolean
+  mintedNft: MintedNft | null
+  setIsLoading: (isLoading: boolean) => void
+  setIsStartAnimation: (isStartAnimation: boolean) => void
+  setStartTxnOneByOne: (startTxnOneByOne: boolean) => void
+  setMintedNft: (mintedNft: MintedNft | null) => void
+}
+
+export const useAnimationStore = create<State>((set) => ({
+  isLoading: false,
+  isStartAnimation: false,
+  startTxnOneByOne: false,
+  mintedNft: null,
+  setIsLoading: (isLoading) => set({ isLoading }),
+  setIsStartAnimation: (isStartAnimation) => set({ isStartAnimation }),
+  setStartTxnOneByOne: (startTxnOneByOne) => set({ startTxnOneByOne }),
+  setMintedNft: (mintedNft) => set({ mintedNft }),
+}))
+
 export const useWhiteListTransactions = (
   inputValue: string,
   whitelistTokenAmount: number,
@@ -25,17 +48,24 @@ export const useWhiteListTransactions = (
   const { connection } = useConnection()
   const wallet = useWallet()
 
-  const [mintedNft, setMintedNft] = useState<MintedNft>(null)
-
   const {
     visible: loadingModalVisible,
     open: openLoadingModal,
     close: closeLoadingModal,
   } = useLoadingModal()
 
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isStartAnimation, setIsStartAnimation] = useState<boolean>(false)
-  const [startTxnOneByOne, setStartTxnOneByOne] = useState(false)
+  const isLoading = useAnimationStore((state) => state.isLoading)
+  const isStartAnimation = useAnimationStore((state) => state.isStartAnimation)
+  const startTxnOneByOne = useAnimationStore((state) => state.startTxnOneByOne)
+  const mintedNft = useAnimationStore((state) => state.mintedNft)
+  const setIsLoading = useAnimationStore((state) => state.setIsLoading)
+  const setIsStartAnimation = useAnimationStore(
+    (state) => state.setIsStartAnimation,
+  )
+  const setStartTxnOneByOne = useAnimationStore(
+    (state) => state.setStartTxnOneByOne,
+  )
+  const setMintedNft = useAnimationStore((state) => state.setMintedNft)
 
   const onSingleMint = async () => {
     try {

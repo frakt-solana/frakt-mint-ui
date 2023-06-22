@@ -10,6 +10,7 @@ export interface BondsTableProps {
   loading?: boolean
   className?: string
   breakpoints?: PartialBreakpoints
+  onCancelModal: () => void
 }
 
 export const BondsTable: FC<BondsTableProps> = ({
@@ -17,8 +18,9 @@ export const BondsTable: FC<BondsTableProps> = ({
   loading,
   className,
   breakpoints,
+  onCancelModal,
 }) => {
-  const COLUMNS = getTableList()
+  const COLUMNS = getTableList(onCancelModal)
 
   const { table, search } = useTable({
     data,
@@ -32,6 +34,11 @@ export const BondsTable: FC<BondsTableProps> = ({
       search={search}
       className={className}
       breakpoints={breakpoints}
+      viewParams={{
+        showSorting: false,
+        showSearching: true,
+        showToggle: false,
+      }}
     />
   )
 }
