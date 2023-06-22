@@ -53,8 +53,8 @@ const WhitelistMint = ({ totalMinted }: { totalMinted?: number }) => {
       {showConnectedState && (
         <>
           <h2 className={styles.heading}>Meet BANX</h2>
-          <p className={styles.totalMinted}>{totalMinted} / 4445</p>
-          <ProgressBar value={totalMinted} maxValue={4445} />
+          <p className={styles.totalMinted}>{4445} / 4445</p>
+          <ProgressBar value={4445} maxValue={4445} />
           <Checkbox
             className={styles.checkbox}
             onChange={handleToggleBulkMint}
