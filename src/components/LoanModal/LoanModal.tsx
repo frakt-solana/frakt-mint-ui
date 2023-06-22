@@ -25,7 +25,7 @@ const LoanModal: FC<LoanModalProps> = ({ open, onSumbit, onCancel }) => {
       <div className={styles.content}>
         <h4>A bit of important info</h4>
         <p>
-          You may check your loan on{' '}
+          After minting please check your loan at{' '}
           <a
             href="https://app.frakt.xyz/loans"
             target="_blank"
@@ -34,11 +34,11 @@ const LoanModal: FC<LoanModalProps> = ({ open, onSumbit, onCancel }) => {
             frakt.xyz/loans
           </a>
           <br />
-          Please make sure that you repay your loan on time
+          Make sure to repay your loan on time
         </p>
 
         <Button onClick={onSumbit} className={styles.button} type="secondary">
-          Continue borrowing
+          Mint
         </Button>
       </div>
     </Modal>
