@@ -37,12 +37,9 @@ export const buildPublicMintTransaction = async ({ umi }) => {
         collectionUpdateAuthority: candyMachine.authority,
         nftMint: nftSigner,
         candyGuard: candyGuard?.publicKey,
-        group: some('Wls#1'),
+        group: some('Wls#2'),
         mintArgs: {
-          tokenBurn: some({
-            mint: publicKey(WL_TOKEN_MINT_1),
-            amount: 1,
-          }),
+          tokenGate: some({ mint: publicKey(WL_TOKEN_MINT_1) }),
           freezeSolPayment: some({
             destination: publicKey(DESTINATION_PUBKEY),
             freezeSolPayment: 10,
