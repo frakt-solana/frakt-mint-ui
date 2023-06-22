@@ -88,13 +88,13 @@ const WhitelistMint = ({ totalMinted }: { totalMinted?: number }) => {
                 onClick={() => setVisibleLoanModal(true)}
                 className={styles.button}
                 type="secondary"
-                disabled={!whitelistTokenAmount}
+                disabled={true}
               >
                 Borrow ◎ to mint
               </Button>
               <Button
                 onClick={onSubmit}
-                disabled={!parseFloat(inputValue) || !whitelistTokenAmount}
+                disabled={true}
                 className={styles.button}
                 type="secondary"
               >
