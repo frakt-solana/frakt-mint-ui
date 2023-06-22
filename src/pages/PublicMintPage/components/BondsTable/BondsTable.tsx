@@ -32,6 +32,11 @@ export const BondsTable: FC<BondsTableProps> = ({
       search={search}
       className={className}
       breakpoints={breakpoints}
+      viewParams={{
+        showSorting: false,
+        showSearching: true,
+        showToggle: false,
+      }}
     />
   )
 }

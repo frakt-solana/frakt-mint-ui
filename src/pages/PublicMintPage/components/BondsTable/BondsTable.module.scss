@@ -1,0 +1,30 @@
+.rowCenter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.collectionInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.collectionName {
+  color: var(--primary-text);
+  font: var(--font-text-6);
+  width: 141px;
+  @media (max-width: 960px) {
+    width: 104px;
+  }
+}
+
+.collectionImage {
+  width: 26px;
+  height: 26px;
+}
+
+.button {
+  height: 26px;
+  width: 168px;
+  padding: 0;
+}

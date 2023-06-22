@@ -6,6 +6,8 @@ import {
 } from '@frakt/components/TableComponents'
 import { ColumnsType, ColumnType } from 'antd/es/table'
 import { SortOrder } from 'antd/lib/table/interface'
+import styles from './BondsTable.module.scss'
+import MintAndBorrowButton from './MintAndBorrowButton'
 
 export type SortColumns = {
   column: ColumnType<NFT>
@@ -18,7 +20,12 @@ export const getTableList = () => {
       key: 'name',
       dataIndex: 'name',
       title: () => createHeaderCell('Name', true),
-      // render: (_, nft) => <CollectionInfoCell nft={nft} />,
+      render: (_, nft) => (
+        <div className={styles.collectionInfo}>
+          <img src={nft?.imageUrl} className={styles.collectionImage} />
+          <p className={styles.collectionName}>{nft?.name}</p>
+        </div>
+      ),
     },
     {
       key: 'borrow',
@@ -40,11 +47,9 @@ export const getTableList = () => {
       render: (_, nft) =>
         createValueJSX(parseFloat(nft?.bondParams?.fee?.toFixed(2))),
     },
-    // {
-    //   render: (_, bond: any) => (
-    //     // <ExitCell bonds={data} hideBond={hideBond} bond={bond} />
-    //   ),
-    // },
+    {
+      render: (_, nft) => <MintAndBorrowButton nft={nft} />,
+    },
   ]
 
   return COLUMNS

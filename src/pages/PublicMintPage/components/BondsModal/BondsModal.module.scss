@@ -77,6 +77,13 @@
 }
 
 .bondsTable :global {
+  height: 320px;
+
+  .ant-table-content {
+    max-height: 315px !important;
+    overflow: auto !important;
+  }
+
   .ant-table-thead > tr > th:first-child,
   .ant-table-tbody > tr > td:first-child {
     padding-left: 0;
@@ -93,7 +100,8 @@
 .bondsTable :global {
   width: 100%;
   cursor: default;
+
   .ant-table-tbody > tr > td:last-child {
-    width: 70px !important;
+    width: 180px !important;
   }
 }
