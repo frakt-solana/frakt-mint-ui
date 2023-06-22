@@ -30,7 +30,7 @@ const BondsModal: FC<BondsModalProps> = ({ open, onCancel }) => {
         <div className={styles.stats}>
           <div className={styles.statsValue}>
             <p>{nfts?.length || 0}</p>
-            <span>BANX available</span>
+            <span>NFTs available</span>
           </div>
         </div>
         {!nfts?.length && !loading && <EmptyList />}

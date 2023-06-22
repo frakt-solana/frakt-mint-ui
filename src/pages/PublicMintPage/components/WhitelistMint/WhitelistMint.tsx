@@ -89,7 +89,7 @@ const WhitelistMint = () => {
                 type="secondary"
                 disabled={!whitelistTokenAmount}
               >
-                Borrow to mint
+                Borrow ◎ to mint
               </Button>
               <Button
                 onClick={onSubmit}

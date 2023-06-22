@@ -38,14 +38,18 @@ export const getTableList = (onCancelModal: () => void) => {
       dataIndex: 'fee',
       title: () => createHeaderCell('Fee'),
       render: (_, nft) =>
-        createValueJSX(parseFloat(nft?.bondParams?.fee?.toFixed(2))),
+        createValueJSX(`${parseFloat(nft?.bondParams?.fee?.toFixed(2))} ◎`),
     },
     {
       key: 'repay',
       dataIndex: 'repay',
       title: () => createHeaderCell('Repay'),
       render: (_, nft) =>
-        createValueJSX(parseFloat(nft?.bondParams?.fee?.toFixed(2))),
+        createValueJSX(
+          `${parseFloat(
+            (nft?.maxLoanValue / 1e9 + nft?.bondParams?.fee)?.toFixed(2),
+          )} ◎`,
+        ),
     },
     {
       render: (_, nft) => (
