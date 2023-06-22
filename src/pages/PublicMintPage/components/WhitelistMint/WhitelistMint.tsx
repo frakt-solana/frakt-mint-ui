@@ -13,6 +13,8 @@ import styles from './WhitelistMint.module.scss'
 import BondsModal from '../BondsModal/BondsModal'
 import { useWhitelistMint } from '../../hooks/useWhitelistMint'
 import { MINT_PRICE } from '@frakt/constants'
+import { create } from 'zustand'
+import LoanModal from '@frakt/components/LoanModal/LoanModal'
 
 const MAX_FIELD_VALUE_FOR_SINGLE_MINT = 1
 
@@ -45,6 +47,8 @@ const WhitelistMint = () => {
   const fieldLpBalance = whitelistTokenExistAndSingleMint
     ? MAX_FIELD_VALUE_FOR_SINGLE_MINT
     : whitelistTokenAmount
+
+  const { setVisibleLoanModal, visibleLoanModal } = useVisibleLoanModalStore()
 
   return (
     <>
@@ -84,7 +88,7 @@ const WhitelistMint = () => {
             <StatsValues label="Mint price" value={MINT_PRICE} />
             <div className={styles.buttonWrapper}>
               <Button
-                onClick={() => setVisibleBondsModal(true)}
+                onClick={() => setVisibleLoanModal(true)}
                 className={styles.button}
                 type="secondary"
                 disabled={!whitelistTokenAmount}
@@ -108,6 +112,15 @@ const WhitelistMint = () => {
         visible={loadingModalVisible}
         title="Please approve transaction"
       />
+      <LoanModal
+        open={visibleLoanModal}
+        onCancel={() => setVisibleLoanModal(false)}
+        onSumbit={() => {
+          setVisibleLoanModal(false)
+          setVisibleBondsModal(true)
+        }}
+      />
+
       <BondsModal
         open={visibleBondsModal}
         onCancel={() => setVisibleBondsModal(false)}
@@ -117,3 +130,13 @@ const WhitelistMint = () => {
 }
 
 export default WhitelistMint
+
+type State = {
+  visibleLoanModal: boolean
+  setVisibleLoanModal: (valie: boolean) => void
+}
+
+export const useVisibleLoanModalStore = create<State>((set) => ({
+  visibleLoanModal: false,
+  setVisibleLoanModal: (visibleLoanModal) => set({ visibleLoanModal }),
+}))
