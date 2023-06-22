@@ -18,7 +18,11 @@ import { mintV2 } from '@metaplex-foundation/mpl-candy-machine'
 import { setComputeUnitLimit } from '@metaplex-foundation/mpl-essentials'
 import { TokenStandard } from '@metaplex-foundation/mpl-token-metadata'
 import { VersionedMessage, VersionedTransaction } from '@solana/web3.js'
-import { CANDY_MACHINE_PUBKEY, DESTINATION_PUBKEY } from '@frakt/constants'
+import {
+  CANDY_MACHINE_PUBKEY,
+  DESTINATION_PUBKEY,
+  WL_TOKEN_MINT,
+} from '@frakt/constants'
 import { NFT } from '@frakt/api/nft'
 import {
   WalletContextState,
@@ -86,7 +90,7 @@ export const makeMintTransaction: MakeMintTransaction = async ({ umi }) => {
   const candyGuard = await fetchCandyGuard(umi, candyMachine.mintAuthority)
 
   const tx = transactionBuilder()
-    .add(setComputeUnitLimit(umi, { units: 600_000 }))
+    .add(setComputeUnitLimit(umi, { units: 800_000 }))
     .add(
       mintV2(umi, {
         candyMachine: candyMachine.publicKey,
@@ -96,8 +100,13 @@ export const makeMintTransaction: MakeMintTransaction = async ({ umi }) => {
         candyGuard: candyGuard?.publicKey,
         group: some('Wls'),
         mintArgs: {
+          tokenBurn: some({
+            mint: publicKey(WL_TOKEN_MINT),
+            amount: 1,
+          }),
           freezeSolPayment: some({
             destination: publicKey(DESTINATION_PUBKEY),
+            freezeSolPayment: 0,
           }),
         },
         tokenStandard: TokenStandard.ProgrammableNonFungible,

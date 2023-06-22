@@ -45,6 +45,7 @@
   align-items: center;
   gap: 32px;
   padding: 24px;
+  min-height: 516.5px;
 
   @media (max-width: 550px) {
     padding: 16px;
@@ -80,7 +81,7 @@
   height: 320px;
 
   .ant-table-content {
-    max-height: 315px !important;
+    min-height: 315px !important;
     overflow: auto !important;
   }
 
@@ -100,6 +101,11 @@
 .bondsTable :global {
   width: 100%;
   cursor: default;
+
+  .ant-table-thead > tr > td:last-child {
+    background: transparent !important;
+    border-bottom: 1px solid var(--primary-border) !important;
+  }
 
   .ant-table-tbody > tr > td:last-child {
     width: 180px !important;

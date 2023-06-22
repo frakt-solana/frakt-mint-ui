@@ -5,23 +5,25 @@ html body .input {
   &,
   &:not(.ant-input-affix-wrapper-disabled):hover,
   &:hover {
-    border: 0;
-    border-bottom: 1px solid var(--primary-border);
+    border: 0 !important;
+    border-bottom: 1px solid var(--primary-border) !important;
+    background: transparent !important;
+    border-radius: 0 !important;
   }
 
   &:global(.ant-input-affix-wrapper-focused:hover),
   &:global(.ant-input-affix-wrapper-focused) {
     box-shadow: none !important;
-    border-bottom: 1px solid var(--secondary-border);
+    border-bottom: 1px solid var(--secondary-border) !important;
 
     :local(.search) {
       svg {
-        color: var(--secondary-border);
+        color: var(--secondary-border) !important;
       }
     }
 
     input {
-      color: var(--secondary-border);
+      color: var(--secondary-border) !important;
     }
   }
 
@@ -36,12 +38,13 @@ html body .input {
     }
   }
   input {
-    color: var(--secondary-text);
-    font-size: 20px;
-    font-family: var(--font-family-chakra);
+    background: transparent !important;
+    color: var(--secondary-text) !important;
+    font-size: 18px !important;
+    font-family: var(--font-family-chakra) !important;
 
     &::placeholder {
-      color: var(--secondary-text);
+      color: var(--secondary-text) !important;
     }
   }
 }
