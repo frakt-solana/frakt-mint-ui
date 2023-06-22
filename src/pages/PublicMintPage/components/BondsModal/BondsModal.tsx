@@ -39,6 +39,7 @@ const BondsModal: FC<BondsModalProps> = ({ open, onCancel }) => {
         </div>
         {!!nfts?.length && !loading && (
           <BondsTable
+            onCancelModal={onCancel}
             breakpoints={{ scrollX: 600 }}
             className={styles.bondsTable}
             data={nfts}

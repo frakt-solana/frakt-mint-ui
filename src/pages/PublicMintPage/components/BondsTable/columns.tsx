@@ -14,7 +14,7 @@ export type SortColumns = {
   order: SortOrder
 }[]
 
-export const getTableList = () => {
+export const getTableList = (onCancelModal: () => void) => {
   const COLUMNS: ColumnsType<NFT> = [
     {
       key: 'name',
@@ -48,7 +48,9 @@ export const getTableList = () => {
         createValueJSX(parseFloat(nft?.bondParams?.fee?.toFixed(2))),
     },
     {
-      render: (_, nft) => <MintAndBorrowButton nft={nft} />,
+      render: (_, nft) => (
+        <MintAndBorrowButton onCancelModal={onCancelModal} nft={nft} />
+      ),
     },
   ]
 

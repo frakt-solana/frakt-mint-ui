@@ -5,8 +5,11 @@ import { FC } from 'react'
 import styles from './BondsTable.module.scss'
 import { useMintAndBorrow } from './hooks'
 
-const MintAndBorrowButton: FC<{ nft?: NFT }> = ({ nft }) => {
-  const { onSumbit } = useMintAndBorrow()
+const MintAndBorrowButton: FC<{ nft?: NFT; onCancelModal: () => void }> = ({
+  nft,
+  onCancelModal,
+}) => {
+  const { onSumbit } = useMintAndBorrow({ onCancelModal })
 
   return (
     <Button

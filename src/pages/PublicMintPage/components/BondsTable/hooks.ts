@@ -23,7 +23,7 @@ import {
   DESTINATION_PUBKEY,
   WL_TOKEN_MINT,
 } from '@frakt/constants'
-import { NFT } from '@frakt/api/nft'
+import { NFT, mintPresaleNftsQuery } from '@frakt/api/nft'
 import {
   WalletContextState,
   useConnection,
@@ -31,14 +31,29 @@ import {
 } from '@solana/wallet-adapter-react'
 import { fetchMarketAndPairs, getBondOrderParams } from './helpers'
 import { BondCartOrder } from 'fbonds-core/lib/fbond-protocol/types'
+import { useAnimationStore } from '../../hooks/useWhiteListTransactions'
+import { throwLogsError } from '@frakt/utils'
+import { parseNft } from '@frakt/pages/RootPage/views/LiveMint/components/MintForNFTs/helpers'
 
-export const useMintAndBorrow = () => {
+export const useMintAndBorrow = ({ onCancelModal }) => {
   const umi = useUmi()
   const wallet = useWallet()
   const { connection } = useConnection()
 
+  const setIsLoading = useAnimationStore((state) => state.setIsLoading)
+  const setIsStartAnimation = useAnimationStore(
+    (state) => state.setIsStartAnimation,
+  )
+  const setStartTxnOneByOne = useAnimationStore(
+    (state) => state.setStartTxnOneByOne,
+  )
+  const setMintedNft = useAnimationStore((state) => state.setMintedNft)
+
   const onSumbit = async (nft: NFT) => {
     try {
+      onCancelModal()
+      setIsLoading(true)
+
       const { market, pairs } = await fetchMarketAndPairs(
         nft?.bondParams?.marketPubkey,
         wallet?.publicKey,
@@ -67,9 +82,34 @@ export const useMintAndBorrow = () => {
       if (!result) {
         throw new Error('Borrow failed')
       }
+
+      const [response] = await mintPresaleNftsQuery([
+        {
+          mint: signers[0]?.publicKey?.toBase58(),
+          user: wallet?.publicKey?.toBase58(),
+          txId: null,
+        },
+      ])
+
+      console.log(response?.success, 'success')
+
+      console.log('New metadata: ', response?.metadata)
+
+      if (!response?.success) {
+        return false
+      }
+
+      const parsedNewMetadata = parseNft(response?.metadata)
+
+      setMintedNft(parsedNewMetadata)
+      setIsStartAnimation(true)
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error)
+      throwLogsError(error)
+      setIsLoading(false)
+      setStartTxnOneByOne(false)
+    } finally {
+      setIsLoading(false)
+      setStartTxnOneByOne(false)
     }
   }
 
