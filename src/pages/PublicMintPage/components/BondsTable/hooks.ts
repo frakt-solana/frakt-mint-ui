@@ -143,10 +143,11 @@ export const makeMintTransaction: MakeMintTransaction = async ({ umi }) => {
         candyGuard: candyGuard?.publicKey,
         group: some('Wls#2'),
         mintArgs: {
-          tokenBurn: some({
-            mint: publicKey(WL_TOKEN_MINT_1),
+          tokenGate: {
+            //@ts-ignore
             amount: 1,
-          }),
+            mint: publicKey(WL_TOKEN_MINT_1),
+          },
           freezeSolPayment: some({
             destination: publicKey(DESTINATION_PUBKEY),
             freezeSolPayment: 10,
