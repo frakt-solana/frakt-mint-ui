@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useWallet } from '@solana/wallet-adapter-react'
 
 import NotConnectedState from '@frakt/pages/RootPage/views/LiveMint/components/MintForNFTs/NotConnectedState'
@@ -12,7 +13,6 @@ import styles from './WhitelistMint.module.scss'
 import BondsModal from '../BondsModal/BondsModal'
 import { useWhitelistMint } from '../../hooks/useWhitelistMint'
 import { MINT_PRICE } from '@frakt/constants'
-import { useState } from 'react'
 
 const MAX_FIELD_VALUE_FOR_SINGLE_MINT = 1
 
@@ -57,6 +57,7 @@ const WhitelistMint = () => {
       )}
       {showConnectedState && (
         <>
+          <h2 className={styles.heading}>Meet BANX</h2>
           <Checkbox
             className={styles.checkbox}
             onChange={handleToggleBulkMint}
