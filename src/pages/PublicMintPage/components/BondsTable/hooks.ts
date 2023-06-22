@@ -131,7 +131,6 @@ export const makeMintTransaction: MakeMintTransaction = async ({ umi }) => {
   )
 
   const candyGuard = await fetchCandyGuard(umi, candyMachine.mintAuthority)
-
   const tx = transactionBuilder()
     .add(setComputeUnitLimit(umi, { units: 800_000 }))
     .add(
