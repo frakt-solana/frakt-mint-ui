@@ -8,9 +8,11 @@ import { useLayoutEffect } from 'react'
 
 import bgLooped from '@frakt/sounds/backgroundSound.mp3'
 import { Howl } from 'howler'
+import { useFetchTotalMinted } from '@frakt/api/nft'
 
 const PublicMintPage = () => {
   const { isAudioOn } = useHeaderAudio()
+  const { data } = useFetchTotalMinted()
 
   useLayoutEffect(() => {
     if (isAudioOn) {
@@ -31,7 +33,7 @@ const PublicMintPage = () => {
   return (
     <AppLayout>
       <div className={styles.container}>
-        <WhitelistMint />
+        <WhitelistMint totalMinted={data?.count || 0} />
         {/* <DefaultMint /> */}
       </div>
     </AppLayout>

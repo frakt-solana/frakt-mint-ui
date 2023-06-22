@@ -12,13 +12,17 @@ const MintAndBorrowButton: FC<{ nft?: NFT; onCancelModal: () => void }> = ({
 }) => {
   const { onSumbit } = useMintAndBorrow({ onCancelModal })
 
+  const mintValue = parseFloat(
+    (nft?.maxLoanValue / 1e9 - MINT_PRICE)?.toFixed(2),
+  )
+
   return (
     <Button
       onClick={() => onSumbit(nft)}
       className={styles.button}
       type="secondary"
     >
-      Mint for {(nft?.maxLoanValue / 1e9 - MINT_PRICE)?.toFixed(2)} ◎
+      Mint for {mintValue > 0 ? 0 : mintValue * -1} ◎
     </Button>
   )
 }

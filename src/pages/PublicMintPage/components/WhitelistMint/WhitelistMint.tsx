@@ -15,10 +15,11 @@ import { useWhitelistMint } from '../../hooks/useWhitelistMint'
 import { MINT_PRICE } from '@frakt/constants'
 import { create } from 'zustand'
 import LoanModal from '@frakt/components/LoanModal/LoanModal'
+import ProgressBar from '@frakt/pages/RootPage/components/ProgressBar'
 
 const MAX_FIELD_VALUE_FOR_SINGLE_MINT = 1
 
-const WhitelistMint = () => {
+const WhitelistMint = ({ totalMinted }: { totalMinted?: number }) => {
   const { connected } = useWallet()
 
   const {
@@ -62,6 +63,8 @@ const WhitelistMint = () => {
       {showConnectedState && (
         <>
           <h2 className={styles.heading}>Meet BANX</h2>
+          <p className={styles.totalMinted}>{totalMinted} / 4555</p>
+          <ProgressBar value={totalMinted} maxValue={4555} />
           <Checkbox
             className={styles.checkbox}
             onChange={handleToggleBulkMint}

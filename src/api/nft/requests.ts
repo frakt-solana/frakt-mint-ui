@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query'
 import { web3 } from '@project-serum/anchor'
 import axios from 'axios'
 
@@ -60,4 +61,30 @@ export const mintPresaleNftsQuery: MintPresaleNftsQuery = async (params) => {
   )
 
   return data
+}
+
+export const fetchTotalMintet = async () => {
+  const { data } = await axios.get(
+    `https://${BACKEND_DOMAIN}/banx/public-mint-count`,
+  )
+
+  return data
+}
+
+export const useFetchTotalMinted = () => {
+  const {
+    data,
+    isLoading,
+    isFetching,
+  }: {
+    data: any
+    isLoading: boolean
+    isFetching: boolean
+  } = useQuery(['fetchTotalMintet'], () => fetchTotalMintet(), {
+    staleTime: 60_000,
+    refetchInterval: 5000,
+    refetchOnWindowFocus: false,
+  })
+
+  return { data, loading: isLoading || isFetching }
 }

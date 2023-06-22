@@ -23,7 +23,9 @@ export const useFetchWalletNFTs = () => {
     },
   )
 
-  const bondsNfts = data?.filter((nft) => !!nft?.bondParams?.marketPubkey)
+  const bondsNfts = data
+    ?.filter((nft) => !!nft?.bondParams?.marketPubkey)
+    ?.sort((a, b) => b.maxLoanValue - a?.maxLoanValue)
 
   return { nfts: bondsNfts || [], loading: isLoading || isFetching }
 }
