@@ -67,6 +67,10 @@ const WhitelistMint = ({ totalMinted }: { totalMinted?: number }) => {
               <p className={styles.subtitle}>
                 You have {whitelistTokenAmount} WL tokens
               </p>
+              <br />
+              <p className={styles.subtitle}>
+                You can mint as many as you want
+              </p>
               {isBulkMint && (
                 <Field
                   className={styles.field}
