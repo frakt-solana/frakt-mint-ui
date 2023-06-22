@@ -39,11 +39,7 @@ export const buildPublicMintTransaction = async ({ umi }) => {
         candyGuard: candyGuard?.publicKey,
         group: some('Wls#2'),
         mintArgs: {
-          tokenGate: {
-            //@ts-ignore
-            amount: 1,
-            mint: publicKey(WL_TOKEN_MINT_1),
-          },
+          tokenGate: some({ mint: publicKey(WL_TOKEN_MINT_1) }),
           freezeSolPayment: some({
             destination: publicKey(DESTINATION_PUBKEY),
             freezeSolPayment: 10,

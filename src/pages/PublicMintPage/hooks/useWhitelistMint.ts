@@ -15,7 +15,7 @@ export const useWhitelistMint = () => {
   )
 
   const [isBulkMint, setIsBulkMint] = useState<boolean>(false)
-  const [inputValue, setInputValue] = useState<string>('0')
+  const [inputValue, setInputValue] = useState<string>('1')
 
   useEffect(() => {
     if (whitelistTokenAmount && !isBulkMint) {
@@ -24,11 +24,7 @@ export const useWhitelistMint = () => {
   }, [whitelistTokenAmount, inputValue, isBulkMint])
 
   const onChangeInputValue = (value: string) => {
-    if (whitelistTokenAmount < parseFloat(value)) {
-      setInputValue(String(whitelistTokenAmount))
-    } else {
-      setInputValue(value)
-    }
+    setInputValue(value)
   }
 
   const resetInputValue = () => {

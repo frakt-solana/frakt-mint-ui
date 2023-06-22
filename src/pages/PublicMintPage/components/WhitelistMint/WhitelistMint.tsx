@@ -39,16 +39,6 @@ const WhitelistMint = ({ totalMinted }: { totalMinted?: number }) => {
 
   const [visibleBondsModal, setVisibleBondsModal] = useState(false)
 
-  const whitelistTokenExistAndSingleMint = whitelistTokenAmount && !isBulkMint
-
-  const fieldValue = whitelistTokenExistAndSingleMint
-    ? MAX_FIELD_VALUE_FOR_SINGLE_MINT?.toString()
-    : inputValue
-
-  const fieldLpBalance = whitelistTokenExistAndSingleMint
-    ? MAX_FIELD_VALUE_FOR_SINGLE_MINT
-    : whitelistTokenAmount
-
   const { setVisibleLoanModal, visibleLoanModal } = useVisibleLoanModalStore()
 
   return (
@@ -80,8 +70,8 @@ const WhitelistMint = ({ totalMinted }: { totalMinted?: number }) => {
               {isBulkMint && (
                 <Field
                   className={styles.field}
-                  value={fieldValue}
-                  lpBalance={fieldLpBalance}
+                  value={inputValue}
+                  lpBalance={whitelistTokenAmount}
                   onValueChange={onChangeInputValue}
                   placeholder="0"
                   integerOnly
