@@ -30,13 +30,10 @@ const BondsModal: FC<BondsModalProps> = ({ open, onCancel }) => {
         <div className={styles.stats}>
           <div className={styles.statsValue}>
             <p>{nfts?.length || 0}</p>
-            <span>NFTs</span>
-          </div>
-          <div className={styles.statsValue}>
-            <p>12</p>
             <span>BANX available</span>
           </div>
         </div>
+        {!nfts?.length && !loading && <EmptyList />}
         {!!nfts?.length && !loading && (
           <BondsTable
             onCancelModal={onCancel}
@@ -52,3 +49,9 @@ const BondsModal: FC<BondsModalProps> = ({ open, onCancel }) => {
 }
 
 export default BondsModal
+
+const EmptyList = () => (
+  <div className={styles.emptyContainer}>
+    <h4>You don't have suitable NFTs</h4>
+  </div>
+)

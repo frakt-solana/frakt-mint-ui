@@ -111,3 +111,15 @@
     width: 180px !important;
   }
 }
+
+.emptyContainer {
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h4 {
+    font-size: 24px;
+    text-align: center;
+  }
+}
