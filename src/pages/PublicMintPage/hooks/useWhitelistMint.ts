@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 
-import { WL_TOKEN_MINT } from '@frakt/constants'
+import { WL_TOKEN_MINT_1 } from '@frakt/constants'
 import { useTokenBalance } from '@frakt/hooks'
 import { useWhiteListTransactions } from './useWhiteListTransactions'
 
@@ -10,7 +10,7 @@ export const useWhitelistMint = () => {
   const { connected } = useWallet()
 
   const [whitelistTokenAmount, refetchWhitelistTokens] = useTokenBalance(
-    WL_TOKEN_MINT,
+    WL_TOKEN_MINT_1,
     connection,
   )
 

@@ -1,5 +1,5 @@
 import { mintPresaleNftsQuery } from '@frakt/api/nft'
-import { CANDY_MACHINE_PUBKEY, RECEIVER_PUBKEY } from '@frakt/constants'
+import { CANDY_MACHINE_PUBKEY, DESTINATION_PUBKEY } from '@frakt/constants'
 import { useUmi } from '@frakt/helpers/umi'
 import {
   MintedNft,
@@ -58,8 +58,8 @@ export const usePublicMint = () => {
             group: some('Public'),
             mintArgs: {
               freezeSolPayment: some({
-                destination: publicKey(RECEIVER_PUBKEY),
-                freezeSolPayment: 0,
+                destination: publicKey(DESTINATION_PUBKEY),
+                freezeSolPayment: 10,
               }),
             },
             tokenStandard: TokenStandard.ProgrammableNonFungible,

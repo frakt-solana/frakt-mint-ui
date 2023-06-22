@@ -87,6 +87,7 @@ const WhitelistMint = () => {
                 onClick={() => setVisibleBondsModal(true)}
                 className={styles.button}
                 type="secondary"
+                disabled={!whitelistTokenAmount}
               >
                 Borrow to mint
               </Button>

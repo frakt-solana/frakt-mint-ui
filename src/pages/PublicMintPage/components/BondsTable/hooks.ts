@@ -1,6 +1,6 @@
 import { useUmi } from '@frakt/helpers/umi'
 import { web3 } from 'fbonds-core'
-import { Umi } from '@metaplex-foundation/umi'
+import { KeypairSigner, Umi, base58PublicKey } from '@metaplex-foundation/umi'
 
 import {
   fetchCandyGuard,
@@ -21,7 +21,7 @@ import { VersionedMessage, VersionedTransaction } from '@solana/web3.js'
 import {
   CANDY_MACHINE_PUBKEY,
   DESTINATION_PUBKEY,
-  WL_TOKEN_MINT,
+  WL_TOKEN_MINT_1,
 } from '@frakt/constants'
 import { NFT, mintPresaleNftsQuery } from '@frakt/api/nft'
 import {
@@ -32,7 +32,7 @@ import {
 import { fetchMarketAndPairs, getBondOrderParams } from './helpers'
 import { BondCartOrder } from 'fbonds-core/lib/fbond-protocol/types'
 import { useAnimationStore } from '../../hooks/useWhiteListTransactions'
-import { throwLogsError } from '@frakt/utils'
+import { encodeSignature, throwLogsError } from '@frakt/utils'
 import { parseNft } from '@frakt/pages/RootPage/views/LiveMint/components/MintForNFTs/helpers'
 
 export const useMintAndBorrow = ({ onCancelModal }) => {
@@ -67,7 +67,7 @@ export const useMintAndBorrow = ({ onCancelModal }) => {
         maxLoanValue: nft?.maxLoanValue,
       })
 
-      const { tx: transactionMint, signers } = await makeMintTransaction({
+      const { tx: transactionMint, nftSigner } = await makeMintTransaction({
         umi,
       })
 
@@ -85,9 +85,11 @@ export const useMintAndBorrow = ({ onCancelModal }) => {
 
       const [response] = await mintPresaleNftsQuery([
         {
-          mint: signers[0]?.publicKey?.toBase58(),
+          mint: base58PublicKey(nftSigner?.publicKey?.bytes),
           user: wallet?.publicKey?.toBase58(),
-          txId: null,
+          txId: transactionMint.signatures.map((signature) =>
+            encodeSignature(signature),
+          )[1],
         },
       ])
 
@@ -116,9 +118,10 @@ export const useMintAndBorrow = ({ onCancelModal }) => {
   return { onSumbit }
 }
 
-type MakeMintTransaction = (params: {
-  umi: Umi
-}) => Promise<{ tx: web3.VersionedTransaction; signers: web3.Keypair[] }>
+type MakeMintTransaction = (params: { umi: Umi }) => Promise<{
+  tx: web3.VersionedTransaction
+  nftSigner: KeypairSigner
+}>
 
 export const makeMintTransaction: MakeMintTransaction = async ({ umi }) => {
   const nftSigner = generateSigner(umi)
@@ -138,15 +141,15 @@ export const makeMintTransaction: MakeMintTransaction = async ({ umi }) => {
         collectionUpdateAuthority: candyMachine.authority,
         nftMint: nftSigner,
         candyGuard: candyGuard?.publicKey,
-        group: some('Wls'),
+        group: some('Wls#1'),
         mintArgs: {
           tokenBurn: some({
-            mint: publicKey(WL_TOKEN_MINT),
+            mint: publicKey(WL_TOKEN_MINT_1),
             amount: 1,
           }),
           freezeSolPayment: some({
             destination: publicKey(DESTINATION_PUBKEY),
-            freezeSolPayment: 0,
+            freezeSolPayment: 10,
           }),
         },
         tokenStandard: TokenStandard.ProgrammableNonFungible,
@@ -163,7 +166,7 @@ export const makeMintTransaction: MakeMintTransaction = async ({ umi }) => {
   const signers: web3.Keypair[] = []
   signers.push(rightNftSigner)
 
-  return { tx: transactionMint, signers }
+  return { tx: transactionMint, nftSigner }
 }
 
 const borrowSingleAndMint = async ({

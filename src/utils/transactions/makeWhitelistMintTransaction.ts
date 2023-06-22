@@ -1,7 +1,10 @@
-import { DESTINATION_PUBKEY } from './../../constants/index'
 import { setComputeUnitLimit } from '@metaplex-foundation/mpl-essentials'
 import { mintV2 } from '@metaplex-foundation/mpl-candy-machine'
-import { CANDY_MACHINE_PUBKEY, WL_TOKEN_MINT } from '@frakt/constants'
+import {
+  CANDY_MACHINE_PUBKEY,
+  WL_TOKEN_MINT_1,
+  DESTINATION_PUBKEY,
+} from '@frakt/constants'
 import {
   fetchCandyGuard,
   fetchCandyMachine,
@@ -34,15 +37,15 @@ export const buildPublicMintTransaction = async ({ umi }) => {
         collectionUpdateAuthority: candyMachine.authority,
         nftMint: nftSigner,
         candyGuard: candyGuard?.publicKey,
-        group: some('Wls'),
+        group: some('Wls#1'),
         mintArgs: {
           tokenBurn: some({
-            mint: publicKey(WL_TOKEN_MINT),
+            mint: publicKey(WL_TOKEN_MINT_1),
             amount: 1,
           }),
           freezeSolPayment: some({
             destination: publicKey(DESTINATION_PUBKEY),
-            freezeSolPayment: 0,
+            freezeSolPayment: 10,
           }),
         },
         tokenStandard: TokenStandard.ProgrammableNonFungible,

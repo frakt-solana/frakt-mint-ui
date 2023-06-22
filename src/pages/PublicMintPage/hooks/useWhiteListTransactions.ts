@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 
 import { useLoadingModal } from '@frakt/components/LoadingModal'
