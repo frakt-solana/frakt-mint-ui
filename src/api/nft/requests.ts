@@ -17,7 +17,7 @@ export const fetchWalletBorrowNfts: FetchWalletBorrowNfts = async ({
   offset = 0,
 }) => {
   const { data } = await axios.get<NFT[]>(
-    `https://${BACKEND_DOMAIN}/nft/meta2/${publicKey?.toBase58()}?limit=${limit}&skip=${offset}`,
+    `https://${BACKEND_DOMAIN}/nft/meta2-reveal/${publicKey?.toBase58()}`,
   )
 
   return data
